@@ -1,6 +1,6 @@
 require("dotenv").config();
 const AWS = require("aws-sdk");
-const region = process.env["REGIONs"];
+const region = process.env["REGION"];
 const dynamodb = new AWS.DynamoDB({ region });
 const tableName = "DevSecrets";
 const options = { region };
