@@ -1,10 +1,10 @@
-require("dotenv").config();
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+import dotenv from 'dotenv';
+dotenv.config();
+
 const iam = new AWS.IAM();
-const keyId = process.env["KEYID"];
-const accountNumber = process.env["ACCOUNT_NUMBER"];
 const region = process.env["REGION"];
-const keyAlias = "KeyAliasTest";
+const accountNumber = process.env["ACCOUNT_NUMBER"];
 const tableName = "DevSecrets";
 
 const policy = {
@@ -20,12 +20,12 @@ const policy = {
 };
 
 const params = {
-  PolicyDocument: JSON.stringify(policy) /* required */,
-  PolicyName: "ReadOnlyDevSecrets" /* required */,
-  Description: "testing",
+  PolicyDocument: JSON.stringify(policy),
+  PolicyName: "LockitDevDynamoDBRead",
+  Description: "Policy for reading from DynamoDB",
 };
+
 iam.createPolicy(params, function (err, data) {
   if (err) console.log(err, err.stack);
-  // an error occurred
-  else console.log(data); // successful response
+  else console.log(data);
 });

@@ -1,8 +1,10 @@
-require("dotenv").config();
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+import dotenv from 'dotenv';
+dotenv.config();
+
 const region = process.env["REGION"];
 const dynamodb = new AWS.DynamoDB({ region });
-const tableName = "DevSecrets";
+const tableName = "MoreSecrets";
 
 const params = {
   AttributeDefinitions: [
@@ -31,8 +33,8 @@ const params = {
   },
   TableName: tableName,
 };
+
 dynamodb.createTable(params, function (err, data) {
   if (err) console.log(err, err.stack);
-  // an error occurred
-  else console.log(data); // successful response
+  else console.log(data);
 });

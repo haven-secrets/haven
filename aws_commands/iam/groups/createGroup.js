@@ -1,6 +1,7 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+
 const iam = new AWS.IAM();
-const groupName = "AdminTest";
+const groupName = "testdevs";
 
 const params = {
   GroupName: groupName,
@@ -8,6 +9,5 @@ const params = {
 
 iam.createGroup(params, function (err, data) {
   if (err) console.log(err, err.stack);
-  // an error occurred
-  else console.log(data); // successful response
+  else console.log(data);
 });
