@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
-const config = dotenv.config();
+dotenv.config();
 
-import AWS from "aws-sdk";
 import createKey from "../aws/kms/createKey.js";
 import generateEncryptSecretPolicy from "../aws/iam/policies/encryptSecretPolicy.js";
 import generateDecryptSecretPolicy from "../aws/iam/policies/decryptSecretPolicy.js";
@@ -11,6 +10,6 @@ const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
-createKey(description);
+// createKey(description);
 generateEncryptSecretPolicy(region, accountNumber, keyId);
 generateDecryptSecretPolicy(region, accountNumber, keyId);

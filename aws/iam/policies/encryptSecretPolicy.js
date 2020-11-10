@@ -17,6 +17,7 @@ const generateEncryptSecretPolicy = (region, accountNumber, keyId) => {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: "LockitDevKMSEncrypt",
     Description: "Policy for encrypting values using CMK",
+    Path: "/Lockit/",
   };
 
   iam.createPolicy(params, function (err, data) {
