@@ -4,7 +4,7 @@ dotenv.config();
 
 const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
-const tableName = "DevSecrets";
+const tableName = "MoreSecrets";
 
 const policy = {
   Version: "2012-10-17",
