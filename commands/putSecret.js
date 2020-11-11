@@ -6,4 +6,8 @@ const secretName = "baz";
 const plaintextSecret = "44";
 const version = "1";
 
-putItem(secretName, plaintextSecret, version, tableName, encryptItem);
+const encryptionData = await encryptItem(plaintextSecret);
+const encryptedSecret = encryptionData.CiphertextBlob;
+
+// TODO: handle success and error
+putItem(secretName, encryptedSecret, version, tableName);

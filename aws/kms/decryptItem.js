@@ -5,8 +5,7 @@ const decryptItem = async secret => {
     CiphertextBlob: secret,
   };
 
-  const decrypted = await kms.decrypt(params).promise();
-  return decrypted;
+  return await kms.decrypt(params).promise();
 }
 
 export default decryptItem;
