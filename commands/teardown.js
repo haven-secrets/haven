@@ -1,6 +1,8 @@
 import { iam } from "../aws/services.js";
 import { kms } from "../aws/services.js";
 
+// TODO: ensure teardown succeeded (may need Promise.all)
+
 const params = {
   MaxItems: "100",
   OnlyAttached: false, // temporary

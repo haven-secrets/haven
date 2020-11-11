@@ -1,6 +1,6 @@
 import { dynamodb } from "../services.js";
 
-const putSecret = (secretName, secretValue, version, tableName, encryptSecret) => {
+const putItem = (secretName, secretValue, version, tableName, encryptItem) => {
   const encryptCallback = (encryptedSecret) => {
     const params = {
       Item: {
@@ -24,7 +24,7 @@ const putSecret = (secretName, secretValue, version, tableName, encryptSecret) =
     });
   };
 
-  encryptSecret(secretValue, encryptCallback);
+  encryptItem(secretValue, encryptCallback);
 };
 
-export default putSecret;
+export default putItem;

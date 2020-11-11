@@ -1,7 +1,7 @@
 import { kms } from "../services.js";
 const keyId = process.env["KEYID"];
 
-const encryptSecret = (secret, callback) => {
+const encryptItem = (secret, callback) => {
   const params = {
     KeyId: keyId,
     Plaintext: secret,
@@ -13,4 +13,4 @@ const encryptSecret = (secret, callback) => {
   });
 };
 
-export default encryptSecret;
+export default encryptItem;

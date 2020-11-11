@@ -1,9 +1,9 @@
-import putSecret from "../aws/dynamodb/putSecret.js";
-import encryptSecret from "../aws/kms/encryptSecret.js";
+import putItem from "../aws/dynamodb/putItem.js";
+import encryptItem from "../aws/kms/encryptItem.js";
 
 const tableName = "MoreSecrets";
-const secretName = "bar";
-const plaintextSecret = "4";
+const secretName = "baz";
+const plaintextSecret = "44";
 const version = "1";
 
-putSecret(secretName, plaintextSecret, version, tableName, encryptSecret);
+putItem(secretName, plaintextSecret, version, tableName, encryptItem);
