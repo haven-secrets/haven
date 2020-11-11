@@ -6,8 +6,7 @@ const decryptItem = async secret => {
   };
 
   const decrypted = await kms.decrypt(params).promise();
-  const buffer = Buffer.from(decrypted.Plaintext, "base64");
-  return buffer.toString("ascii");
+  return decrypted;
 }
 
 export default decryptItem;
