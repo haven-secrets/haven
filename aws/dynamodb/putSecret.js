@@ -1,7 +1,6 @@
 import { dynamodb } from "../services.js";
-import encryptSecret from "../kms/encryptSecret.js";
 
-const putSecret = (secretName, secretValue, version, tableName) => {
+const putSecret = (secretName, secretValue, version, tableName, encryptSecret) => {
   const encryptCallback = (encryptedSecret) => {
     const params = {
       Item: {
