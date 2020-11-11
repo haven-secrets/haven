@@ -7,8 +7,7 @@ const getAllItems = async (tableName) => {
     TableName: tableName,
   };
 
-  const selectAll = await dynamodb.scan(params).promise();
-  return selectAll;
+  return await dynamodb.scan(params).promise();
 };
 
 export default getAllItems;
