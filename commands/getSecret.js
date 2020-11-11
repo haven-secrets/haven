@@ -3,7 +3,7 @@ import decryptItem from "../aws/kms/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 
 const tableName = "MoreSecrets";
-const secretName = "bar";
+const secretName = "baz";
 const version = "1";
 
 const encryptedSecret = await getItem(secretName, version, tableName);
