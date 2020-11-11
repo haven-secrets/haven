@@ -2,7 +2,7 @@ import { dynamodb } from "../services.js";
 import decryptSecret from "../kms/decryptSecret.js";
 
 const tableName = "DevSecrets";
-const secretName = "NetflixPassword";
+const secretName = "NewSecret";
 const version = "1";
 
 const params = {
