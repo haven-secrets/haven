@@ -1,14 +1,12 @@
 import { iam } from "../../services.js";
 
-const groupName = "testdevs";
-const userName = "testuser";
+const addUserToGroup = (groupName, username) => {
+  const params = {
+    GroupName: groupName, 
+    UserName: username,
+  };
 
-const params = {
-  GroupName: groupName, 
-  UserName: userName,
-};
+  return iam.addUserToGroup(params).promise();
+}
 
-iam.addUserToGroup(params, function(err, data) {
-  if (err) console.log(err, err.stack)
-  else console.log(data);
-});
+export default addUserToGroup;

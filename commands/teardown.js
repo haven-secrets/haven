@@ -1,44 +1,17 @@
-import { iam } from "../aws/services.js";
-import { kms } from "../aws/services.js";
+import teardownPolicies from "./teardown/teardownPolicies.js";
+import teardownKeys from "./teardown/teardownKeys.js";
+import teardownUser from "./teardown/teardownUser.js";
 import deleteTable from "../aws/dynamodb/deleteTable.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 
-const params = {
-  MaxItems: "100",
-  OnlyAttached: false, // temporary
-  PathPrefix: "/Lockit/",
-};
+const policyPromises = await teardownPolicies();
+const keyPromises = await teardownKeys();
 
-iam.listPolicies(params, function (err, data) {
-  if (err) console.log(err, err.stack);
-  else {
-    data.Policies.map((policy) => policy.Arn).forEach((arn) => {
-      iam.deletePolicy({ PolicyArn: arn }, function (err, data) {
-        if (err) console.log(err, err.stack);
-        else console.log(data);
-      });
-    });
-  }
-});
+Promise.all([...policyPromises, ...keyPromises]).then((value) =>
+  console.log(value)
+);
 
-kms.listAliases({}, function (err, data) {
-  if (err) console.log(err, err.stack);
-  else {
-    data.Aliases.filter((alias) => /^alias\/Lockit.*/.test(alias.AliasName))
-      .map((alias) => alias.TargetKeyId)
-      .forEach((id) => {
-        const params = {
-          KeyId: id,
-          PendingWindowInDays: "7",
-        };
-
-        kms.scheduleKeyDeletion(params, function (err, data) {
-          if (err) console.log(err, err.stack);
-          else console.log(data);
-        });
-      });
-  }
-});
+teardownUser(); // TODO: teardown ALL users
 
 deleteTable("MoreSecrets");
