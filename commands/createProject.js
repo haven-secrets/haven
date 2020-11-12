@@ -7,35 +7,35 @@ import createTable from "../aws/dynamodb/createTable.js";
 const createProject = async (projectName) => {
   const environments = ["Dev", "Stg", "Prod"];
   const operations = ["Read", "Write"];
-  // await Promise.all(
-  //   environments.map((environment) =>
-  //     createTable(`Lockit${environment}${projectName}`)
-  //   )
-  // );
-  // await Promise.all(
-  //   environments.flatMap((environment) =>
-  //     operations.map((operation) => {
-  //       createGroup(`Lockit${environment}${projectName}${operation}`);
-  //     })
-  //   )
-  // );
+  await Promise.all(
+    environments.map((environment) =>
+      createTable(`Lockit${environment}${projectName}`)
+    )
+  );
+  await Promise.all(
+    environments.flatMap((environment) =>
+      operations.map((operation) => {
+        createGroup(`Lockit${environment}${projectName}${operation}`);
+      })
+    )
+  );
 
-  // await Promise.all(
-  //   environments.flatMap((environment) =>
-  //     operations.map((operation) => {
-  //       const table = `Lockit${environment}${projectName}`;
-  //       operation === "Read"
-  //         ? generateReadTablePolicy(
-  //             table,
-  //             `Lockit${environment}${projectName}${operation}`
-  //           )
-  //         : generateWriteTablePolicy(
-  //             table,
-  //             `Lockit${environment}${projectName}${operation}`
-  //           );
-  //     })
-  //   )
-  // );
+  await Promise.all(
+    environments.flatMap((environment) =>
+      operations.map((operation) => {
+        const table = `Lockit${environment}${projectName}`;
+        operation === "Read"
+          ? generateReadTablePolicy(
+              table,
+              `Lockit${environment}${projectName}${operation}`
+            )
+          : generateWriteTablePolicy(
+              table,
+              `Lockit${environment}${projectName}${operation}`
+            );
+      })
+    )
+  );
 
   await Promise.all(
     environments.flatMap((environment) =>
