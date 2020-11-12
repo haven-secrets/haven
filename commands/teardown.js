@@ -1,5 +1,6 @@
 import { iam } from "../aws/services.js";
 import { kms } from "../aws/services.js";
+import deleteTable from "../aws/dynamodb/deleteTable.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 
@@ -9,34 +10,35 @@ const params = {
   PathPrefix: "/Lockit/",
 };
 
-iam.listPolicies(params, function(err, data) {
+iam.listPolicies(params, function (err, data) {
   if (err) console.log(err, err.stack);
   else {
-    data.Policies.map(policy => policy.Arn).forEach(arn => {
-      iam.deletePolicy({ PolicyArn: arn }, function(err, data) {
+    data.Policies.map((policy) => policy.Arn).forEach((arn) => {
+      iam.deletePolicy({ PolicyArn: arn }, function (err, data) {
         if (err) console.log(err, err.stack);
         else console.log(data);
       });
-    })
+    });
   }
 });
 
-kms.listAliases({}, function(err, data) {
+kms.listAliases({}, function (err, data) {
   if (err) console.log(err, err.stack);
   else {
-    data.Aliases
-        .filter(alias => /^alias\/Lockit.*/.test(alias.AliasName))
-        .map(alias => alias.TargetKeyId)
-        .forEach(id => {
-          const params = {
-            KeyId: id,
-            PendingWindowInDays: '7', 
-          }
+    data.Aliases.filter((alias) => /^alias\/Lockit.*/.test(alias.AliasName))
+      .map((alias) => alias.TargetKeyId)
+      .forEach((id) => {
+        const params = {
+          KeyId: id,
+          PendingWindowInDays: "7",
+        };
 
-          kms.scheduleKeyDeletion(params, function(err, data) {
-            if (err) console.log(err, err.stack);
-            else console.log(data);
-          });
+        kms.scheduleKeyDeletion(params, function (err, data) {
+          if (err) console.log(err, err.stack);
+          else console.log(data);
         });
+      });
   }
 });
+
+deleteTable("MoreSecrets");
