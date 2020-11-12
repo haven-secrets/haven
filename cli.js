@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import parseArgs from 'minimist';
 
 const parsedArgs = parseArgs(process.argv.slice(2));
