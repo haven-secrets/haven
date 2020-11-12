@@ -1,4 +1,4 @@
-import { iam } from "../aws/services.js";
+import { iam } from "../../aws/services.js";
 
 const username = "testuser";
 const groupName = "testdevs";
@@ -21,15 +21,15 @@ const deleteAccessKey = (accessKeyId, username) => {
   return iam.deleteAccessKey(params).promise();
 };
 
-const deleteUser = async username => {
+const deleteUser = username => {
   const params = {
     UserName: username,
   };
 
-  return await iam.deleteUser(params).promise();
+  return iam.deleteUser(params).promise();
 };
 
-const teardownUser = async (username, groupName) => {
+const teardownUser = async (username=username, groupName=groupName) => {
   try {
     // console logs are for our own purposes
     // check if a group is passed in as an argument
@@ -47,6 +47,6 @@ const teardownUser = async (username, groupName) => {
   } catch (error) {
     console.log(error, error.stack);
   }
-});
+};
 
 export default teardownUser;

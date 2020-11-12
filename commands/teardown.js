@@ -1,45 +1,14 @@
-import { iam } from "../aws/services.js";
-import { kms } from "../aws/services.js";
-import teardownUser from "./teardownUser.js";
+import teardownPolicies from "./teardown/teardownPolicies.js";
+import teardownKeys from "./teardown/teardownKeys.js";
+import teardownUser from "./teardown/teardownUser.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 
-const params = {
-  MaxItems: "100",
-  OnlyAttached: false, // temporary
-  PathPrefix: "/Lockit/",
-};
 
-iam.listPolicies(params, function(err, data) {
-  if (err) console.log(err, err.stack);
-  else {
-    data.Policies.map(policy => policy.Arn).forEach(arn => {
-      iam.deletePolicy({ PolicyArn: arn }, function(err, data) {
-        if (err) console.log(err, err.stack);
-        else console.log(data);
-      });
-    })
-  }
-});
+const policyPromises = await teardownPolicies();
+const keyPromises = await teardownKeys();
 
-kms.listAliases({}, function(err, data) {
-  if (err) console.log(err, err.stack);
-  else {
-    data.Aliases
-        .filter(alias => /^alias\/Lockit.*/.test(alias.AliasName))
-        .map(alias => alias.TargetKeyId)
-        .forEach(id => {
-          const params = {
-            KeyId: id,
-            PendingWindowInDays: '7', 
-          }
+Promise.all([...policyPromises, ...keyPromises])
+       .then(value => console.log(value));
 
-          kms.scheduleKeyDeletion(params, function(err, data) {
-            if (err) console.log(err, err.stack);
-            else console.log(data);
-          });
-        });
-  }
-});
-
-teardownUser();
+teardownUser(); // TODO: teardown ALL users
