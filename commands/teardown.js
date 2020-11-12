@@ -4,7 +4,6 @@ import teardownUser from "./teardown/teardownUser.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 
-
 const policyPromises = await teardownPolicies();
 const keyPromises = await teardownKeys();
 
