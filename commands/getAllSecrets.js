@@ -1,7 +1,7 @@
 // TODO: handle Promise.all failure (catch)
 
 import getAllItems from "../aws/dynamodb/getAllItems.js";
-import decryptItem from "../aws/kms/decryptItem.js";
+import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 
 const getAllSecrets = async () => {

@@ -13,6 +13,7 @@
     "lockit": "cli.js"
   },
   "dependencies": {
+    "@aws-crypto/client-node": "^2.0.0",
     "aws-sdk": "^2.788.0",
     "dotenv": "^8.2.0",
     "minimist": "^1.2.5"

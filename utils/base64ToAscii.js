@@ -1,5 +1,5 @@
-const base64ToAscii = (base64Blob) => {
-	return Buffer.from(base64Blob.Plaintext, "base64")
+const base64ToAscii = plaintext => {
+	return Buffer.from(plaintext, "base64")
 							 .toString("ascii");
 }
 
