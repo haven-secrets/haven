@@ -4,9 +4,7 @@ import getItem from "../aws/dynamodb/getItem.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 
-const getSecret = async () => {
-  const tableName = "MoreSecrets";
-  const secretName = "foo";
+const getSecret = async (tableName, secretName) => {
   const version = "1";
 
   try {

@@ -4,8 +4,7 @@ import getAllItems from "../aws/dynamodb/getAllItems.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 
-const getAllSecrets = async () => {
-  const tableName = "MoreSecrets";
+const getAllSecrets = async (tableName) => {
 
   try {
     const encryptedSecrets = await getAllItems(tableName);

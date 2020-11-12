@@ -3,11 +3,8 @@
 import putItem from "../aws/dynamodb/putItem.js";
 import encryptItem from "../aws/encryption/encryptItem.js";
 
-const putSecret = async () => {
-  const tableName = "MoreSecrets";
-  const secretName = "foo";
-  const plaintextSecret = "hello";
-  const version = "1";
+const putSecret = async (tableName, secretName, plaintextSecret) => {
+  const version = "1"; // TODO: don't hardcode version
 
   try {
     // TODO: add success console logs
