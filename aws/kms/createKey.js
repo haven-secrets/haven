@@ -8,7 +8,7 @@ const createKey = description => {
   kms.createKey(params, function (err, data) {
     if (err) console.log(err, err.stack);
     else {
-      const keyAlias = "LockitKey2";
+      const keyAlias = "LockitKey3";
       const targetKeyId = data.KeyMetadata.KeyId;
 
       const params = {

@@ -1,3 +1,5 @@
+// TODO: don't hardcode stuff
+
 import { dynamodb } from "../services.js";
 
 const tableName = "MoreSecrets";

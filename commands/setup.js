@@ -1,3 +1,8 @@
+// TODO: use key alias instead of key ID
+//	(Right now you have to run *only* createKey, manually save the key ID
+//	 in .env, and then run setup again, commenting out createKey)
+// TODO: change hardcoding of description
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,6 +15,10 @@ const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
-// createKey(description);
-generateEncryptSecretPolicy(region, accountNumber, keyId);
-generateDecryptSecretPolicy(region, accountNumber, keyId);
+const setup = () => {
+	createKey(description);
+	// generateEncryptSecretPolicy(region, accountNumber, keyId);
+	// generateDecryptSecretPolicy(region, accountNumber, keyId);
+};
+
+export default setup;
