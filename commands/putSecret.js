@@ -6,8 +6,14 @@ const secretName = "baz";
 const plaintextSecret = "44";
 const version = "1";
 
-const encryptionData = await encryptItem(plaintextSecret);
-const encryptedSecret = encryptionData.CiphertextBlob;
+(async () => {
+  try {
+    // TODO: add success console logs
+    const encryptionData = await encryptItem(plaintextSecret);
+    const encryptedSecret = encryptionData.CiphertextBlob;
 
-// TODO: handle success and error
-putItem(secretName, encryptedSecret, version, tableName);
+    await putItem(secretName, encryptedSecret, version, tableName);
+  } catch (error) {
+    console.log(error, error.stack);
+  }
+})();
