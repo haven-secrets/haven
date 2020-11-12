@@ -1,11 +1,11 @@
 import { iam } from "../../services.js";
 
-const createUser = async username => {
+const createUser = username => {
   const params = {
     UserName: username,
   };
 
-  return await iam.createUser(params).promise();
+  return iam.createUser(params).promise();
 };
 
 export default createUser;
