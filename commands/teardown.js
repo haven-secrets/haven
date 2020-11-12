@@ -1,5 +1,6 @@
 import { iam } from "../aws/services.js";
 import { kms } from "../aws/services.js";
+import teardownUser from "./teardownUser.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 
@@ -40,3 +41,5 @@ kms.listAliases({}, function(err, data) {
         });
   }
 });
+
+teardownUser();
