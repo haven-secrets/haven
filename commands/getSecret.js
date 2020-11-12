@@ -6,8 +6,14 @@ const tableName = "MoreSecrets";
 const secretName = "baz";
 const version = "1";
 
-const encryptedSecret = await getItem(secretName, version, tableName);
-const decryptedSecretBlob = await decryptItem(encryptedSecret);
-const decryptedSecret = base64ToAscii(decryptedSecretBlob);
+(async () => {
+  try {
+    const encryptedSecret = await getItem(secretName, version, tableName);
+    const decryptedSecretBlob = await decryptItem(encryptedSecret);
+    const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
-console.log('decrypted secret:', decryptedSecret);
+    console.log('decrypted secret:', decryptedSecret);
+  } catch (error) {
+    console.log(error, error.stack);
+  }
+})();
