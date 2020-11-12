@@ -4,7 +4,7 @@ const deleteTable = (tableName) => {
   const params = {
     TableName: tableName,
   };
-
+  
   return dynamodb.deleteTable(params).promise();
 };
 

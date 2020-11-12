@@ -1,4 +1,5 @@
 import { iam } from "../../aws/services.js";
+import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js"
 
 const username = "testuser";
 const groupName = "testdevs";
@@ -37,11 +38,9 @@ const teardownUser = async (username, groupName) => {
       const groupData = await removeUserFromGroup(groupName, username);
       console.log(groupData);
     }
-
-    const accessKeyId = "HARDCODED"; //Todo: Fix HARDCODED
+    const accessKeyId = await getUserAccessKey(username); //Todo: Fix HARDCODED
     const accessKeyData = await deleteAccessKey(accessKeyId, username);
-    console.log(accessKeyData);
-
+    
     const userData = await deleteUser(username);
     console.log(userData);
   } catch (error) {
