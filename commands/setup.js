@@ -14,7 +14,7 @@ const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
-(async () => {
+const setup = async () => {
   const keyId = await getMasterKeyIdFromAlias("LockitKey2");
   if (keyId) {
     const keyInfo = await describeKey(keyId);
@@ -24,8 +24,9 @@ const keyId = process.env["KEYID"];
   } else {
     createKey(description);
   }
-})();
+  generateEncryptSecretPolicy(region, accountNumber, keyId);
+  generateDecryptSecretPolicy(region, accountNumber, keyId);
+  createTable("MoreSecrets");
+};
 
-generateEncryptSecretPolicy(region, accountNumber, keyId);
-generateDecryptSecretPolicy(region, accountNumber, keyId);
-createTable("MoreSecrets");
+export default setup;

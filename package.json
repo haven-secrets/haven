@@ -1,6 +1,6 @@
 {
-  "name": "aws-sdk-prototype",
-  "version": "1.0.0",
+  "name": "lockit-prototype",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bin": {
+    "lockit": "cli.js"
+  },
   "dependencies": {
     "aws-sdk": "^2.788.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "minimist": "^1.2.5"
   },
   "type": "module"
 }

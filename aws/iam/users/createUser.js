@@ -1,6 +1,8 @@
+// TODO: don't hardcode stuff
+
 import { iam } from "../../services.js";
 
-const createUser = username => {
+const createUser = (username) => {
   const params = {
     UserName: username,
   };

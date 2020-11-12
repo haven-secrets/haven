@@ -1,3 +1,5 @@
+// TODO: pass in table name (don't hardcode stuff)
+
 import { dynamodb } from "../services.js";
 
 //const tableName = "MoreSecrets";
