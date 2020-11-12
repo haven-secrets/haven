@@ -1,13 +1,12 @@
 // TODO: pass in region, accountNumber, tableName
 
 import { iam } from "../../services.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-const generateReadTablePolicy = () => {
+const generateWriteTablePolicy = (tableName, policyName) => {
   const region = process.env["REGION"];
   const accountNumber = process.env["ACCOUNT_NUMBER"];
-  const tableName = "MoreSecrets";
 
   const policy = {
     Version: "2012-10-17",
@@ -15,7 +14,7 @@ const generateReadTablePolicy = () => {
       {
         Sid: "VisualEditor0",
         Effect: "Allow",
-        Action: ["dynamodb:Scan", "dynamodb:GetItem"],
+        Action: ["dynamodb:PutItem"],
         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
       },
     ],
@@ -23,8 +22,9 @@ const generateReadTablePolicy = () => {
 
   const params = {
     PolicyDocument: JSON.stringify(policy),
-    PolicyName: "LockitDevDynamoDBRead",
-    Description: "Policy for reading from DynamoDB",
+    PolicyName: policyName,
+    Description: `Policy for writing to ${tableName} DynamoDB`,
+    Path: "/Lockit/",
   };
 
   iam.createPolicy(params, function (err, data) {
@@ -33,4 +33,4 @@ const generateReadTablePolicy = () => {
   });
 };
 
-export default generateReadTablePolicy;
+export default generateWriteTablePolicy;

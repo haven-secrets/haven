@@ -14,6 +14,7 @@ const possible_commands = [
   "putSecret",
   "addUser",
   "getAllLockitUsers",
+  "createProject",
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";
