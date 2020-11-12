@@ -2,9 +2,8 @@
 
 import { dynamodb } from "../services.js";
 
-const createTable = () => {
-  const tableName = "MoreSecrets";
-
+//const tableName = "MoreSecrets";
+const createTable = (tableName) => {
   const params = {
     AttributeDefinitions: [
       {

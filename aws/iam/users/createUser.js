@@ -2,17 +2,12 @@
 
 import { iam } from "../../services.js";
 
-const createUser = () => {
-	const userName = "testuser";
+const createUser = (username) => {
+  const params = {
+    UserName: username,
+  };
 
-	const params = {
-	  UserName: userName,
-	};
-
-	iam.createUser(params, function(err, data) {
-	  if (err) console.log(err, err.stack);
-	  else console.log(data);
-	});
+  return iam.createUser(params).promise();
 };
 
 export default createUser;

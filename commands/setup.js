@@ -1,24 +1,32 @@
-// TODO: use key alias instead of key ID
-//	(Right now you have to run *only* createKey, manually save the key ID
-//	 in .env, and then run setup again, commenting out createKey)
-// TODO: change hardcoding of description
-
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import createKey from "../aws/kms/createKey.js";
 import generateEncryptSecretPolicy from "../aws/iam/policies/encryptSecretPolicy.js";
 import generateDecryptSecretPolicy from "../aws/iam/policies/decryptSecretPolicy.js";
+import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
+import describeKey from "../aws/kms/describeKey.js";
+import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
+import createTable from "../aws/dynamodb/createTable.js";
 
 const description = "Here's your Lockit key!";
 const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
-const setup = () => {
-	createKey(description);
-	// generateEncryptSecretPolicy(region, accountNumber, keyId);
-	// generateDecryptSecretPolicy(region, accountNumber, keyId);
+const setup = async () => {
+  const keyId = await getMasterKeyIdFromAlias("LockitKey2");
+  if (keyId) {
+    const keyInfo = await describeKey(keyId);
+    if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
+      cancelDeleteAndEnable(keyId);
+    }
+  } else {
+    createKey(description);
+  }
+  generateEncryptSecretPolicy(region, accountNumber, keyId);
+  generateDecryptSecretPolicy(region, accountNumber, keyId);
+  createTable("MoreSecrets");
 };
 
 export default setup;

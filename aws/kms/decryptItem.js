@@ -1,11 +1,11 @@
 import { kms } from "../services.js";
 
-const decryptItem = async secret => {
+const decryptItem = secret => {
   const params = {
     CiphertextBlob: secret,
   };
 
-  return await kms.decrypt(params).promise();
+  return kms.decrypt(params).promise();
 }
 
 export default decryptItem;
