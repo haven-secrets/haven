@@ -2,6 +2,7 @@ import teardownPolicies from "./teardown/teardownPolicies.js";
 import teardownKeys from "./teardown/teardownKeys.js";
 import teardownUser from "./teardown/teardownUser.js";
 import deleteTable from "../aws/dynamodb/deleteTable.js";
+import getAllUsers from "../aws/iam/users/getAllUsers.js";
 
 // TODO: ensure teardown succeeded (may need Promise.all)
 const teardown = async () => {
@@ -15,8 +16,10 @@ const teardown = async () => {
       console.log();
     });
 
-  teardownUser("testUser1", false); // TODO: teardown ALL users
-  // teardownUser("testUser2", false); // TODO: teardown ALL users
+  const userData = await getAllUsers();
+  userData.Users.forEach((user) => {
+    teardownUser(user.UserName, false);
+  });
 
   try {
     await deleteTable("MoreSecrets");

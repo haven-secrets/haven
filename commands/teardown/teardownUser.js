@@ -1,10 +1,10 @@
 import { iam } from "../../aws/services.js";
-import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js"
+import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js";
 
 const username = "testuser";
 const groupName = "testdevs";
 
-const removeUserFromGroup = (groupName, username) => {
+const removeUserFromGroup = (username, groupName) => {
   const params = {
     GroupName: groupName,
     UserName: username,
@@ -35,12 +35,12 @@ const teardownUser = async (username, groupName) => {
     // console logs are for our own purposes
     // check if a group is passed in as an argument
     if (groupName) {
-      const groupData = await removeUserFromGroup(groupName, username);
+      const groupData = await removeUserFromGroup(username, groupName);
       console.log(groupData);
     }
     const accessKeyId = await getUserAccessKey(username); //Todo: Fix HARDCODED
     const accessKeyData = await deleteAccessKey(accessKeyId, username);
-    
+
     const userData = await deleteUser(username);
     console.log(userData);
   } catch (error) {
