@@ -15,7 +15,7 @@ const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
 const setup = async () => {
-  const keyId = await getMasterKeyIdFromAlias("LockitKey2");
+  const keyId = await getMasterKeyIdFromAlias("LockitKey2"); //TODO Update to LockitKey
   if (keyId) {
     const keyInfo = await describeKey(keyId);
     if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {

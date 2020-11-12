@@ -5,12 +5,12 @@ const groupName = "testdevs";
 
 const removeUserFromGroup = (groupName, username) => {
   const params = {
-    GroupName: groupName, 
+    GroupName: groupName,
     UserName: username,
   };
 
   return iam.removeUserFromGroup(params).promise();
-}
+};
 
 const deleteAccessKey = (accessKeyId, username) => {
   const params = {
@@ -21,7 +21,7 @@ const deleteAccessKey = (accessKeyId, username) => {
   return iam.deleteAccessKey(params).promise();
 };
 
-const deleteUser = username => {
+const deleteUser = (username) => {
   const params = {
     UserName: username,
   };
@@ -29,7 +29,7 @@ const deleteUser = username => {
   return iam.deleteUser(params).promise();
 };
 
-const teardownUser = async (username=username, groupName=groupName) => {
+const teardownUser = async (username, groupName) => {
   try {
     // console logs are for our own purposes
     // check if a group is passed in as an argument
@@ -38,7 +38,7 @@ const teardownUser = async (username=username, groupName=groupName) => {
       console.log(groupData);
     }
 
-    const accessKeyId = "HARDCODED";
+    const accessKeyId = "HARDCODED"; //Todo: Fix HARDCODED
     const accessKeyData = await deleteAccessKey(accessKeyId, username);
     console.log(accessKeyData);
 

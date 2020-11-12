@@ -2,10 +2,7 @@ import createUser from "../aws/iam/users/createUser.js";
 import createAccessKey from "../aws/iam/users/createAccessKey.js";
 import addUserToGroup from "../aws/iam/users/addUserToGroup.js";
 
-const username = "testuser";
-const groupName = "testdevs";
-
-(async (username, groupName) => {
+const addUser = async (username, groupName) => {
   try {
     // console logs are for our own purposes
     const userData = await createUser(username);
@@ -22,4 +19,6 @@ const groupName = "testdevs";
   } catch (error) {
     console.log(error, error.stack);
   }
-})(username, groupName);
+};
+
+export default addUser;

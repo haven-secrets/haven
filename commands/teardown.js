@@ -12,7 +12,7 @@ const teardown = async () => {
     console.log(value)
   );
 
-  teardownUser(); // TODO: teardown ALL users
+  teardownUser("testuser", false); // TODO: teardown ALL users
 
   deleteTable("MoreSecrets");
 };

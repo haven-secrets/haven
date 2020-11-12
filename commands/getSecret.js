@@ -6,7 +6,7 @@ import base64ToAscii from "../utils/base64ToAscii.js";
 
 const getSecret = async () => {
   const tableName = "MoreSecrets";
-  const secretName = "baz";
+  const secretName = "qux";
   const version = "1";
 
   try {
