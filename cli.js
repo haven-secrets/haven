@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// TODO: tell minimist all arguments are strings
+// (so it doesn't interpret them as numbers)
 
 import parseArgs from "minimist";
 
@@ -15,6 +17,7 @@ const possible_commands = [
   "addUser",
   "getAllLockitUsers",
   "createProject",
+  "run",
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

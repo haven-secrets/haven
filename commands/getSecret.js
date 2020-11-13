@@ -1,11 +1,11 @@
 // TODO: pass in secretName, version, tableNme
 
 import getItem from "../aws/dynamodb/getItem.js";
-import decryptItem from "../aws/kms/decryptItem.js";
+import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 
 const getSecret = async (tableName, secretName) => {
-  const version = "1"; // TODO: change when we decide how to handle versions
+  const version = "1";
 
   try {
     const encryptedSecret = await getItem(secretName, version, tableName);
