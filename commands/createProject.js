@@ -1,8 +1,9 @@
-import generateReadTablePolicy from "../aws/iam/policies/generateReadTablePolicy.js";
-import generateWriteTablePolicy from "../aws/iam/policies/generateWriteTablePolicy.js";
+import createSecretReadPolicy from "../aws/iam/policies/createSecretReadPolicy.js";
+import createSecretWritePolicy from "../aws/iam/policies/createSecretWritePolicy.js";
 import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
 import createGroup from "../aws/iam/groups/createGroup.js";
 import createTable from "../aws/dynamodb/createTable.js";
+import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 
 const createProject = async (projectName) => {
   const environments = ["Dev", "Stg", "Prod"];
@@ -14,6 +15,8 @@ const createProject = async (projectName) => {
     ["ProdRead", "Prod"],
     ["ProdWrite", "Prod"],
   ];
+  const keyId = await getMasterKeyIdFromAlias("LockitKey2");
+
   await Promise.all(
     environments.map((environment) =>
       createTable(`Lockit${environment}${projectName}`)
@@ -28,13 +31,15 @@ const createProject = async (projectName) => {
   const policies = environmentOperations.map((environmentOperation) => {
     const table = `Lockit${environmentOperation[1]}${projectName}`;
     return /Read/.test(environmentOperation[0])
-      ? generateReadTablePolicy(
+      ? createSecretReadPolicy(
           table,
-          `Lockit${environmentOperation[0]}${projectName}`
+          `Lockit${environmentOperation[0]}${projectName}`,
+          keyId
         )
-      : generateWriteTablePolicy(
+      : createSecretWritePolicy(
           table,
-          `Lockit${environmentOperation[0]}${projectName}`
+          `Lockit${environmentOperation[0]}${projectName}`,
+          keyId
         );
   });
 

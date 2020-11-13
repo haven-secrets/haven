@@ -1,10 +1,10 @@
-// TODO: pass in region, accountNumber
+// TODO: pass in region, accountNumber, tableName
 
 import { iam } from "../../services.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const generateReadTablePolicy = (tableName, policyName) => {
+const createSecretWritePolicy = (tableName, policyName, keyId) => {
   const region = process.env["REGION"];
   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
@@ -12,10 +12,14 @@ const generateReadTablePolicy = (tableName, policyName) => {
     Version: "2012-10-17",
     Statement: [
       {
-        Sid: "VisualEditor0",
         Effect: "Allow",
-        Action: ["dynamodb:Scan", "dynamodb:GetItem"],
+        Action: ["dynamodb:PutItem"],
         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
+      },
+      {
+        Effect: "Allow",
+        Action: ["kms:Encrypt", "kms:GenerateDataKey"],
+        Resource: `arn:aws:kms:${region}:${accountNumber}:key/${keyId}`,
       },
     ],
   };
@@ -23,11 +27,11 @@ const generateReadTablePolicy = (tableName, policyName) => {
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
-    Description: `Policy for reading from ${tableName} DynamoDB`,
+    Description: `Policy for writing to ${tableName} DynamoDB and encrypting the secret`,
     Path: "/Lockit/",
   };
 
   return iam.createPolicy(params).promise();
 };
 
-export default generateReadTablePolicy;
+export default createSecretWritePolicy;
