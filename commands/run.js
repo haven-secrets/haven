@@ -1,15 +1,7 @@
+// TODO: what if a secret is split between data events or exceeds a buffer?
 import { spawn } from "child_process";
 import getAllSecrets from "./getAllSecrets.js";
 import { existsSync } from "fs";
-
-// TODO: discuss with team if we want to inject by adding to env
-const populateEnv = (secretsObject) => {
-  for (const secret in secretsObject) {
-    process.env[secret] = secretsObject[secret];
-  }
-
-  console.log('env now:', process.env);
-};
 
 const runApp = async (filepath) => {
   if (!existsSync(filepath)) {
@@ -17,20 +9,35 @@ const runApp = async (filepath) => {
     return;
   }
 
+  const handleStdout = (data) => {
+    let dataString = data.toString();
+    secretValues.forEach(secretValue => {
+      dataString = dataString.replace(secretValue, logRedaction);
+    });
+
+    process.stdout.write(dataString);
+  }
+
+  const handleStderr = (data) => {
+    let dataString = data.toString();
+    secretValues.forEach(secretValue => {
+      dataString = dataString.replace(secretValue, logRedaction);
+    });
+
+    process.stderr.write(dataString);
+  }
+
   const fetchedSecrets = await getAllSecrets("MoreSecrets"); // TODO: remove hardcoding
-  populateEnv(fetchedSecrets);
+  const secretValues = Object.values(fetchedSecrets);
+  const logRedaction = '<Lockit found a secret here and redacted it>';
 
   const childProcess = spawn("node", [filepath], {
     env: Object.assign({}, process.env, fetchedSecrets),
   });
 
-  childProcess.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
-  });
+  childProcess.stdout.on("data", handleStdout);
 
-  childProcess.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
-  });
+  childProcess.stderr.on("data", handleStderr);
 
   childProcess.on("close", (code) => {
     console.log(`child process exited with code ${code}`);
