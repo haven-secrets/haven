@@ -27,10 +27,7 @@ const generateReadTablePolicy = (tableName, policyName) => {
     Path: "/Lockit/",
   };
 
-  iam.createPolicy(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
+  return iam.createPolicy(params).promise();
 };
 
 export default generateReadTablePolicy;

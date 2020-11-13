@@ -8,10 +8,7 @@ const createGroup = (groupName) => {
     Path: "/Lockit/",
   };
 
-  iam.createGroup(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
+  return iam.createGroup(params).promise();
 };
 
 export default createGroup;

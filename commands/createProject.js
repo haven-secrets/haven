@@ -6,46 +6,48 @@ import createTable from "../aws/dynamodb/createTable.js";
 
 const createProject = async (projectName) => {
   const environments = ["Dev", "Stg", "Prod"];
-  const operations = ["Read", "Write"];
-  await Promise.all(
-    environments.map((environment) =>
-      createTable(`Lockit${environment}${projectName}`)
-    )
-  );
-  await Promise.all(
-    environments.flatMap((environment) =>
-      operations.map((operation) => {
-        createGroup(`Lockit${environment}${projectName}${operation}`);
-      })
-    )
-  );
+  const environmentOperations = [
+    "DevRead",
+    "DevWrite",
+    "StgRead",
+    "StgWrite",
+    "ProdRead",
+    "ProdWrite",
+  ];
+  // await Promise.all(
+  //   environments.map((environment) =>
+  //     createTable(`Lockit${environment}${projectName}`)
+  //   )
+  // );
+  const groups = environmentOperations.map((environmentOperation) => {
+    return createGroup(`Lockit${environmentOperation}${projectName}`);
+  });
 
-  await Promise.all(
-    environments.flatMap((environment) =>
-      operations.map((operation) => {
-        const table = `Lockit${environment}${projectName}`;
-        operation === "Read"
-          ? generateReadTablePolicy(
-              table,
-              `Lockit${environment}${projectName}${operation}`
-            )
-          : generateWriteTablePolicy(
-              table,
-              `Lockit${environment}${projectName}${operation}`
-            );
-      })
-    )
-  );
+  await Promise.all(groups);
 
-  await Promise.all(
-    environments.flatMap((environment) =>
-      operations.map((operation) => {
-        const group = `Lockit${environment}${projectName}${operation}`;
-        const policy = `Lockit/Lockit${environment}${projectName}${operation}`;
-        return attachGroupPolicy(group, policy);
-      })
-    )
-  );
+  const policies = environmentOperations.map((environmentOperation) => {
+    const table = `Lockit${environmentOperation}${projectName}`;
+    return /Read/.test(environmentOperation)
+      ? generateReadTablePolicy(
+          table,
+          `Lockit${environmentOperation}${projectName}`
+        )
+      : generateWriteTablePolicy(
+          table,
+          `Lockit${environmentOperation}${projectName}`
+        );
+  });
+
+
+  await Promise.all(policies);
+
+  const attachments = environmentOperations.map((environmentOperation) => {
+    const group = `Lockit${environmentOperation}${projectName}`;
+    const policy = `Lockit/Lockit${environmentOperation}${projectName}`;
+    return attachGroupPolicy(group, policy);
+  });
+
+  await Promise.all(attachments);
 };
 
 export default createProject;
