@@ -16,6 +16,7 @@ const possible_commands = [
   "putSecret",
   "addUser",
   "getAllLockitUsers",
+  "createProject",
   "run",
 ];
 

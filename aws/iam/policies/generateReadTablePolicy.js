@@ -1,13 +1,12 @@
 // TODO: pass in region, accountNumber, tableName
 
 import { iam } from "../../services.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-const generateReadTablePolicy = () => {
+const generateReadTablePolicy = (tableName, policyName) => {
   const region = process.env["REGION"];
   const accountNumber = process.env["ACCOUNT_NUMBER"];
-  const tableName = "MoreSecrets";
 
   const policy = {
     Version: "2012-10-17",
@@ -23,14 +22,12 @@ const generateReadTablePolicy = () => {
 
   const params = {
     PolicyDocument: JSON.stringify(policy),
-    PolicyName: "LockitDevDynamoDBRead",
-    Description: "Policy for reading from DynamoDB",
+    PolicyName: policyName,
+    Description: `Policy for reading from ${tableName} DynamoDB`,
+    Path: "/Lockit/",
   };
 
-  iam.createPolicy(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
+  return iam.createPolicy(params).promise();
 };
 
 export default generateReadTablePolicy;
