@@ -31,7 +31,7 @@ const getAllSecrets = async (tableName) => {
       {}
     );
 
-    console.log(decryptedSecrets);
+    // console.log(decryptedSecrets);
     return decryptedSecrets;
   } catch (error) {
     console.log(error, error.stack);
