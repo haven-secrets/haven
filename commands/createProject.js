@@ -14,11 +14,11 @@ const createProject = async (projectName) => {
     "ProdRead",
     "ProdWrite",
   ];
-  // await Promise.all(
-  //   environments.map((environment) =>
-  //     createTable(`Lockit${environment}${projectName}`)
-  //   )
-  // );
+  await Promise.all(
+    environments.map((environment) =>
+      createTable(`Lockit${environment}${projectName}`)
+    )
+  );
   const groups = environmentOperations.map((environmentOperation) => {
     return createGroup(`Lockit${environmentOperation}${projectName}`);
   });
@@ -37,7 +37,6 @@ const createProject = async (projectName) => {
           `Lockit${environmentOperation}${projectName}`
         );
   });
-
 
   await Promise.all(policies);
 
