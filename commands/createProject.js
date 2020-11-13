@@ -7,12 +7,12 @@ import createTable from "../aws/dynamodb/createTable.js";
 const createProject = async (projectName) => {
   const environments = ["Dev", "Stg", "Prod"];
   const environmentOperations = [
-    "DevRead",
-    "DevWrite",
-    "StgRead",
-    "StgWrite",
-    "ProdRead",
-    "ProdWrite",
+    ["DevRead", "Dev"],
+    ["DevWrite", "Dev"],
+    ["StgRead", "Stg"],
+    ["StgWrite", "Stg"],
+    ["ProdRead", "Prod"],
+    ["ProdWrite", "Prod"],
   ];
   await Promise.all(
     environments.map((environment) =>
@@ -20,29 +20,29 @@ const createProject = async (projectName) => {
     )
   );
   const groups = environmentOperations.map((environmentOperation) => {
-    return createGroup(`Lockit${environmentOperation}${projectName}`);
+    return createGroup(`Lockit${environmentOperation[0]}${projectName}`);
   });
 
   await Promise.all(groups);
 
   const policies = environmentOperations.map((environmentOperation) => {
-    const table = `Lockit${environmentOperation}${projectName}`;
-    return /Read/.test(environmentOperation)
+    const table = `Lockit${environmentOperation[1]}${projectName}`;
+    return /Read/.test(environmentOperation[0])
       ? generateReadTablePolicy(
           table,
-          `Lockit${environmentOperation}${projectName}`
+          `Lockit${environmentOperation[0]}${projectName}`
         )
       : generateWriteTablePolicy(
           table,
-          `Lockit${environmentOperation}${projectName}`
+          `Lockit${environmentOperation[0]}${projectName}`
         );
   });
 
   await Promise.all(policies);
 
   const attachments = environmentOperations.map((environmentOperation) => {
-    const group = `Lockit${environmentOperation}${projectName}`;
-    const policy = `Lockit/Lockit${environmentOperation}${projectName}`;
+    const group = `Lockit${environmentOperation[0]}${projectName}`;
+    const policy = `Lockit/Lockit${environmentOperation[0]}${projectName}`;
     return attachGroupPolicy(group, policy);
   });
 
