@@ -3,7 +3,6 @@ import createProjectTemplate from "../../utils/createProjectYamlWriter.js";
 
 const createStack = (projectName) => {
   const projectTemplate = createProjectTemplate(projectName);
-  // console.log(projectTemplate);
   const params = {
     StackName: `LockitStack${projectName}` /* required */,
     TemplateBody: projectTemplate,
