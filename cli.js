@@ -17,6 +17,7 @@ const possible_commands = [
   "addUser",
   "getAllLockitUsers",
   "createProject",
+  "createProjectCF",
   "run",
 ];
 
