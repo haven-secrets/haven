@@ -26,7 +26,7 @@ const setup = async () => {
   }
   generateEncryptSecretPolicy(region, accountNumber, keyId);
   generateDecryptSecretPolicy(region, accountNumber, keyId);
-  createTable("MoreSecrets");
+  // createTable("MoreSecrets");
 };
 
 export default setup;

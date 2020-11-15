@@ -8,11 +8,16 @@ const createStack = (projectName) => {
     TemplateBody: projectTemplate,
     Capabilities: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"],
   };
-  cloudformation.createStack(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    else console.log(data); // successful response
-  });
+  return cloudformation
+    .createStack(params)
+    .promise()
+    .then(
+      cloudformation
+        .waitFor("stackCreateComplete", {
+          StackName: `LockitStack${projectName}`,
+        })
+        .promise()
+    );
 };
 
 export default createStack;
