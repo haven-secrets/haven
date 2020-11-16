@@ -5,7 +5,6 @@ dotenv.config();
 const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
-// const projectName = "testWithWriter";
 
 const createProjectTemplate = (projectName) => {
   const template = `---

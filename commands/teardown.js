@@ -13,14 +13,6 @@ import deleteStack from "../aws/cloudformation/deleteStack.js";
 // TODO: ensure teardown succeeded (may need Promise.all)
 // TODO: Refactor everything to be consistent in Promises awaits etc(do we return promises or will it be context specific?)
 const teardown = async () => {
-  // const groupData = await getAllGroups();
-
-  // groupData.Groups.forEach(async (group) => {
-  //   await teardownGroup(group.GroupName);
-  // });
-  // await sleep(2000);
-  // const policyPromises = await teardownPolicies();
-
   const stackData = await listActiveLockitStacks();
 
   const stackPromises = stackData.map((stack) => {
@@ -43,8 +35,6 @@ const teardown = async () => {
   userData.Users.forEach((user) => {
     teardownUser(user.UserName, false);
   });
-
-  //await deleteAllLockitTables();
 };
 
 export default teardown;
