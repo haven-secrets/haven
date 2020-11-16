@@ -176,7 +176,8 @@ const createProjectTemplate = (projectName) => {
   fs.writeFile("utils/createProjectCloudformation.yml", template, (err) => {
     if (err) console.log(err);
     else {
-      console.log("We are creating your Lockit files");
+      console.log("We are creating your Lockit files.\n" +
+                  "This process should take 30-60 seconds.");
     }
   });
   return template;
