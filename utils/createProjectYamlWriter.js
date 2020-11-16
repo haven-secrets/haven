@@ -120,10 +120,10 @@ const createProjectTemplate = (projectName) => {
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitEnv${projectName}:
+    LockitDev${projectName}:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: LockitEnv${projectName}
+        TableName: LockitDev${projectName}
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
