@@ -19,6 +19,7 @@ const possible_commands = [
   "createProject",
   "createProjectCF",
   "deleteProjectCF",
+  "userSetup",
   "run",
 ];
 

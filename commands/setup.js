@@ -7,7 +7,7 @@ import generateDecryptSecretPolicy from "../aws/iam/policies/decryptSecretPolicy
 import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
-import createTable from "../aws/dynamodb/createTable.js";
+import createCredentialTable from "../aws/dynamodb/createCredentialTable.js";
 
 const description = "Here's your Lockit key!";
 const region = process.env["REGION"];
@@ -26,6 +26,7 @@ const setup = async () => {
   }
   generateEncryptSecretPolicy(region, accountNumber, keyId);
   generateDecryptSecretPolicy(region, accountNumber, keyId);
+  createCredentialTable("LockitCredentials");
 };
 
 export default setup;
