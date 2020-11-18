@@ -4,7 +4,7 @@ import AWS from "aws-sdk";
 
 const region = process.env["REGION"];
 
-const getOfficalCredential = async (
+const deleteOfficalCredential = async (
   temporaryAccessKey,
   temporarySecretAccessKey
 ) => {
@@ -23,11 +23,8 @@ const getOfficalCredential = async (
     TableName: "LockitCredentials",
   };
 
-  const result = await dynamodb.getItem(params).promise();
-  return {
-    AccessKey: result.Item.AccessKey.S,
-    SecretAccessKey: result.Item.SecretAccessKey.S,
-  };
+  return await dynamodb.deleteItem(params).promise();
+
 };
 
-export default getOfficalCredential;
+export default deleteOfficalCredential;

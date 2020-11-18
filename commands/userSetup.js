@@ -2,6 +2,7 @@ import AWS from "aws-sdk";
 import os from "os";
 import fs from "fs";
 import getOfficialCredential from "../aws/dynamodb/getOfficialCredential.js";
+import deleteOfficialCredential from "../aws/dynamodb/deleteOfficialCredential.js";
 
 const userSetup = async (temporaryAccessKey, temporarySecretAccessKey) => {
   const username = "testUser1";
@@ -9,12 +10,14 @@ const userSetup = async (temporaryAccessKey, temporarySecretAccessKey) => {
     accessKeyId: temporaryAccessKey,
     secretAccessKey: temporarySecretAccessKey,
   };
-  AWS.config.update(options);
+  // AWS.config.update(options);
   const { AccessKey, SecretAccessKey } = await getOfficialCredential(
-    temporaryAccessKey
+    temporaryAccessKey,
+    temporarySecretAccessKey
   );
 
-  const data = `[lockit]
+  const data = `
+[lockit]
 aws_access_key_id = ${AccessKey}
 aws_secret_access_key = ${SecretAccessKey}
 `;
@@ -28,6 +31,8 @@ aws_secret_access_key = ${SecretAccessKey}
     }
     console.log("File is updated.");
   });
+
+  deleteOfficialCredential(temporaryAccessKey, temporarySecretAccessKey);
 };
 
 export default userSetup;

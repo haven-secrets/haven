@@ -11,7 +11,7 @@ const temporaryCredentialAccessPolicy = (temporaryAccessKey, policyName) => {
       {
         Sid: "VisualEditor0",
         Effect: "Allow",
-        Action: "dynamodb:GetItem",
+        Action: ["dynamodb:DeleteItem", "dynamodb:GetItem"],
         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/LockitCredentials`,
         Condition: {
           "ForAllValues:StringEquals": {
