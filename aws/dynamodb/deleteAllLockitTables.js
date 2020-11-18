@@ -7,7 +7,7 @@ const deleteAllLockitTables = async () => {
   const tableDeletionPromises = lockitTables.map((tableName) => {
     return deleteTable(tableName);
   });
-  await Promise.all(tableDeletionPromises);
+  return Promise.all(tableDeletionPromises);
 };
 
 export default deleteAllLockitTables;

@@ -5,7 +5,6 @@ dotenv.config();
 const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
-// const projectName = "testWithWriter";
 
 const createProjectTemplate = (projectName) => {
   const template = `---
@@ -121,10 +120,10 @@ const createProjectTemplate = (projectName) => {
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitEnv${projectName}:
+    LockitDev${projectName}:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: LockitEnv${projectName}
+        TableName: LockitDev${projectName}
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -176,7 +175,8 @@ const createProjectTemplate = (projectName) => {
   fs.writeFile("utils/createProjectCloudformation.yml", template, (err) => {
     if (err) console.log(err);
     else {
-      console.log("We are creating your Lockit files");
+      console.log("We are creating your Lockit files.\n" +
+                  "This process should take 30-60 seconds.");
     }
   });
   return template;
