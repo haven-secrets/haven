@@ -1,13 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+import getMasterKeyArnFromAlias from "../kms/getMasterKeyArnFromAlias.js";
 import { KmsKeyringNode, buildClient, CommitmentPolicy } from "@aws-crypto/client-node";
+
 const { encrypt } = buildClient(CommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT);
 
 const encryptItem = async (secret) => {
-  const accountNumber = process.env["ACCOUNT_NUMBER"];
-  const keyId = process.env["KEYID"];
-  const generatorKeyId = `arn:aws:kms:us-east-1:${accountNumber}:key/${keyId}`;
+  const generatorKeyId = await getMasterKeyArnFromAlias('LockitKey2') // TODO: just Lockit
   const keyring = new KmsKeyringNode({ generatorKeyId });
   const { result } = await encrypt(keyring, secret);
 

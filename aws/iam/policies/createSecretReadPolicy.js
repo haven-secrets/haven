@@ -13,7 +13,7 @@ const createSecretReadPolicy = (tableName, policyName, keyId) => {
     Statement: [
       {
         Effect: "Allow",
-        Action: ["dynamodb:Scan", "dynamodb:GetItem"],
+        Action: "dynamodb:GetItem",
         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
       },
       {
@@ -21,13 +21,18 @@ const createSecretReadPolicy = (tableName, policyName, keyId) => {
         Action: "kms:Decrypt",
         Resource: `arn:aws:kms:${region}:${accountNumber}:key/${keyId}`,
       },
+      {
+        Effect: "Allow",
+        Action: "kms:ListAliases",
+        Resource: "*",
+      }
     ],
   };
 
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
-    Description: `Policy for reading from ${tableName} DynamoDB and decrypting the secret`,
+    Description: `Policy for reading from DynamoDB ${tableName}, listing key aliases, and decrypting data encryption keys`,
     Path: "/Lockit/",
   };
 
