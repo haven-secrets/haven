@@ -1,6 +1,6 @@
-import AWS from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
+import AWS from "aws-sdk";
 
 const region = process.env["REGION"];
 

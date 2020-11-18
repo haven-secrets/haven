@@ -5,7 +5,7 @@ import createKey from "../aws/kms/createKey.js";
 import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
-import createTable from "../aws/dynamodb/createTable.js";
+import createCredentialTable from "../aws/dynamodb/createCredentialTable.js";
 
 const setup = async () => {
   const keyId = await getMasterKeyIdFromAlias("LockitKey2"); //TODO Update to LockitKey
