@@ -13,6 +13,11 @@ const temporaryCredentialAccessPolicy = (temporaryAccessKey, policyName) => {
         Effect: "Allow",
         Action: "dynamodb:GetItem",
         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/LockitCredentials`,
+        Condition: {
+          "ForAllValues:StringEquals": {
+            "dynamodb:LeadingKeys": [temporaryAccessKey],
+          },
+        },
       },
     ],
   };
