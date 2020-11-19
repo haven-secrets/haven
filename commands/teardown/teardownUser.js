@@ -4,13 +4,14 @@ import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js";
 const username = "testuser";
 const groupName = "testdevs";
 
-const removeUserFromGroup = (username, groupName) => {
-  const params = {
-    GroupName: groupName,
-    UserName: username,
-  };
-
-  return iam.removeUserFromGroup(params).promise();
+const removeUserFromGroups = async (username) => {
+  const groups = await iam.listGroupsForUser({ UserName: username }).promise();
+  // console.log('groups: ', groups);
+  return groups.Groups.map(group => {
+    const params = {
+      GroupName: group.groupName,
+      UserName: username,
+    };
 };
 
 const deleteAccessKey = (accessKeyId, username) => {
@@ -30,22 +31,21 @@ const deleteUser = (username) => {
   return iam.deleteUser(params).promise();
 };
 
-const teardownUser = async (username, groupName) => {
+const teardownUser = async (username) => {
   try {
     // console logs are for our own purposes
-    // check if a group is passed in as an argument
-    if (groupName) {
-      const groupData = await removeUserFromGroup(username, groupName);
-      console.log(groupData);
-    }
-    const accessKeyId = await getUserAccessKey(username); //Todo: Fix HARDCODED
+    const groupPromises = await removeUserFromGroups(username);
+    await Promise.all(groupPromises);
+
+    const accessKeyId = await getUserAccessKey(username); 
     const accessKeyData = await deleteAccessKey(accessKeyId, username);
 
     const userData = await deleteUser(username);
-    console.log(userData);
   } catch (error) {
     console.log(error, error.stack);
   }
 };
+
+// teardownUser('testUser1'); // HARDCODED USERNAME
 
 export default teardownUser;
