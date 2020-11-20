@@ -1,4 +1,4 @@
-import { iam } from "../aws/services.js";
+import { iam } from "../../services.js";
 
 const createFetchUserCredentialsPolicy = () => {
   const policy = {

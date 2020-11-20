@@ -1,16 +1,12 @@
 import { lambda } from "../aws/services.js";
 import { readFileSync } from "fs";
-// creates a specific policy for fetching user credentials
-import createFetchUserCredentialsPolicy from "./createFetchUserCredentialsPolicy.js";
-// creates generic role for lambdas
-import createLambdaRole from "./createLambdaRole.js";
-// attachs given policy to given role
-import attachRolePolicy from "./attachRolePolicy.js";
-import sleep from "../utils/sleep.js";
-
-import createInvokeLambdaPolicy from "./createInvokeLambdaPolicy.js";
-import createGroup from "../aws/iam/groups/createGroup.js";
-import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
+import sleep from "../../utils/sleep.js";
+import createFetchUserCredentialsPolicy from "../iam/policies/createFetchUserCredentialsPolicy.js";
+import createLambdaRole from "../iam/roles/createLambdaRole.js";
+import attachRolePolicy from "../iam/roles/attachRolePolicy.js";
+import createGroup from "../iam/groups/createGroup.js";
+import createInvokeLambdaPolicy from "../iam/policies/createInvokeLambdaPolicy.js";
+import attachGroupPolicy from "../iam/groups/attachGroupPolicy.js";
 
 /*
 TODO:
@@ -26,7 +22,7 @@ const createFetchUserCredentialsLambda = async () => {
 
   const params = {
     Code: {
-      ZipFile: readFileSync('tests/testLambda.zip'), // TODO: how are we providing the files?
+      ZipFile: readFileSync('aws/lambda/newUserCreation.zip'), // TODO: how are we providing the files?
     },
     FunctionName: 'fetchUserCredentials',
     Handler: 'index.handler',
