@@ -4,14 +4,14 @@ import getAllItems from "../aws/dynamodb/getAllItems.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
+import putLoggingItem from "../aws/dynamodb/putLoggingItem.js";
 
 const getAllSecrets = async (project, environment) => {
-  const version = '1'; // TODO: (1) *use* this, and (2) replace this hardcoding
   const tableName = constructTableName(project, environment);
   
   try {
-    const encryptedSecrets = await getAllItems(tableName);
-    const encryptedSecretValues = encryptedSecrets.Items.map(
+    const data = await getAllItems(tableName);
+    const encryptedSecretValues = data.Items.map(
       (secret) => secret.SecretValue.B
     );
     const encryptedSecretsPromises = encryptedSecretValues.map((secret) =>
@@ -24,7 +24,7 @@ const getAllSecrets = async (project, environment) => {
     );
 
     // return object of secrets (keys=secret names, values=secret plaintext values)
-    const decryptedSecrets = encryptedSecrets.Items.reduce(
+    const decryptedSecrets = data.Items.reduce(
       (object, encryptedSecret, index) => {
         const secretName = encryptedSecret.SecretName.S;
         const secretValue = plaintextValues[index];
@@ -34,10 +34,19 @@ const getAllSecrets = async (project, environment) => {
       {}
     );
 
+    // log success for getAll
+    data.Items.forEach(item => {
+      const secretName = item.SecretName.S;
+      const version = item.Version.S;
+
+      putLoggingItem(project, environment, 'getAll', secretName, version, 'Succcessful');
+    });
+
     // console.log(decryptedSecrets);
     return decryptedSecrets;
   } catch (error) {
-    console.log(error, error.stack);
+    // console.log(error.code, error, error.stack);
+    putLoggingItem(project, environment, 'getAll', '', '', error.code);
   }
 };
 
