@@ -24,6 +24,7 @@ const possible_commands = [
   "deleteProjectCF",
   "userSetup",
   "run",
+  "fetchLogs",
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

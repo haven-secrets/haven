@@ -1,16 +1,19 @@
+// TODO: pass in table name (don't hardcode stuff)
 import { dynamodb } from "../services.js";
 
-const createCredentialTable = (tableName) => {
+const tableName = "LockitLogging";
+
+const createLoggingTable = () => {
   const params = {
     AttributeDefinitions: [
       {
-        AttributeName: "TemporaryAccessKey",
+        AttributeName: "PK",
         AttributeType: "S",
       },
     ],
     KeySchema: [
       {
-        AttributeName: "TemporaryAccessKey",
+        AttributeName: "PK",
         KeyType: "HASH",
       },
     ],
@@ -23,8 +26,8 @@ const createCredentialTable = (tableName) => {
 
   dynamodb.createTable(params, function (err, data) {
     if (err) console.log(err, err.stack);
-    else console.log();
+    else console.log(data); // TODO: replace
   });
 };
 
-export default createCredentialTable;
+export default createLoggingTable;
