@@ -1,5 +1,5 @@
-import { iam } from "../../aws/services.js";
-import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js";
+const AWS = require('aws-sdk');
+const iam = new AWS.IAM();
 
 const removeUserFromGroups = async (username) => {
   const groups = await iam.listGroupsForUser({ UserName: username }).promise();
@@ -12,6 +12,21 @@ const removeUserFromGroups = async (username) => {
 
     return iam.removeUserFromGroup(params).promise();
   });
+};
+
+const getAccessKey = (username) => {
+  const params = {
+    UserName: username,
+  };
+
+  return iam
+    .listAccessKeys(params)
+    .promise()
+    .then((data) => {
+      if (data.AccessKeyMetadata.length > 0) {
+        return data.AccessKeyMetadata[0].AccessKeyId;
+      }
+    });
 };
 
 const deleteAccessKey = (accessKeyId, username) => {
@@ -36,7 +51,7 @@ const teardownUser = async (username) => {
     const groupPromises = await removeUserFromGroups(username);
     await Promise.all(groupPromises);
 
-    const accessKeyId = await getUserAccessKey(username);
+    const accessKeyId = await getAccessKey(username);
     if (accessKeyId) await deleteAccessKey(accessKeyId, username);
 
     await deleteUser(username);
@@ -45,6 +60,4 @@ const teardownUser = async (username) => {
   }
 };
 
-teardownUser('foo'); // HARDCODED USERNAME
-
-export default teardownUser;
+module.exports = teardownUser;

@@ -5,7 +5,7 @@ import { iam } from "../../services.js";
 const createGroup = (groupName) => {
   const params = {
     GroupName: groupName,
-    Path: "/Lockit/",
+    Path: "/Haven/",
   };
 
   return iam.createGroup(params).promise();
