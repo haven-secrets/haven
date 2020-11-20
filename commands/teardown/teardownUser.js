@@ -1,17 +1,17 @@
 import { iam } from "../../aws/services.js";
 import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js";
 
-const username = "testuser";
-const groupName = "testdevs";
-
 const removeUserFromGroups = async (username) => {
   const groups = await iam.listGroupsForUser({ UserName: username }).promise();
-  // console.log('groups: ', groups);
+
   return groups.Groups.map(group => {
     const params = {
-      GroupName: group.groupName,
+      GroupName: group.GroupName,
       UserName: username,
     };
+
+    return iam.removeUserFromGroup(params).promise();
+  });
 };
 
 const deleteAccessKey = (accessKeyId, username) => {
@@ -33,19 +33,18 @@ const deleteUser = (username) => {
 
 const teardownUser = async (username) => {
   try {
-    // console logs are for our own purposes
     const groupPromises = await removeUserFromGroups(username);
     await Promise.all(groupPromises);
 
-    const accessKeyId = await getUserAccessKey(username); 
-    const accessKeyData = await deleteAccessKey(accessKeyId, username);
+    const accessKeyId = await getUserAccessKey(username);
+    if (accessKeyId) await deleteAccessKey(accessKeyId, username);
 
-    const userData = await deleteUser(username);
+    await deleteUser(username);
   } catch (error) {
     console.log(error, error.stack);
   }
 };
 
-// teardownUser('testUser1'); // HARDCODED USERNAME
+teardownUser('foo'); // HARDCODED USERNAME
 
 export default teardownUser;

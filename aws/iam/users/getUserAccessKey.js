@@ -9,7 +9,7 @@ const getUserAccessKey = (username) => {
     .listAccessKeys(params)
     .promise()
     .then((data) => {
-      return data.AccessKeyMetadata[0].AccessKeyId;
+      return data.AccessKeyMetadata[0]?.AccessKeyId;
     });
 };
 

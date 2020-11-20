@@ -1,38 +1,33 @@
 import AWS from "aws-sdk";
 import os from "os";
 import fs from "fs";
-import getOfficialCredential from "../aws/dynamodb/getOfficialCredential.js";
-import deleteOfficialCredential from "../aws/dynamodb/deleteOfficialCredential.js";
+import { lambda } from "../aws/services.js"; // to be instantiated with temporay credentials
 
-const userSetup = async (temporaryAccessKey, temporarySecretAccessKey) => {
-  const username = "testUser1";
-  const options = {
-    accessKeyId: temporaryAccessKey,
-    secretAccessKey: temporarySecretAccessKey,
-  };
-  // AWS.config.update(options);
-  const { AccessKey, SecretAccessKey } = await getOfficialCredential(
-    temporaryAccessKey,
-    temporarySecretAccessKey
-  );
+const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey) => {
+  const params = {   
+    FunctionName: "lambdaTest",  
+    Payload: JSON.stringify({ temporaryUsername: username }), 
+  };  
 
-  const data = `
-[lockit]
-aws_access_key_id = ${AccessKey}
-aws_secret_access_key = ${SecretAccessKey}
-`;
+  const data = await lambda.invoke(params).promise();
+
+  const { AccessKeyId, SecretAccessKey } = JSON.parse(data.Payload).body;
+
+  const credentials = `
+      [lockit]
+      aws_access_key_id = ${AccessKeyId}
+      aws_secret_access_key = ${SecretAccessKey}
+    `;
 
   const homedir = os.homedir();
   const configDir = ".aws/credentials";
 
-  fs.writeFile(`${homedir}/${configDir}`, data, { flag: "a+" }, (err) => {
+  fs.writeFile(`${homedir}/${configDir}`, credentials, { flag: "a+" }, (err) => {
     if (err) {
       throw err;
     }
     console.log("File is updated.");
   });
-
-  deleteOfficialCredential(temporaryAccessKey, temporarySecretAccessKey);
 };
 
 export default userSetup;
