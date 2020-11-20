@@ -3,9 +3,12 @@
 import getAllItems from "../aws/dynamodb/getAllItems.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
+import constructTableName from "../utils/constructTableName.js";
 
-const getAllSecrets = async (tableName) => {
-
+const getAllSecrets = async (project, environment) => {
+  const version = '1'; // TODO: (1) *use* this, and (2) replace this hardcoding
+  const tableName = constructTableName(project, environment);
+  
   try {
     const encryptedSecrets = await getAllItems(tableName);
     const encryptedSecretValues = encryptedSecrets.Items.map(
