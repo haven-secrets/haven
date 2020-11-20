@@ -1,8 +1,3 @@
-/*
-TODO:
-In setup, we'll create temporaryUsersGroup,
-so we need to create a policy for this created lambda that will be attached to that group
-*/
 import { lambda } from "../aws/services.js";
 import { readFileSync } from "fs";
 // creates a specific policy for fetching user credentials
@@ -13,18 +8,27 @@ import createLambdaRole from "./createLambdaRole.js";
 import attachRolePolicy from "./attachRolePolicy.js";
 import sleep from "../utils/sleep.js";
 
+import createInvokeLambdaPolicy from "./createInvokeLambdaPolicy.js";
+import createGroup from "../aws/iam/groups/createGroup.js";
+import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
+
+/*
+TODO:
+- Teardown Lambda, role, temporaryUser group, and related policies
+*/
+
 const createFetchUserCredentialsLambda = async () => {
   const { Policy } = await createFetchUserCredentialsPolicy();
   const { Role } = await createLambdaRole();
 
-  await sleep(7000);
+  await sleep(7000); // this errored out once
   await attachRolePolicy(Policy.Arn, Role.RoleName);
 
   const params = {
     Code: {
       ZipFile: readFileSync('tests/testLambda.zip'), // TODO: how are we providing the files?
     },
-    FunctionName: 'fetchUserCredentials2',
+    FunctionName: 'fetchUserCredentials',
     Handler: 'index.handler',
     Role: Role.Arn,
     Runtime: "nodejs12.x", // TODO: do we need v12?
@@ -33,4 +37,11 @@ const createFetchUserCredentialsLambda = async () => {
   return lambda.createFunction(params).promise();
 }
 
-export default createFetchUserCredentialsLambda;
+const setupFetchUserCredentialsLambda = async () => {
+  const { FunctionName } = await createFetchUserCredentialsLambda();
+  const { Group } = await createGroup("temporaryUsers");
+  const { Policy } = await createInvokeLambdaPolicy(FunctionName);
+  attachGroupPolicy(Group.GroupName, Policy.PolicyName);
+}
+
+export default setupFetchUserCredentialsLambda;
