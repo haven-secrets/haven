@@ -1,6 +1,6 @@
 import getAllItems from "../aws/dynamodb/getAllItems.js";
 
-const logTableName = "LoggingTest"; // TODO: don't hardcode here
+const logTableName = "LockitLogging"; // TODO: don't hardcode here
 
 const parseLogData = (logs) => {
 	// extract properties

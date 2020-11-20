@@ -1,8 +1,9 @@
 // TODO: pass in table name (don't hardcode stuff)
 import { dynamodb } from "../services.js";
 
-const tableName = "LoggingTest";
-const createLoggingTable = (tableName) => {
+const tableName = "LockitLogging";
+
+const createLoggingTable = () => {
   const params = {
     AttributeDefinitions: [
       {

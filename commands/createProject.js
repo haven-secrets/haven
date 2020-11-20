@@ -45,13 +45,19 @@ const createProject = async (projectName) => {
 
   await Promise.all(policies);
 
-  const attachments = environmentOperations.map((environmentOperation) => {
+  const secretPolicyAttachments = environmentOperations.map((environmentOperation) => {
     const group = `Lockit${environmentOperation[0]}${projectName}`;
     const policy = `Lockit/Lockit${environmentOperation[0]}${projectName}`;
     return attachGroupPolicy(group, policy);
   });
 
-  await Promise.all(attachments);
+  const logPolicyAttachments = environmentOperations.map((environmentOperation) => {
+    const group = `Lockit${environmentOperation[0]}${projectName}`;
+    return attachGroupPolicy(group, "LockitLogWritePolicy");
+  });
+
+  await Promise.all(secretPolicyAttachments);
+  await Promise.all(logPolicyAttachments);
 };
 
 export default createProject;

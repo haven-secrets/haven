@@ -1,7 +1,7 @@
 import { iam, dynamodb } from "../services.js";
 import { v4 as uuidv4 } from 'uuid';
 
-const loggingTableName = "LoggingTest"; // TODO: remove hardcoding
+const loggingTableName = "LockitLogging"; // TODO: remove hardcoding
 
 const putLoggingItem = async (
   project, environment, eventType, secretName, version, response

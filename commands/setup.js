@@ -5,9 +5,14 @@ import createKey from "../aws/kms/createKey.js";
 import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
-import createCredentialTable from "../aws/dynamodb/createCredentialTable.js";
+import createLoggingTable from "../aws/dynamodb/createLoggingTable.js";
+import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
 
 const setup = async () => {
+  createLoggingTable();
+  createLogWritePolicy();
+
+  // TODO: (1) move else out a level, (2) put this in its own function maybe?
   const keyId = await getMasterKeyIdFromAlias("LockitKey2"); //TODO Update to LockitKey
 
   if (keyId) {
