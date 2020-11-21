@@ -2,7 +2,7 @@ import createSecretReadPolicy from "../aws/iam/policies/createSecretReadPolicy.j
 import createSecretWritePolicy from "../aws/iam/policies/createSecretWritePolicy.js";
 import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
 import createGroup from "../aws/iam/groups/createGroup.js";
-import createTable from "../aws/dynamodb/createTable.js";
+import createSecretsTable from "../aws/dynamodb/tables/createSecretsTable.js";
 import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 
 const createProject = async (projectName) => {
@@ -19,7 +19,7 @@ const createProject = async (projectName) => {
 
   await Promise.all(
     environments.map((environment) =>
-      createTable(`Lockit${environment}${projectName}`)
+      createSecretsTable(projectName, environment)
     )
   );
   const groups = environmentOperations.map((environmentOperation) => {

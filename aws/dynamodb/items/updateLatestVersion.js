@@ -1,6 +1,6 @@
-import { dynamodb } from "../services.js";
+import { dynamodb } from "../../services.js";
 
-const updateLatestVersion = (tableName, secretName, version) => {
+const updateLatestVersion = (secretName, version, tableName) => {
   const params = {
     Key: {
       SecretName: {

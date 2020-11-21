@@ -1,4 +1,4 @@
-import { dynamodb } from "../services.js";
+import { dynamodb } from "../../services.js";
 
 const putItem = (secretName, secretValue, version, tableName) => {
   const params = {
@@ -13,7 +13,6 @@ const putItem = (secretName, secretValue, version, tableName) => {
         S: version,
       },
     },
-    ReturnConsumedCapacity: "TOTAL",
     TableName: tableName,
   };
 

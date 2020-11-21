@@ -1,14 +1,12 @@
-import getMasterKeyArnFromAlias from "../kms/getMasterKeyArnFromAlias.js";
-import { KmsKeyringNode, buildClient, CommitmentPolicy } from "@aws-crypto/client-node";
+import createKeyring from "./createKeyring.js";
+import { buildClient, CommitmentPolicy } from "@aws-crypto/client-node";
 
 const { decrypt } = buildClient(CommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT);
 
-const decryptItem = async (secret) => {
-  const generatorKeyId = await getMasterKeyArnFromAlias('LockitKey2') // TODO: just Lockit
-  const keyring = new KmsKeyringNode({ generatorKeyId });
+const decryptItem = async secret => {
+  const keyring = await createKeyring();
   const { plaintext } = await decrypt(keyring, secret);
-
-  return Promise.resolve(plaintext);
+  return plaintext;
 }
 
 export default decryptItem;

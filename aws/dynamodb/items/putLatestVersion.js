@@ -1,6 +1,6 @@
-import { dynamodb } from "../services.js";
+import { dynamodb } from "../../services.js";
 
-const putLatestVersion = (tableName, secretName) => {
+const putLatestVersion = (secretName, tableName) => {
   const params = {
     Item: {
       SecretName: {
@@ -13,7 +13,6 @@ const putLatestVersion = (tableName, secretName) => {
         S: "latest",
       },
     },
-    ReturnConsumedCapacity: "TOTAL",
     TableName: tableName,
   };
   

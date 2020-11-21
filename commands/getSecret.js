@@ -1,21 +1,22 @@
 // TODO: pass in secretName, version, tableNme
 // TODO: return something from getSecret (right now it just console logs)
 
-import getItem from "../aws/dynamodb/getItem.js";
+import getItem from "../aws/dynamodb/items/getItem.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
-import putLoggingItem from "../aws/dynamodb/putLoggingItem.js";
-import getLatestVersion from "../aws/dynamodb/getLatestVersion.js";
+import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
+import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
 
 const getSecret = async (project, environment, secretName, version) => {
   const tableName = constructTableName(project, environment);
-  if (!version) version = await getLatestVersion(tableName, secretName); // Version was not passed in
+  if (!version) version = await getLatestVersion(secretName, tableName); // Version was not passed in
   if (!version) return; // Secret does not exist
   version = String(version);
 
   try {
-    const encryptedSecret = await getItem(secretName, version, tableName);
+    const result = await getItem(secretName, version, tableName);
+    const encryptedSecret = result.Item.SecretValue.B;
     const decryptedSecretBlob = await decryptItem(encryptedSecret);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
