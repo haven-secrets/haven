@@ -1,4 +1,4 @@
-import getAllItems from "../aws/dynamodb/getAllItems.js";
+import getAllItems from "../aws/dynamodb/items/getAllItems.js";
 
 const logTableName = "LockitLogging"; // TODO: don't hardcode here
 

@@ -5,7 +5,7 @@ import createKey from "../aws/kms/createKey.js";
 import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
-import createLoggingTable from "../aws/dynamodb/createLoggingTable.js";
+import createLoggingTable from "../aws/dynamodb/tables/createLoggingTable.js";
 import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
 
 const setup = async () => {

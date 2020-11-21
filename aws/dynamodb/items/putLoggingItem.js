@@ -1,15 +1,18 @@
-import { iam, dynamodb } from "../services.js";
+import { iam, dynamodb } from "../../services.js";
 import { v4 as uuidv4 } from 'uuid';
 
-const loggingTableName = "LockitLogging"; // TODO: remove hardcoding
-
 const putLoggingItem = async (
-  project, environment, eventType, secretName, version, response
-  ) => {
+  project,
+  environment,
+  eventType,
+  secretName,
+  version,
+  response
+) => {
+  const uuid = uuidv4();
   const now = new Date().toUTCString();
   const userData = await iam.getUser({}).promise();
   const username = userData.User.UserName;
-  const uuid = uuidv4();
 
   const params = {
     Item: {
@@ -41,8 +44,7 @@ const putLoggingItem = async (
         S: response,
       },
     },
-    ReturnConsumedCapacity: "TOTAL",
-    TableName: loggingTableName,
+    TableName: "LockitLogging", // TODO: remove hardcoding,
   };
 
   return dynamodb.putItem(params).promise();

@@ -2,7 +2,7 @@ import teardownPolicies from "./teardown/teardownPolicies.js";
 import teardownKeys from "./teardown/teardownKeys.js";
 import teardownUser from "./teardown/teardownUser.js";
 import teardownGroup from "./teardown/teardownGroup.js";
-import deleteTable from "../aws/dynamodb/deleteTable.js";
+import deleteTable from "../aws/dynamodb/tables/deleteTable.js";
 import getAllUsers from "../aws/iam/users/getAllUsers.js";
 import getAllGroups from "../aws/iam/groups/getAllGroups.js";
 import sleep from "../utils/sleep.js";

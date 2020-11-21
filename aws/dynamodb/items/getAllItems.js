@@ -1,6 +1,4 @@
-// TODO: don't hardcode stuff
-
-import { dynamodb } from "../services.js";
+import { dynamodb } from "../../services.js";
 
 const getAllItems = tableName => {
   const params = {
