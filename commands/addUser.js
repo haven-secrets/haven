@@ -20,20 +20,18 @@ const createTemporaryUser = async (permanentUsername) => {
   // TODO: determine how to return the temporary username + keys and when the user will need them
 }
 
-const createPermanentUser = async (permanentUsername, groupName) => {
-  const permanentUserData = await createUser(permanentUsername);
+const createPermanentUser = async (permanentUsername, groupNames) => {
+  await createUser(permanentUsername);
 
-// TODO: add permanent user to multiple groups w/ their respective policies
-  if (groupName) {
-    const groupData = await addUserToGroup(groupName, permanentUserData.User.UserName);
-    console.log(groupData);
+  if (groupNames.length > 0) {
+    groupNames.forEach(groupName => addUserToGroup(groupName, permanentUsername));
   }
 }
 
-const addUser = async (permanentUsername, groupName) => {
+const addUser = async (permanentUsername, ...groupNames) => {
   try {
     createTemporaryUser(permanentUsername);
-    createPermanentUser(permanentUsername, groupName);
+    createPermanentUser(permanentUsername, groupNames);
   } catch (error) {
     console.log(error, error.stack);
   }

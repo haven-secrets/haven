@@ -1,11 +1,9 @@
-import { iam } from "../../aws/services.js";
-import deleteGroup from "../../aws/iam/groups/deleteGroup.js";
 import detachAllGroupPolicies from "../../aws/iam/groups/detachAllGroupPolicies.js";
+import deleteGroup from "../../aws/iam/groups/deleteGroup.js";
 
-const teardownGroup = async (groupName) => {
-  const policies = await detachAllGroupPolicies(groupName);
-  
-  await deleteGroup(groupName);
+const teardownGroup = async groupName => {
+  await detachAllGroupPolicies(groupName);
+  return deleteGroup(groupName);
 };
 
 export default teardownGroup;
