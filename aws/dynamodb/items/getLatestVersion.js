@@ -2,8 +2,8 @@ import getItem from "./getItem.js";
 
 const getLatestVersion = async (secretName, tableName) => {
   try {
-    const result = await getItem(secretName, "latest", tableName)
-    return result.Item.VersionNumber.S;
+    const result = await getItem(secretName, tableName)
+    return (result.Items) ? result.Items[0].Version.S : result.Item.Version.S;
   } catch (e) {
     // TODO: are we using console logs for the CLI? What about returns?
     if (e.message === "Requested resource not found") {

@@ -11,15 +11,15 @@ import updateLatestVersion from "../aws/dynamodb/items/updateLatestVersion.js"
 const putSecret = async (project, environment, secretName, plaintextSecret) => {
   const tableName = constructTableName(project, environment);
   let version = await getLatestVersion(secretName, tableName);
+
   if (version === "NO_TABLE") return;
   else if (!version) {
     console.log("Creating new secret");
     version = "1";
-    await putLatestVersion(secretName, tableName);
   } else {
     console.log("Creating new version of secret");
-    version = String(+version + 1);
     await updateLatestVersion(secretName, version, tableName);
+    version = String(+version + 1);
   }
 
   try {
