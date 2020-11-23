@@ -15,7 +15,7 @@ const putLatestVersion = (secretName, tableName) => {
     },
     TableName: tableName,
   };
-  
+
   return dynamodb.putItem(params).promise();
 };
 
