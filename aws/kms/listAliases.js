@@ -1,9 +1,7 @@
 import { kms } from "../services.js";
 
-const listKeyAliases = () => {
-  const params = {};
-
-  return kms.listAliases(params).promise();
+const listAliases = () => {
+  return kms.listAliases({}).promise();
 };
 
-export default listKeyAliases;
+export default listAliases;

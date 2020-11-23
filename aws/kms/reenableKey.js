@@ -1,17 +1,12 @@
 import { kms } from "../services.js";
 
-const cancelDeleteAndEnable = async (keyId) => {
-  const params = { KeyId: keyId };
+const reenableKey = async keyId => {
+  const params = {
+    KeyId: keyId,
+  };
 
-  kms.cancelKeyDeletion(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else {
-      kms.enableKey(params, function (err, data) {
-        if (err) console.log(err, err.stack);
-        // an error occurred
-      });
-    }
-  });
+  await kms.cancelKeyDeletion(params).promise();
+  kms.enableKey(params).promise();
 };
-
-export default cancelDeleteAndEnable;
+reenableKey("0d41af3d-f0e7-4399-b8b3-9173e8e187fa")
+export default reenableKey;
