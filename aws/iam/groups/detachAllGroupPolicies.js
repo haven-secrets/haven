@@ -1,10 +1,10 @@
 import { iam } from "../../services.js";
 import getAllGroupPolicies from "./getAllGroupPolicies.js";
 
-const detachAllGroupPolicies = async (groupName) => {
+const detachAllGroupPolicies = async groupName => {
   const allGroupPolicies = await getAllGroupPolicies(groupName);
 
-  const policyArns = allGroupPolicies.AttachedPolicies.map((policy) => {
+  const detachedGroupPolicyPromises = allGroupPolicies.AttachedPolicies.map(policy => {
     const params = {
       GroupName: groupName,
       PolicyArn: policy.PolicyArn,
@@ -13,7 +13,7 @@ const detachAllGroupPolicies = async (groupName) => {
     return iam.detachGroupPolicy(params).promise();
   });
 
-  await Promise.all(policyArns);
+  return Promise.all(detachedGroupPolicyPromises); // TODO: is this the right thing to return down the chain?
 };
 
 export default detachAllGroupPolicies;

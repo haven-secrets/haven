@@ -1,6 +1,6 @@
 import { iam } from "../../services.js";
 
-const deleteGroup = (groupName) => {
+const deleteGroup = groupName => {
   const params = {
     GroupName: groupName,
   };

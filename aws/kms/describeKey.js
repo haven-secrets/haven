@@ -1,6 +1,6 @@
 import { kms } from "../services.js";
 
-const describeKey = async (keyId) => {
+const describeKey = async keyId => {
   const params = {
     KeyId: keyId,
   };

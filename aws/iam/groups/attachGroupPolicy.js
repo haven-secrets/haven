@@ -7,7 +7,7 @@ dotenv.config();
 const attachGroupPolicy = (groupName, policyName) => {
   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
-  var params = {
+  const params = {
     GroupName: groupName,
     PolicyArn: `arn:aws:iam::${accountNumber}:policy/Haven/${policyName}`, // TODO: fix Haven path for some policies
   };

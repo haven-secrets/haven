@@ -1,16 +1,12 @@
 import { iam } from "../../services.js";
 
-const getUserAccessKey = (username) => {
+const getUserAccessKey = async username => {
   const params = {
     UserName: username,
   };
 
-  return iam
-    .listAccessKeys(params)
-    .promise()
-    .then((data) => {
-      return data.AccessKeyMetadata[0]?.AccessKeyId;
-    });
+  const list = await iam.listAccessKeys(params).promise();
+  return list.AccessKeyMetadata[0]?.AccessKeyId;
 };
 
 export default getUserAccessKey;

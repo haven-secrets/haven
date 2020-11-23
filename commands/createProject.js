@@ -3,7 +3,7 @@ import createSecretWritePolicy from "../aws/iam/policies/createSecretWritePolicy
 import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
 import createGroup from "../aws/iam/groups/createGroup.js";
 import createSecretsTable from "../aws/dynamodb/tables/createSecretsTable.js";
-import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
+import getMasterKeyIdFromAlias from "../aws/kms/getMasterKeyIdFromAlias.js";
 
 const createProject = async (projectName) => {
   const environments = ["Dev", "Stg", "Prod"];

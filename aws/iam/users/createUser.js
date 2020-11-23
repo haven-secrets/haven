@@ -1,5 +1,3 @@
-// TODO: don't hardcode stuff
-
 import { iam } from "../../services.js";
 
 const createUser = (username, tags) => {
