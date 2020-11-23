@@ -1,30 +1,26 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import createKey from "../aws/kms/createKey.js";
-import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
+import getMasterKeyIdFromAlias from "../aws/kms/getMasterKeyIdFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
-import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
+import reenableKey from "../aws/kms/reenableKey.js";
+import createKey from "../aws/kms/createKey.js";
 import createLoggingTable from "../aws/dynamodb/tables/createLoggingTable.js";
 import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
 
-const setup = async () => {
-  createLoggingTable();
-  createLogWritePolicy();
-
-  // TODO: (1) move else out a level, (2) put this in its own function maybe?
-  const keyId = await getMasterKeyIdFromAlias("LockitKey2"); //TODO Update to LockitKey
+// TODO: move this function to another file, possibly in a setup folder
+const setupKey = async () => {
+  const keyId = await getMasterKeyIdFromAlias("LockitKey2"); // TODO: update to LockitKey
 
   if (keyId) {
-    const keyInfo = await describeKey(keyId);
-
-    if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
-      cancelDeleteAndEnable(keyId);
-    } else {
-      const description = "Here's your Lockit key!";
-      createKey(description);
-    }
+    const keyData = await describeKey(keyId);
+    if (keyData.KeyMetadata.KeyState === "PendingDeletion") reenableKey(keyId);
+  } else {
+    createKey("Here's your Lockit key!");
   }
+};
+
+const setup = () => {
+  createLoggingTable();
+  createLogWritePolicy();
+  setupKey();
 };
 
 export default setup;

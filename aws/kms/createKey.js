@@ -1,29 +1,13 @@
 import { kms } from "../services.js";
+import createAlias from "./createAlias.js";
 
-const createKey = description => {
+const createKey = async description => {
   const params = {
-    Description: description,
+    Description: description, // TODO: do we still want this? it's not required
   };
 
-  kms.createKey(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else {
-      const keyAlias = "LockitKey3";
-      const targetKeyId = data.KeyMetadata.KeyId;
-
-      const params = {
-        AliasName: `alias/${keyAlias}`,
-        TargetKeyId: targetKeyId,
-      };
-
-      kms.createAlias(params, function (err, data) {
-        if (err) console.log(err, err.stack);
-        else console.log(`Your Lockit master key is called ${keyAlias}`);
-      });
-
-      console.log(data);
-    }
-  });
+  const key = await kms.createKey(params).promise();
+  createAlias("LockitKey3", key.KeyMetadata.KeyId); // TODO: return value?
 }
 
 export default createKey;
