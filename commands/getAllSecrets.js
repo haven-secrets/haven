@@ -1,6 +1,6 @@
 // TODO: handle Promise.all failure (catch)
 
-import getAllItems from "../aws/dynamodb/tables/getAllItems.js";
+import getAllLatestItems from "../aws/dynamodb/items/getAllLatestItems.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
@@ -8,9 +8,11 @@ import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 
 const getAllSecrets = async (project, environment) => {
   const tableName = constructTableName(project, environment);
-  
+
+  // const data = await getAllLatestItems(tableName);
+
   try {
-    const data = await getAllItems(tableName);
+    const data = await getAllLatestItems(tableName);
     const encryptedSecretValues = data.Items.map(
       (secret) => secret.SecretValue.B
     );
@@ -45,7 +47,7 @@ const getAllSecrets = async (project, environment) => {
     // console.log(decryptedSecrets);
     return decryptedSecrets;
   } catch (error) {
-    // console.log(error.code, error, error.stack);
+    console.log(error.code, error, error.stack);
     putLoggingItem(project, environment, 'getAll', '', '', error.code);
   }
 };
