@@ -4,9 +4,9 @@ import putItem from "../aws/dynamodb/items/putItem.js";
 import encryptItem from "../aws/encryption/encryptItem.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
-import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js"
-import putLatestVersion from "../aws/dynamodb/items/putLatestVersion.js"
-import updateLatestVersion from "../aws/dynamodb/items/updateLatestVersion.js"
+import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
+import putLatestVersion from "../aws/dynamodb/items/putLatestVersion.js";
+import updateLatestVersion from "../aws/dynamodb/items/updateLatestVersion.js";
 
 const putSecret = async (project, environment, secretName, plaintextSecret) => {
   const tableName = constructTableName(project, environment);

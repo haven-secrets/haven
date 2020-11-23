@@ -9,8 +9,6 @@ import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 const getAllSecrets = async (project, environment) => {
   const tableName = constructTableName(project, environment);
 
-  // const data = await getAllLatestItems(tableName);
-
   try {
     const data = await getAllLatestItems(tableName);
     const encryptedSecretValues = data.Items.map(

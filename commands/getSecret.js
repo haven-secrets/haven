@@ -35,14 +35,7 @@ const getSecret = async (project, environment, secretName, version) => {
       console.log("This version does not exist");
       return;
     }
-    putLoggingItem(
-      project,
-      environment,
-      "get",
-      secretName,
-      version,
-      e.code
-    );
+    putLoggingItem(project, environment, "get", secretName, version, e.code);
   }
 };
 
