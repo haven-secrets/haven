@@ -7,15 +7,15 @@ const updateLatestVersion = (secretName, version, tableName) => {
         S: secretName,
       },
       Version: {
-        S: "latest",
+        S: version,
       },
     },
     TableName: tableName,
     AttributeUpdates: {
-      VersionNumber: {
+      Latest: {
         Action: "PUT",
         Value: {
-          S: version,
+          BOOL: false,
         },
       },
     },

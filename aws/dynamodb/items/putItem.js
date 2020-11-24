@@ -12,6 +12,9 @@ const putItem = (secretName, secretValue, version, tableName) => {
       Version: {
         S: version,
       },
+      Latest: {
+        BOOL: true,
+      },
     },
     TableName: tableName,
   };
