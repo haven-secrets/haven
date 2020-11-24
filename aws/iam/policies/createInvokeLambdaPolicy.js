@@ -1,13 +1,18 @@
 import { iam } from "../../services.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const createInvokeLambdaPolicy = (functionName) => {
+  const region = process.env["REGION"];
+  const accountNumber = process.env["ACCOUNT_NUMBER"];
+
   const policy = {
     "Version": "2012-10-17",
     "Statement": [
       {
         "Effect": "Allow",
         "Action": "lambda:InvokeFunction",
-        "Resource": `arn:aws:lambda:us-east-1:978838099300:function:${functionName}` // TODO: remove hardcoding of region and account #
+        "Resource": `arn:aws:lambda:${region}:${accountNumber}:function:${functionName}` // TODO: remove hardcoding of region and account #
       }
     ]
   }
