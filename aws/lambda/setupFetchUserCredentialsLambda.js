@@ -1,4 +1,4 @@
-import { lambda } from "../aws/services.js";
+import { lambda } from "../services.js";
 import { readFileSync } from "fs";
 import sleep from "../../utils/sleep.js";
 import createFetchUserCredentialsPolicy from "../iam/policies/createFetchUserCredentialsPolicy.js";
@@ -24,7 +24,7 @@ const createFetchUserCredentialsLambda = async () => {
     Code: {
       ZipFile: readFileSync('aws/lambda/newUserCreation.zip'), // TODO: how are we providing the files?
     },
-    FunctionName: 'fetchUserCredentials',
+    FunctionName: 'fetchUserCredentials2',
     Handler: 'index.handler',
     Role: Role.Arn,
     Runtime: "nodejs12.x", // TODO: do we need v12?
@@ -39,5 +39,7 @@ const setupFetchUserCredentialsLambda = async () => {
   const { Policy } = await createInvokeLambdaPolicy(FunctionName);
   attachGroupPolicy(Group.GroupName, Policy.PolicyName);
 }
+
+setupFetchUserCredentialsLambda();
 
 export default setupFetchUserCredentialsLambda;
