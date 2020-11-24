@@ -7,7 +7,7 @@ const createKey = async description => {
   };
 
   const key = await kms.createKey(params).promise();
-  createAlias("LockitKey3", key.KeyMetadata.KeyId); // TODO: return value?
+  createAlias("LockitKey2", key.KeyMetadata.KeyId); // TODO: return value?
 }
 
 export default createKey;

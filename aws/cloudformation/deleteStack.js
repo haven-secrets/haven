@@ -1,10 +1,13 @@
 import { cloudformation } from "../services.js";
 
-const deleteStack = (projectName) => {
-  const params = {
-    StackName: projectName /* required */,
-  };
-  return cloudformation.deleteStack(params).promise();
+const deleteStack = async (stackName) => {
+  const params = { StackName: stackName }; /* required */
+
+  await cloudformation.deleteStack(params).promise();
+
+  return cloudformation
+    .waitFor("stackDeleteComplete", { StackName: stackName })
+    .promise();
 };
 
 export default deleteStack;

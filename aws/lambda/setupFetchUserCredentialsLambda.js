@@ -17,14 +17,14 @@ const createFetchUserCredentialsLambda = async () => {
   const { Policy } = await createFetchUserCredentialsPolicy();
   const { Role } = await createLambdaRole();
 
-  await sleep(7000); // this errored out once
+  await sleep(15000); // 15s - this errored out at least twice at 7s
   await attachRolePolicy(Policy.Arn, Role.RoleName);
 
   const params = {
     Code: {
       ZipFile: readFileSync("aws/lambda/newUserCreation.zip"), // TODO: how are we providing the files?
     },
-    FunctionName: "fetchUserCredentials2",
+    FunctionName: "fetchUserCredentials",
     Handler: "index.handler",
     Role: Role.Arn,
     Runtime: "nodejs12.x", // TODO: do we need v12?
@@ -39,7 +39,5 @@ const setupFetchUserCredentialsLambda = async () => {
   const { Policy } = await createInvokeLambdaPolicy(FunctionName);
   attachGroupPolicy(Group.GroupName, Policy.PolicyName);
 };
-
-setupFetchUserCredentialsLambda();
 
 export default setupFetchUserCredentialsLambda;

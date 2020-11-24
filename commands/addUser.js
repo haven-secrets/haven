@@ -19,6 +19,7 @@ const createTemporaryUser = async (permanentUsername) => {
 
   addUserToGroups(temporaryUsername, "temporaryUsers");
   // TODO: determine how to return the temporary username + keys and when the user will need them
+  console.log({ temporaryAccessKeyId, temporarySecretAccessKey });
 }
 
 const createPermanentUser = async (permanentUsername, groupNames) => {
