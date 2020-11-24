@@ -1,17 +1,19 @@
-import { iam } from "../../aws/services.js";
+/* DEPRECATED */
 
-const teardownPolicies = async () => {
-  const params = {
-    MaxItems: "100",
-    OnlyAttached: false, // temporary
-    PathPrefix: "/Lockit/",
-  };
+// import { iam } from "../../aws/services.js";
 
-  const list = await iam.listPolicies(params).promise();
+// const teardownPolicies = async () => {
+//   const params = {
+//     MaxItems: "100",
+//     OnlyAttached: false, // temporary
+//     PathPrefix: "/Lockit/",
+//   };
 
-  return list.Policies.map((policy) => {
-    return iam.deletePolicy({ PolicyArn: policy.Arn }).promise()
-  });
-};
+//   const list = await iam.listPolicies(params).promise();
 
-export default teardownPolicies;
+//   return list.Policies.map((policy) => {
+//     return iam.deletePolicy({ PolicyArn: policy.Arn }).promise()
+//   });
+// };
+
+// export default teardownPolicies;
