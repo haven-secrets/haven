@@ -1,6 +1,7 @@
 const createLogWritePolicy = (AWS, region, accountNumber) => {
   const iam = new AWS.IAM();
-  const tableName = "HavenSecretsLogging";
+  const tableName = "LockitLogging";
+  const policyName = "LockitLogWritePolicy";
   const policy = {
     Version: "2012-10-17",
     Statement: [
