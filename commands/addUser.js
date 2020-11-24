@@ -5,8 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 // TODO: discuss which hardcoded strings to remove
 
+const loggingGroup = "LockitLogGroup"; //TODO remove hardcoding
+
 const createTemporaryUser = async (permanentUsername) => {
-  const temporaryUsername = "havenTemporaryUser" + uuidv4();
+  const temporaryUsername = "LockitTemporaryUser" + uuidv4();
   const temporaryUserData = await createUser(temporaryUsername, [{ Key: "permanentUsername", Value: permanentUsername }]);
   const temporaryAccessKeyData = await createAccessKey(temporaryUserData.User.UserName);
 
@@ -21,7 +23,7 @@ const createTemporaryUser = async (permanentUsername) => {
 
 const createPermanentUser = async (permanentUsername, groupNames) => {
   await createUser(permanentUsername);
-  if (groupNames.length > 0) addUserToGroups(permanentUsername, ...groupNames);
+  addUserToGroups(permanentUsername, ...groupNames, loggingGroup);
 }
 
 const addUser = async (permanentUsername, ...groupNames) => {

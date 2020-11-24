@@ -1,6 +1,6 @@
 import { kms } from "../services.js";
 
-const reenableKey = async keyId => {
+const reenableKey = async (keyId) => {
   const params = {
     KeyId: keyId,
   };

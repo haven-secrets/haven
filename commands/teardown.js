@@ -18,8 +18,6 @@ const teardown = async () => {
     return deleteStack(stack.StackName);
   });
 
-  // deleteTable("LockitCredentials"); // TODO: Delete once confirming with team
-
   await Promise.all(stackPromises);
   await sleep(2000);
 

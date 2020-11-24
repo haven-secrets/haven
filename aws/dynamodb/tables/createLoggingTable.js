@@ -1,6 +1,6 @@
 import createTable from "./createTable.js";
 
-const createLoggingTable = () => {
+const createLoggingTable = async (tableName) => {
   const params = {
     AttributeDefinitions: [
       {
@@ -14,10 +14,14 @@ const createLoggingTable = () => {
         KeyType: "HASH",
       },
     ],
-    TableName: "LockitLogging", // TODO: change name
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+    TableName: tableName, // TODO: change name
   };
 
-  return createTable(params);
+  return await createTable(params);
 };
 
 export default createLoggingTable;
