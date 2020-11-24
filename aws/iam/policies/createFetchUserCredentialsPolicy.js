@@ -1,6 +1,10 @@
 import { iam } from "../../services.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const createFetchUserCredentialsPolicy = () => {
+  const accountNumber = process.env["ACCOUNT_NUMBER"];
+
   const policy = {
     "Version": "2012-10-17",
     "Statement": [
@@ -16,9 +20,9 @@ const createFetchUserCredentialsPolicy = () => {
             "iam:ListAccessKeys"
         ],
         "Resource": [
-            // TODO: restrict resources (Lockit path) & remove account # hardcoding
-            "arn:aws:iam::978838099300:group/*",
-            "arn:aws:iam::978838099300:user/*"
+            // TODO: restrict resources (Haven path) & remove account # hardcoding
+            `arn:aws:iam::${accountNumber}:group/*`,
+            `arn:aws:iam::${accountNumber}:user/*`
         ]
       }
     ]

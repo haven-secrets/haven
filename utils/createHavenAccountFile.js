@@ -5,14 +5,16 @@ const hiddenAccountFilePath = `${LockitDir}/LockitAccountInfo.json`;
 const createLockitAccountFile = (
   accountNumber,
   region,
-  credentialKeyId,
-  credentialAccessKey
+  accessKeyId,
+  secretAccessKey,
+  role
 ) => {
   const fileContents = {
     accountNumber,
     region,
-    credentialKeyId,
-    credentialAccessKey,
+    accessKeyId,
+    secretAccessKey,
+    role,
   };
   fs.writeFileSync(hiddenAccountFilePath, JSON.stringify(fileContents));
 };
