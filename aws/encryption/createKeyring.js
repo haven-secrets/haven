@@ -3,7 +3,7 @@ import { KmsKeyringNode } from "@aws-crypto/client-node";
 
 // TODO: generate keyring on setup and keep a copy of it somewhere
 const createKeyring = async secret => {
-  const generatorKeyId = await getMasterKeyArnFromAlias("LockitKey2") // TODO: just Haven
+  const generatorKeyId = await getMasterKeyArnFromAlias("LockitKey2") // TODO: just Lockit
   return new KmsKeyringNode({ generatorKeyId });
 };
 

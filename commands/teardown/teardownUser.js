@@ -6,7 +6,7 @@ import deleteUser from "../../aws/iam/users/deleteUser.js";
 
 const teardownUser = async (username) => {
   try {
-    const groupPromises = await removeUserFromAllGroups(username);
+    const groupPromises = await removeUserFromAllGroups(username); // TODO: do we have to remove users from groups if the groups have already been deleted?
     await Promise.all(groupPromises);
 
     const accessKeyId = await getUserAccessKey(username);

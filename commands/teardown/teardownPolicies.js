@@ -8,7 +8,6 @@ const teardownPolicies = async () => {
   };
 
   const list = await iam.listPolicies(params).promise();
-
   return list.Policies.map((policy) => {
     return iam.deletePolicy({ PolicyArn: policy.Arn }).promise()
   });

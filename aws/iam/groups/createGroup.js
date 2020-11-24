@@ -2,10 +2,10 @@
 
 import { iam } from "../../services.js";
 
-const createGroup = groupName => {
+const createGroup = (groupName) => {
   const params = {
     GroupName: groupName,
-    Path: "/Haven/",
+    Path: "/Lockit/",
   };
 
   return iam.createGroup(params).promise();

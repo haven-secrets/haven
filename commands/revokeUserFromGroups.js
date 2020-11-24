@@ -6,7 +6,7 @@ import flagAllItems from "../aws/dynamodb/items/flagAllItems.js";
 const revokeUserFromGroups = (username, ...groupNames) => {
   groupNames.forEach(groupName => removeUserFromGroup(groupName, username)); 
 
-// TODO: either change the pattern in the function below or update group names to be HavenProjectEnvAction, and what about admin groupss?
+// TODO: either change the pattern in the function below or update group names to be LockitProjectEnvAction, and what about admin groupss?
   const tableNames = getUniqueTableNamesFromGroupNames(groupNames);
   tableNames.forEach(tableName => flagAllItems(tableName));
 };

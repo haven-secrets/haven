@@ -16,7 +16,7 @@ const createFetchUserCredentialsPolicy = () => {
             "iam:ListAccessKeys"
         ],
         "Resource": [
-            // TODO: restrict resources (Haven path) & remove account # hardcoding
+            // TODO: restrict resources (Lockit path) & remove account # hardcoding
             "arn:aws:iam::978838099300:group/*",
             "arn:aws:iam::978838099300:user/*"
         ]
@@ -26,7 +26,7 @@ const createFetchUserCredentialsPolicy = () => {
 
   const params = {
     PolicyDocument: JSON.stringify(policy),
-    PolicyName: "HavenSecretsLambdaRolePolicy",
+    PolicyName: "LockitSecretsLambdaRolePolicy",
     Description: "Policy for Lambda to fetch permanent user credentials",
     Path: "/Lockit/",
   };

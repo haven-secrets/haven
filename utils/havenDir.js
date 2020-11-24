@@ -1,5 +1,5 @@
 import { homedir } from "os";
-const configDir = ".haven";
+const configDir = ".Lockit";
 
-const havenDir = `${homedir()}/${configDir}`;
-export default havenDir;
+const LockitDir = `${homedir()}/${configDir}`;
+export default LockitDir;

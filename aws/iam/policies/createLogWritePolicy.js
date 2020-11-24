@@ -4,10 +4,7 @@ import { iam } from "../../services.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const tableName = "LockitLogging"; // TODO: don't hardcode here
-const policyName = "LockitLogWritePolicy"; // ditto
-
-const createLogWritePolicy = () => {
+const createLogWritePolicy = (tableName, policyName) => {
   const region = process.env["REGION"];
   const accountNumber = process.env["ACCOUNT_NUMBER"];
 

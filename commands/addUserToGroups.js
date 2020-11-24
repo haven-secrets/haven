@@ -2,7 +2,8 @@
 import addUserToGroup from "../aws/iam/users/addUserToGroup.js";
 
 const addUserToGroups = (username, ...groupNames) => {
-  groupNames.forEach(groupName => addUserToGroup(groupName, username)); 
+  groupNames.forEach((groupName) => addUserToGroup(groupName, username));
+
 };
 
 export default addUserToGroups;

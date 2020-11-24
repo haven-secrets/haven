@@ -1,8 +1,8 @@
 import fs from "fs";
-import havenDir from "./havenDir.js";
-const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+import LockitDir from "./LockitDir.js";
+const hiddenAccountFilePath = `${LockitDir}/LockitAccountInfo.json`;
 
-const createHavenAccountFile = (
+const createLockitAccountFile = (
   accountNumber,
   region,
   credentialKeyId,
@@ -17,4 +17,4 @@ const createHavenAccountFile = (
   fs.writeFileSync(hiddenAccountFilePath, JSON.stringify(fileContents));
 };
 
-export default createHavenAccountFile;
+export default createLockitAccountFile;

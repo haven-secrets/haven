@@ -1,4 +1,4 @@
-import { lambda } from "../aws/services.js";
+import { lambda } from "../services.js";
 import { readFileSync } from "fs";
 import sleep from "../../utils/sleep.js";
 import createFetchUserCredentialsPolicy from "../iam/policies/createFetchUserCredentialsPolicy.js";

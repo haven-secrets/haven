@@ -3,6 +3,7 @@ import teardownKeys from "./teardown/teardownKeys.js";
 import teardownUser from "./teardown/teardownUser.js";
 import teardownGroup from "./teardown/teardownGroup.js"; // TODO: not used
 import deleteTable from "../aws/dynamodb/tables/deleteTable.js";
+import deleteGroup from "../aws/iam/groups/deleteGroup.js";
 import getAllUsers from "../aws/iam/users/getAllUsers.js";
 import getAllGroups from "../aws/iam/groups/getAllGroups.js";
 import sleep from "../utils/sleep.js";
@@ -17,8 +18,6 @@ const teardown = async () => {
   const stackPromises = stackData.map((stack) => {
     return deleteStack(stack.StackName);
   });
-
-  // deleteTable("LockitCredentials"); // TODO: Delete once confirming with team
 
   await Promise.all(stackPromises);
   await sleep(2000);

@@ -1,4 +1,4 @@
-import createStack from "../aws/cloudformation/createStack.js";
+import createStack from "../aws/cloudformation/createProjectStack.js";
 
 const createProjectCF = async (projectName) => {
   await createStack(projectName);

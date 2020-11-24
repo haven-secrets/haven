@@ -1,6 +1,6 @@
 import fs from "fs";
-import havenDir from "./havenDir.js";
-const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+import LockitDir from "./LockitDir.js";
+const hiddenAccountFilePath = `${LockitDir}/LockitAccountInfo.json`;
 
 let accountNumber;
 let region;

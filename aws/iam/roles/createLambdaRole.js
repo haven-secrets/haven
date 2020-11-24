@@ -16,7 +16,7 @@ const createLambdaRole = () => {
 
   const params = {
     AssumeRolePolicyDocument: JSON.stringify(policy),
-    RoleName: "HavenSecretsLambdaRole",
+    RoleName: "LockitSecretsLambdaRole",
   };
 
   return iam.createRole(params).promise();

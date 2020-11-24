@@ -14,9 +14,9 @@ const createInvokeLambdaPolicy = (functionName) => {
 
   const params = {
     PolicyDocument: JSON.stringify(policy),
-    PolicyName: `HavenSecretsInvoke${functionName}Policy`,
+    PolicyName: `LockitSecretsInvoke${functionName}Policy`,
     Description: `Policy for invoking the Lambda ${functionName}`,
-    Path: "/Haven/",
+    Path: "/Lockit/",
   };
 
   return iam.createPolicy(params).promise();
