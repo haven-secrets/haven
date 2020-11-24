@@ -9,7 +9,7 @@ const attachGroupPolicy = (groupName, policyName) => {
 
   const params = {
     GroupName: groupName,
-    PolicyArn: `arn:aws:iam::${accountNumber}:policy/Haven/${policyName}`, // TODO: fix Haven path for some policies
+    PolicyArn: `arn:aws:iam::${accountNumber}:policy/Lockit/${policyName}`, // TODO: fix Haven path for some policies
   };
 
   return iam.attachGroupPolicy(params).promise();

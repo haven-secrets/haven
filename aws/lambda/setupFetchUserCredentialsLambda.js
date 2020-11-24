@@ -22,23 +22,23 @@ const createFetchUserCredentialsLambda = async () => {
 
   const params = {
     Code: {
-      ZipFile: readFileSync('aws/lambda/newUserCreation.zip'), // TODO: how are we providing the files?
+      ZipFile: readFileSync("aws/lambda/newUserCreation.zip"), // TODO: how are we providing the files?
     },
-    FunctionName: 'fetchUserCredentials2',
-    Handler: 'index.handler',
+    FunctionName: "fetchUserCredentials2",
+    Handler: "index.handler",
     Role: Role.Arn,
     Runtime: "nodejs12.x", // TODO: do we need v12?
   };
 
   return lambda.createFunction(params).promise();
-}
+};
 
 const setupFetchUserCredentialsLambda = async () => {
   const { FunctionName } = await createFetchUserCredentialsLambda();
   const { Group } = await createGroup("temporaryUsers");
   const { Policy } = await createInvokeLambdaPolicy(FunctionName);
   attachGroupPolicy(Group.GroupName, Policy.PolicyName);
-}
+};
 
 setupFetchUserCredentialsLambda();
 
