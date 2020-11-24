@@ -1,7 +1,7 @@
 import fs from "fs";
-import havenDir from "../../utils/havenDir.js";
-import createHavenAccountFile from "../../utils/createHavenAccountFile.js";
-import getAccountId from "../../utils/getAccountId.js";
+import havenDir from "../../../utils/havenDir.js";
+import createHavenAccountFile from "../../../utils/createHavenAccountFile.js";
+import getAccountId from "../../../utils/getAccountId.js";
 const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
 
 const createHavenAdmin = async (AWS) => {
@@ -11,7 +11,7 @@ const createHavenAdmin = async (AWS) => {
     return false;
   } else {
     const adminParams = {
-      UserName: "havenAdmin",
+      UserName: "lockitAdmin",
       Path: "/Lockit/",
       Tags: [{ Key: "role", Value: "admin" }],
     };
@@ -19,7 +19,7 @@ const createHavenAdmin = async (AWS) => {
     await iam.createUser(adminParams).promise();
 
     const accessKeys = await iam
-      .createAccessKey({ UserName: "havenAdmin" })
+      .createAccessKey({ UserName: "lockitAdmin" })
       .promise();
 
     const { AccessKeyId, SecretAccessKey } = accessKeys.AccessKey;

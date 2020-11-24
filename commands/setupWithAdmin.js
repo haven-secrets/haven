@@ -1,19 +1,22 @@
 import AWS from "aws-sdk";
 import havenDir from "../utils/havenDir.js";
-import createHavenAdmin from "./setupAdmin/createHavenAdmin.js";
-import createHavenAdminPolicy from "./setupAdmin/createHavenAdminPolicy.js";
 import fetchHavenAccountInfo from "../utils/fetchHavenAccountInfo.js";
-import attachUserPolicy from "./setupAdmin/attachUserPolicy.js";
 import sleep from "../utils/sleep.js";
-// import createMasterKey from "setupAdmin/createMasterKey.js";
-// import getMasterKeyIdFromAlias from "../aws/kms/masterKeyIdFromAlias.js";
-// import describeKey from "../aws/kms/describeKey.js";
-// import cancelDeleteAndEnable from "../aws/kms/reenableKey.js";
-import createLoggingTable from "./setupAdmin/createLoggingTable.js";
-// import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
-const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+import createHavenAdmin from "./setupAdmin/iam/createHavenAdmin.js";
+import createHavenAdminPolicy from "./setupAdmin/iam/createHavenAdminPolicy.js";
+import attachUserPolicy from "./setupAdmin/iam/attachUserPolicy.js";
+import createLogWritePolicy from "./setupAdmin/iam/createLogWritePolicy.js";
+import createMasterKey from "./setupAdmin/kms/createMasterKey.js";
+import describeKey from "./setupAdmin/kms/describeKey.js";
+import getMasterKeyArnFromAlias from "./setupAdmin/kms/getMasterKeyArnFromAlias.js";
+import cancelDeleteAndEnable from "./setupAdmin/kms/reenableKey.js";
+import createLoggingTable from "./setupAdmin/dynamodb/createLoggingTable.js";
 
 const setupWithAdmin = async () => {
+  process.env.AWS_SDK_LOAD_CONFIG = true;
+  const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+  const keyAlias = "LockitKey2";
+
   await createHavenAdmin(AWS);
 
   const {
@@ -23,33 +26,37 @@ const setupWithAdmin = async () => {
     secretAccessKey,
   } = fetchHavenAccountInfo();
 
+  let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
+
+  if (keyArn) {
+    const keyInfo = await describeKey(AWS, keyArn);
+    if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
+      cancelDeleteAndEnable(AWS, keyArn);
+    }
+  } else {
+    createMasterKey(AWS, keyAlias, "LockitMasterKey");
+    keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
+  }
+
   const havenAdminPolicy = await createHavenAdminPolicy(
     AWS,
     region,
     accountNumber,
-    "HavenAdmin"
+    "LockitAdmin",
+    keyArn
   );
-  await attachUserPolicy(AWS, accountNumber);
-  AWS.config = new AWS.Config();
-  AWS.config.accessKeyId = accessKeyId;
-  AWS.config.secretAccessKey = secretAccessKey;
-  AWS.config.region = region;
 
-  createLoggingTable(AWS);
-  // createLogWritePolicy(AWS, region, accountNumber);
-  //
-  // const keyId = await getMasterKeyIdFromAlias("HavenSecretsKey");
-  //
-  // if (keyId) {
-  //   const keyInfo = await describeKey(keyId);
-  //
-  //   if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
-  //     cancelDeleteAndEnable(keyId);
-  //   } else {
-  //     const description = "Here's your Lockit key!";
-  //     createKey(description);
-  //   }
-  // }
+  await attachUserPolicy(AWS, accountNumber);
+
+  await sleep(8000);
+  AWS.config.update({
+    region,
+    accessKeyId,
+    secretAccessKey,
+  });
+
+  await createLoggingTable(AWS);
+  await createLogWritePolicy(AWS, region, accountNumber);
 };
 
 export default setupWithAdmin;
