@@ -24,7 +24,7 @@ const createFetchUserCredentialsLambda = async () => {
     Code: {
       ZipFile: readFileSync('aws/lambda/newUserCreation.zip'), // TODO: how are we providing the files?
     },
-    FunctionName: 'fetchUserCredentials2',
+    FunctionName: 'fetchUserCredentials',
     Handler: 'index.handler',
     Role: Role.Arn,
     Runtime: "nodejs12.x", // TODO: do we need v12?
