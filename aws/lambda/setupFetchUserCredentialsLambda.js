@@ -5,8 +5,9 @@ import attachRolePolicy from "../iam/roles/attachRolePolicy.js";
 import createNewUserCreationStack from "../cloudformation/createNewUserCreationStack.js";
 
 const setupFetchUserCredentialsLambda = async (params) => {
-  console.log("Now setting up the ability to add new users (with `haven addUser`). This will take a minute...");
+  console.log("Now setting up the ability to add new users (with 'haven addUser'). This will take a minute...");
 
+  // TODO: try attaching policy inline (see Assume... param in SDK for iam.createRole())
   const { Policy } = await createFetchUserCredentialsPolicy(params.lambdaPermisionsPolicyName);
   const { Role } = await createLambdaRole(params.roleName);
 
