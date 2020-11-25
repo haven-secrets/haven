@@ -26,6 +26,9 @@ const possible_commands = [
   "run",
   "fetchLogs",
   "setupWithAdmin",
+  "addUserToGroups",
+  "revokeUserFromGroups",
+  "revokeUser"
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

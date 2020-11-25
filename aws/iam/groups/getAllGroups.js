@@ -1,11 +1,13 @@
-import { iam } from "../../services.js";
+/* DEPRECATED */
 
-const getAllGroups = () => {
-  const params = {
-    PathPrefix: "/Lockit/",
-  };
+// import { iam } from "../../services.js";
 
-  return iam.listGroups(params).promise();
-};
+// const getAllGroups = () => {
+//   const params = {
+//     PathPrefix: "/Lockit/",
+//   };
 
-export default getAllGroups;
+//   return iam.listGroups(params).promise();
+// };
+
+// export default getAllGroups;

@@ -1,7 +1,9 @@
-import { dynamodb } from "../../services.js";
+/* DEPRECATED */
 
-const createTable = (params) => {
-  return dynamodb.createTable(params).promise();
-};
+// import { dynamodb } from "../../services.js";
 
-export default createTable;
+// const createTable = (params) => {
+//   return dynamodb.createTable(params).promise();
+// };
+
+// export default createTable;
