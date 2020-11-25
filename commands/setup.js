@@ -4,7 +4,7 @@ import reenableKey from "../aws/kms/reenableKey.js";
 import createKey from "../aws/kms/createKey.js";
 import createLoggingStack from "../aws/cloudformation/createLoggingStack.js";
 import { lambda } from "../aws/services.js";
-import createFetchUserCredentialsPolicy from "../aws/lambda/setupFetchUserCredentialsLambda.js";
+import setupFetchUserCredentialsLambda from "../aws/lambda/setupFetchUserCredentialsLambda.js";
 
 // TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
@@ -28,7 +28,7 @@ const loggingGroupName = "LockitLogGroup"; // dittoditto
 const setup = () => {
   createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
   setupKey();
-  createFetchUserCredentialsPolicy();
+  setupFetchUserCredentialsLambda();
 };
 
 export default setup;

@@ -23,6 +23,10 @@ const createSecretsTable = (project, environment) => {
         KeyType: "RANGE",
       },
     ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
     TableName: constructTableName(project, environment),
   };
 
