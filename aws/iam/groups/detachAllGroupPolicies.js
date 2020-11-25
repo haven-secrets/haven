@@ -1,19 +1,21 @@
-import { iam } from "../../services.js";
-import getAllGroupPolicies from "./getAllGroupPolicies.js";
+/* DEPRECATED */
 
-const detachAllGroupPolicies = async groupName => {
-  const allGroupPolicies = await getAllGroupPolicies(groupName);
+// import { iam } from "../../services.js";
+// import getAllGroupPolicies from "./getAllGroupPolicies.js";
 
-  const detachedGroupPolicyPromises = allGroupPolicies.AttachedPolicies.map(policy => {
-    const params = {
-      GroupName: groupName,
-      PolicyArn: policy.PolicyArn,
-    };
+// const detachAllGroupPolicies = async groupName => {
+//   const allGroupPolicies = await getAllGroupPolicies(groupName);
 
-    return iam.detachGroupPolicy(params).promise();
-  });
+//   const detachedGroupPolicyPromises = allGroupPolicies.AttachedPolicies.map(policy => {
+//     const params = {
+//       GroupName: groupName,
+//       PolicyArn: policy.PolicyArn,
+//     };
 
-  return Promise.all(detachedGroupPolicyPromises); // TODO: is this the right thing to return down the chain?
-};
+//     return iam.detachGroupPolicy(params).promise();
+//   });
 
-export default detachAllGroupPolicies;
+//   return Promise.all(detachedGroupPolicyPromises); // TODO: is this the right thing to return down the chain?
+// };
+
+// export default detachAllGroupPolicies;

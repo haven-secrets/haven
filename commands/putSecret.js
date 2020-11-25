@@ -5,8 +5,7 @@ import encryptItem from "../aws/encryption/encryptItem.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
-import putLatestVersion from "../aws/dynamodb/items/putLatestVersion.js";
-import updateLatestVersion from "../aws/dynamodb/items/updateLatestVersion.js";
+import updateItemAttribute from "../aws/dynamodb/items/updateItemAttribute.js";
 
 const putSecret = async (project, environment, secretName, plaintextSecret) => {
   const tableName = constructTableName(project, environment);
@@ -18,7 +17,7 @@ const putSecret = async (project, environment, secretName, plaintextSecret) => {
     version = "1";
   } else {
     console.log("Creating new version of secret");
-    await updateLatestVersion(secretName, version, tableName);
+    await updateItemAttribute(secretName, version, tableName, "Latest", false);
     version = String(+version + 1);
   }
 

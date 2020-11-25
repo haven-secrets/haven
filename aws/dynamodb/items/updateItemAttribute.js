@@ -1,6 +1,6 @@
 import { dynamodb } from "../../services.js";
 
-const updateLatestVersion = (secretName, version, tableName) => {
+const updateItemAttribute = (secretName, version, tableName, attribute, value) => {
   const params = {
     Key: {
       SecretName: {
@@ -12,16 +12,15 @@ const updateLatestVersion = (secretName, version, tableName) => {
     },
     TableName: tableName,
     AttributeUpdates: {
-      Latest: {
-        Action: "PUT",
+      [attribute]: {
         Value: {
-          BOOL: false,
+          BOOL: value,
         },
       },
     },
   };
 
-  return dynamodb.updateItem(params).promise();
+  dynamodb.updateItem(params).promise();
 };
 
-export default updateLatestVersion;
+export default updateItemAttribute;

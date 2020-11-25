@@ -1,13 +1,15 @@
-import { dynamodb } from "../../services.js";
-import getAllLockitTables from "./getAllLockitTables.js";
-import deleteTable from "./deleteTable.js";
+/* DEPRECATED */
 
-const deleteAllLockitTables = async () => {
-  const lockitTables = await getAllLockitTables();
-  const tableDeletionPromises = lockitTables.map(tableName => deleteTable(tableName));
-  return Promise.all(tableDeletionPromises);
-};
+// import { dynamodb } from "../../services.js";
+// import getAllLockitTables from "./getAllLockitTables.js";
+// import deleteTable from "./deleteTable.js";
 
-deleteAllLockitTables();
+// const deleteAllLockitTables = async () => {
+//   const lockitTables = await getAllLockitTables();
+//   const tableDeletionPromises = lockitTables.map(tableName => deleteTable(tableName));
+//   return Promise.all(tableDeletionPromises);
+// };
 
-export default deleteAllLockitTables;
+// deleteAllLockitTables();
+
+// export default deleteAllLockitTables;

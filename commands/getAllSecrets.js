@@ -1,6 +1,6 @@
 // TODO: handle Promise.all failure (catch)
 
-import getAllLatestItems from "../aws/dynamodb/items/getAllLatestItems.js";
+import getItemsByFilter from "../aws/dynamodb/items/getItemsByFilter.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
@@ -10,7 +10,7 @@ const getAllSecrets = async (project, environment) => {
   const tableName = constructTableName(project, environment);
 
   try {
-    const data = await getAllLatestItems(tableName);
+    const data = await getItemsByFilter(tableName, "Latest");
     const encryptedSecretValues = data.Items.map(
       (secret) => secret.SecretValue.B
     );

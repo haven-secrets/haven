@@ -1,32 +1,34 @@
-// TODO: pass in region, accountNumber, tableName
+/* DEPRECATED */
 
-import { iam } from "../../services.js";
-import dotenv from "dotenv";
-dotenv.config();
+// // TODO: pass in region, accountNumber, tableName
 
-const createLogWritePolicy = (tableName, policyName) => {
-  const region = process.env["REGION"];
-  const accountNumber = process.env["ACCOUNT_NUMBER"];
+// import { iam } from "../../services.js";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-  const policy = {
-    Version: "2012-10-17",
-    Statement: [
-      {
-        Effect: "Allow",
-        Action: "dynamodb:PutItem",
-        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
-      },
-    ],
-  };
+// const createLogWritePolicy = (tableName, policyName) => {
+//   const region = process.env["REGION"];
+//   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
-  const params = {
-    PolicyDocument: JSON.stringify(policy),
-    PolicyName: policyName,
-    Description: `Policy for writing to DynamoDB ${tableName} table, to log the reading and/or writing of secrets.`,
-    Path: "/Lockit/",
-  };
+//   const policy = {
+//     Version: "2012-10-17",
+//     Statement: [
+//       {
+//         Effect: "Allow",
+//         Action: "dynamodb:PutItem",
+//         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
+//       },
+//     ],
+//   };
 
-  return iam.createPolicy(params).promise();
-};
+//   const params = {
+//     PolicyDocument: JSON.stringify(policy),
+//     PolicyName: policyName,
+//     Description: `Policy for writing to DynamoDB ${tableName} table, to log the reading and/or writing of secrets.`,
+//     Path: "/Lockit/",
+//   };
 
-export default createLogWritePolicy;
+//   return iam.createPolicy(params).promise();
+// };
+
+// export default createLogWritePolicy;

@@ -1,9 +1,9 @@
 import getAllLockitTables from "../aws/dynamodb/tables/getAllLockitTables.js";
-import getAllFlaggedItems from "../aws/dynamodb/items/getAllFlaggedItems.js";
+import getItemsByFilter from "../aws/dynamodb/items/getItemsByFilter.js";
 
 const getFlaggedSecrets = async () => {
   const tableNames = await getAllLockitTables();
-  const { Items } = await getAllFlaggedItems(tableNames[0]);
+  const { Items } = await getItemsByFilter(tableNames[0], "Flagged"); // TODO: get secrets from ALL tables
   return Items; // TODO: determine what exactly to return here
 };
 

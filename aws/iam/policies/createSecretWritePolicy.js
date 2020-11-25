@@ -1,42 +1,44 @@
-// TODO: pass in region, accountNumber, tableName
+/* DEPRECATED */
 
-import { iam } from "../../services.js";
-import dotenv from "dotenv";
-dotenv.config();
+// // TODO: pass in region, accountNumber, tableName
 
-const createSecretWritePolicy = (tableName, policyName, keyId) => {
-  const region = process.env["REGION"];
-  const accountNumber = process.env["ACCOUNT_NUMBER"];
+// import { iam } from "../../services.js";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-  const policy = {
-    Version: "2012-10-17",
-    Statement: [
-      {
-        Effect: "Allow",
-        Action: "dynamodb:PutItem",
-        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
-      },
-      {
-        Effect: "Allow",
-        Action: "kms:GenerateDataKey",
-        Resource: `arn:aws:kms:${region}:${accountNumber}:key/${keyId}`,
-      },
-      {
-        Effect: "Allow",
-        Action: "kms:ListAliases",
-        Resource: "*",
-      }
-    ],
-  };
+// const createSecretWritePolicy = (tableName, policyName, keyId) => {
+//   const region = process.env["REGION"];
+//   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
-  const params = {
-    PolicyDocument: JSON.stringify(policy),
-    PolicyName: policyName,
-    Description: `Policy for writing to DynamoDB ${tableName}, listing key aliases, and generating data encryption keys`,
-    Path: "/Lockit/",
-  };
+//   const policy = {
+//     Version: "2012-10-17",
+//     Statement: [
+//       {
+//         Effect: "Allow",
+//         Action: "dynamodb:PutItem",
+//         Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}`,
+//       },
+//       {
+//         Effect: "Allow",
+//         Action: "kms:GenerateDataKey",
+//         Resource: `arn:aws:kms:${region}:${accountNumber}:key/${keyId}`,
+//       },
+//       {
+//         Effect: "Allow",
+//         Action: "kms:ListAliases",
+//         Resource: "*",
+//       }
+//     ],
+//   };
 
-  return iam.createPolicy(params).promise();
-};
+//   const params = {
+//     PolicyDocument: JSON.stringify(policy),
+//     PolicyName: policyName,
+//     Description: `Policy for writing to DynamoDB ${tableName}, listing key aliases, and generating data encryption keys`,
+//     Path: "/Lockit/",
+//   };
 
-export default createSecretWritePolicy;
+//   return iam.createPolicy(params).promise();
+// };
+
+// export default createSecretWritePolicy;

@@ -1,27 +1,29 @@
-import createTable from "./createTable.js";
+/* DEPRECATED */
 
-const createLoggingTable = async (tableName) => {
-  const params = {
-    AttributeDefinitions: [
-      {
-        AttributeName: "PK",
-        AttributeType: "S",
-      },
-    ],
-    KeySchema: [
-      {
-        AttributeName: "PK",
-        KeyType: "HASH",
-      },
-    ],
-    ProvisionedThroughput: {
-      ReadCapacityUnits: 5,
-      WriteCapacityUnits: 5,
-    },
-    TableName: tableName, // TODO: change name
-  };
+// import createTable from "./createTable.js";
 
-  return await createTable(params);
-};
+// const createLoggingTable = async (tableName) => {
+//   const params = {
+//     AttributeDefinitions: [
+//       {
+//         AttributeName: "PK",
+//         AttributeType: "S",
+//       },
+//     ],
+//     KeySchema: [
+//       {
+//         AttributeName: "PK",
+//         KeyType: "HASH",
+//       },
+//     ],
+//     ProvisionedThroughput: {
+//       ReadCapacityUnits: 5,
+//       WriteCapacityUnits: 5,
+//     },
+//     TableName: tableName, // TODO: change name
+//   };
 
-export default createLoggingTable;
+//   return await createTable(params);
+// };
+
+// export default createLoggingTable;

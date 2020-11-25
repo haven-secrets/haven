@@ -1,11 +1,13 @@
-import { dynamodb } from "../../services.js";
+/* DEPRECATED */
 
-const deleteTable = tableName => {
-  const params = {
-    TableName: tableName,
-  };
+// import { dynamodb } from "../../services.js";
+
+// const deleteTable = tableName => {
+//   const params = {
+//     TableName: tableName,
+//   };
   
-  return dynamodb.deleteTable(params).promise();
-};
+//   return dynamodb.deleteTable(params).promise();
+// };
 
-export default deleteTable;
+// export default deleteTable;

@@ -10,13 +10,11 @@ import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
 
 const getSecret = async (project, environment, secretName, version) => {
   const tableName = constructTableName(project, environment);
-  if (!version) version = await getLatestVersion(secretName, tableName); // Version was not passed in
-  if (!version) return; // Secret does not exist
-  version = String(version);
+  version = version ? String(version) : "";
 
   try {
     const result = await getItem(secretName, tableName, version);
-    const encryptedSecret = result.Item.SecretValue.B;
+    const encryptedSecret = version ? result.Item.SecretValue.B : result.Items[0].SecretValue.B;
     const decryptedSecretBlob = await decryptItem(encryptedSecret);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
