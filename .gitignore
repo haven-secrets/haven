@@ -3,3 +3,4 @@
 .DS_Store
 /utils/createProjectCloudformation.yml
 /utils/setupLogging.yml
+/utils/createLambdaAndGroup.yml

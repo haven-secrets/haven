@@ -1,6 +1,6 @@
 import { iam } from "../../services.js";
 
-const createLambdaRole = () => {
+const createLambdaRole = (roleName) => {
   const policy = {
     Version: "2012-10-17",
     Statement: [
@@ -16,7 +16,7 @@ const createLambdaRole = () => {
 
   const params = {
     AssumeRolePolicyDocument: JSON.stringify(policy),
-    RoleName: "LockitSecretsLambdaRole",
+    RoleName: roleName,
   };
 
   return iam.createRole(params).promise();

@@ -1,43 +1,19 @@
-import { lambda } from "../services.js";
-import { readFileSync } from "fs";
-import sleep from "../../utils/sleep.js";
 import createFetchUserCredentialsPolicy from "../iam/policies/createFetchUserCredentialsPolicy.js";
 import createLambdaRole from "../iam/roles/createLambdaRole.js";
+import sleep from "../../utils/sleep.js";
 import attachRolePolicy from "../iam/roles/attachRolePolicy.js";
-import createGroup from "../iam/groups/createGroup.js";
-import createInvokeLambdaPolicy from "../iam/policies/createInvokeLambdaPolicy.js";
-import attachGroupPolicy from "../iam/groups/attachGroupPolicy.js";
+import createNewUserCreationStack from "../cloudformation/createNewUserCreationStack.js";
 
-/*
-TODO:
-- Teardown Lambda, role, temporaryUser group, and related policies
-*/
+const setupFetchUserCredentialsLambda = async (params) => {
+  console.log("Now setting up the ability to add new users (with `haven addUser`). This will take a minute...");
 
-const createFetchUserCredentialsLambda = async () => {
-  const { Policy } = await createFetchUserCredentialsPolicy();
-  const { Role } = await createLambdaRole();
+  const { Policy } = await createFetchUserCredentialsPolicy(params.lambdaPermisionsPolicyName);
+  const { Role } = await createLambdaRole(params.roleName);
 
-  await sleep(15000); // 15s - this errored out at least twice at 7s
+  await sleep(15000); // 15 seconds - this has errored out at least twice at 7s
   await attachRolePolicy(Policy.Arn, Role.RoleName);
-
-  const params = {
-    Code: {
-      ZipFile: readFileSync("aws/lambda/newUserCreation.zip"), // TODO: how are we providing the files?
-    },
-    FunctionName: "fetchUserCredentials",
-    Handler: "index.handler",
-    Role: Role.Arn,
-    Runtime: "nodejs12.x", // TODO: do we need v12?
-  };
-
-  return lambda.createFunction(params).promise();
-};
-
-const setupFetchUserCredentialsLambda = async () => {
-  const { FunctionName } = await createFetchUserCredentialsLambda();
-  const { Group } = await createGroup("temporaryUsers");
-  const { Policy } = await createInvokeLambdaPolicy(FunctionName);
-  attachGroupPolicy(Group.GroupName, Policy.PolicyName);
+  
+  return createNewUserCreationStack(params);
 };
 
 export default setupFetchUserCredentialsLambda;
