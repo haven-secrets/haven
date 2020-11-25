@@ -10,13 +10,12 @@ const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey)
   };  
 
   const data = await lambda.invoke(params).promise();
-
   const { AccessKeyId, SecretAccessKey } = JSON.parse(data.Payload).body;
 
   const credentials = `
-      [lockit]
-      aws_access_key_id = ${AccessKeyId}
-      aws_secret_access_key = ${SecretAccessKey}
+[lockit]
+aws_access_key_id = ${AccessKeyId}
+aws_secret_access_key = ${SecretAccessKey}
     `;
 
   const homedir = os.homedir();
