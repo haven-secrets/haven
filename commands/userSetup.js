@@ -5,7 +5,7 @@ import { lambda } from "../aws/services.js"; // to be instantiated with temporay
 
 const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey) => {
   const params = {   
-    FunctionName: "lambdaTest",  
+    FunctionName: "fetchUserCredentials",  
     Payload: JSON.stringify({ temporaryUsername: username }), 
   };  
 
