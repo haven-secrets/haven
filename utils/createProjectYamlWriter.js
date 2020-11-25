@@ -9,13 +9,13 @@ const keyId = process.env["KEYID"];
 const createProjectTemplate = (projectName) => {
   const template = `---
   Resources:
-    LockitDevReadGroup${projectName}:
+    Lockit${projectName}DevReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitDevReadGroup${projectName}
+        GroupName: Lockit${projectName}DevReadGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitDevReadPolicy${projectName}
+          - PolicyName: Lockit${projectName}DevReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -23,36 +23,36 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitDev${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Dev
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitDevWriteGroup${projectName}:
+    Lockit${projectName}DevWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitDevWriteGroup${projectName}
+        GroupName: Lockit${projectName}DevWriteGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitDevWritePolicy${projectName}
+          - PolicyName: Lockit${projectName}DevWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitDev${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Dev
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitStgReadGroup${projectName}:
+    Lockit${projectName}StgReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitStgReadGroup${projectName}
+        GroupName: Lockit${projectName}StgReadGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitStgReadPolicy${projectName}
+          - PolicyName: Lockit${projectName}StgReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -60,36 +60,36 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitStg${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Stg
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitStgWriteGroup${projectName}:
+    Lockit${projectName}StgWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitStgWriteGroup${projectName}
+        GroupName: Lockit${projectName}StgWriteGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitStgWritePolicy${projectName}
+          - PolicyName: Lockit${projectName}StgWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitStg${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Stg
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitProdReadGroup${projectName}:
+    Lockit${projectName}ProdReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitProdReadGroup${projectName}
+        GroupName: Lockit${projectName}ProdReadGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitProdReadPolicy${projectName}
+          - PolicyName: Lockit${projectName}ProdReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -97,33 +97,33 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitProd${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Prod
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitProdWriteGroup${projectName}:
+    Lockit${projectName}ProdWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: LockitProdWriteGroup${projectName}
+        GroupName: Lockit${projectName}ProdWriteGroup
         Path: /Lockit/
         Policies:
-          - PolicyName: LockitProdWritePolicy${projectName}
+          - PolicyName: Lockit${projectName}ProdWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/LockitProd${projectName}
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Prod
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    LockitDev${projectName}:
+    Lockit${projectName}Dev:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: LockitDev${projectName}
+        TableName: Lockit${projectName}Dev
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -137,10 +137,10 @@ const createProjectTemplate = (projectName) => {
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-    LockitStg${projectName}:
+    Lockit${projectName}Stg:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: LockitStg${projectName}
+        TableName: Lockit${projectName}Stg
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -154,10 +154,10 @@ const createProjectTemplate = (projectName) => {
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-    LockitProd${projectName}:
+    Lockit${projectName}Prod:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: LockitProd${projectName}
+        TableName: Lockit${projectName}Prod
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S

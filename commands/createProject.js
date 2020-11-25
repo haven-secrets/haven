@@ -23,22 +23,22 @@ const createProject = async (projectName) => {
     )
   );
   const groups = environmentOperations.map((environmentOperation) => {
-    return createGroup(`Lockit${environmentOperation[0]}${projectName}`);
+    return createGroup(`Lockit${projectName}${environmentOperation[0]}`);
   });
 
   await Promise.all(groups);
 
   const policies = environmentOperations.map((environmentOperation) => {
-    const table = `Lockit${environmentOperation[1]}${projectName}`;
+    const table = `Lockit${projectName}${environmentOperation[1]}`;
     return /Read/.test(environmentOperation[0])
       ? createSecretReadPolicy(
           table,
-          `Lockit${environmentOperation[0]}${projectName}`,
+          `Lockit${projectName}${environmentOperation[0]}`,
           keyId
         )
       : createSecretWritePolicy(
           table,
-          `Lockit${environmentOperation[0]}${projectName}`,
+          `Lockit${projectName}${environmentOperation[0]}`,
           keyId
         );
   });
@@ -46,8 +46,8 @@ const createProject = async (projectName) => {
   await Promise.all(policies);
 
   const secretPolicyAttachments = environmentOperations.map((environmentOperation) => {
-    const group = `Lockit${environmentOperation[0]}${projectName}`;
-    const policy = `Lockit${environmentOperation[0]}${projectName}`;
+    const group = `Lockit${projectName}${environmentOperation[0]}`;
+    const policy = `Lockit${projectName}${environmentOperation[0]}`;
     return attachGroupPolicy(group, policy);
   });
 
