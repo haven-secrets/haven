@@ -1,11 +1,13 @@
-import { iam } from "../../services.js";
+/* DEPRECATED */
 
-const deleteGroup = (groupName) => {
-  const params = {
-    GroupName: groupName,
-  };
+// import { iam } from "../../services.js";
 
-  return iam.deleteGroup(params).promise();
-};
+// const deleteGroup = (groupName) => {
+//   const params = {
+//     GroupName: groupName,
+//   };
 
-export default deleteGroup;
+//   return iam.deleteGroup(params).promise();
+// };
+
+// export default deleteGroup;

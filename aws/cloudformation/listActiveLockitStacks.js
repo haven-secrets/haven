@@ -10,7 +10,8 @@ const listActiveLockitStacks = () => {
     .promise()
     .then((result) => {
       return result.StackSummaries.filter((stack) =>
-        stack.StackName.match(/^Lockit/)
+        stack.StackName.match(/^Lockit/) || 
+        stack.StackName.match(/^HavenSecrets/)
       );
     });
 };

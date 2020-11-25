@@ -3,9 +3,9 @@ import createAccessKey from "../aws/iam/users/createAccessKey.js";
 import addUserToGroups from "./addUserToGroups.js";
 import { v4 as uuidv4 } from 'uuid';
 
+const temporaryGroupName = "HavenSecretsTemporaryUsers"; // TODO: load this from a config file
+const loggingGroup = "LockitLogGroup"; // TODO: ditto
 // TODO: discuss which hardcoded strings to remove
-
-const loggingGroup = "LockitLogGroup"; //TODO remove hardcoding
 
 const createTemporaryUser = async (permanentUsername) => {
   const temporaryUsername = "LockitTemporaryUser" + uuidv4();
@@ -17,7 +17,7 @@ const createTemporaryUser = async (permanentUsername) => {
     SecretAccessKey: temporarySecretAccessKey,
   } = temporaryAccessKeyData.AccessKey;
 
-  addUserToGroups(temporaryUsername, "temporaryUsers");
+  addUserToGroups(temporaryUsername, temporaryGroupName);
   // TODO: determine how to return the temporary username + keys and when the user will need them
   console.log({ temporaryUsername, temporaryAccessKeyId, temporarySecretAccessKey });
 }
