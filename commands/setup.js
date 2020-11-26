@@ -1,4 +1,4 @@
-import getMasterKeyIdFromAlias from "../aws/kms/getMasterKeyIdFromAlias.js";
+import getMasterKeyFromAlias from "../aws/kms/getMasterKeyFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import reenableKey from "../aws/kms/reenableKey.js";
 import createKey from "../aws/kms/createKey.js";
@@ -8,7 +8,8 @@ import setupFetchUserCredentialsLambda from "../aws/lambda/setupFetchUserCredent
 
 // TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
-  const keyId = await getMasterKeyIdFromAlias("HavenSecretsKey");
+  const masterKey = await getMasterKeyFromAlias("HavenSecretsKey");
+  const keyId = masterKey.TargetKeyId;
 
   if (keyId) {
     const keyData = await describeKey(keyId);

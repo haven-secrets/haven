@@ -1,10 +1,12 @@
-import { kms } from "../services.js";
-import listAliases from "./listAliases.js";
+/* DEPRECATED */
 
-const getMasterKeyIdFromAlias = async (keyAlias) => {
-  const list = await listAliases();
-  const masterKey = list.Aliases.find((keyObj) => keyObj.AliasName === `alias/${keyAlias}`);
-  if (masterKey) return masterKey.TargetKeyId;
-};
+// import { kms } from "../services.js";
+// import listAliases from "./listAliases.js";
 
-export default getMasterKeyIdFromAlias;
+// const getMasterKeyIdFromAlias = async (keyAlias) => {
+//   const list = await listAliases();
+//   const masterKey = list.Aliases.find((keyObj) => keyObj.AliasName === `alias/${keyAlias}`);
+//   if (masterKey) return masterKey.TargetKeyId;
+// };
+
+// export default getMasterKeyIdFromAlias;
