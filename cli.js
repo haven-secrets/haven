@@ -28,7 +28,8 @@ const possible_commands = [
   "setupWithAdmin",
   "addUserToGroups",
   "revokeUserFromGroups",
-  "revokeUser"
+  "revokeUser",
+  "getFlaggedSecrets"
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";
