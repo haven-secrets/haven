@@ -3,9 +3,11 @@ import os from "os";
 import fs from "fs";
 import { lambda } from "../aws/services.js"; // to be instantiated with temporay credentials
 
+const lambdaName = "HavenSecretsFetchUserCredentials"; // TODO: load this from a config file
+
 const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey) => {
   const params = {   
-    FunctionName: "fetchUserCredentials",  
+    FunctionName: lambdaName,
     Payload: JSON.stringify({ temporaryUsername: username }), 
   };  
 

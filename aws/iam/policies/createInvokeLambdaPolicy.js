@@ -1,30 +1,32 @@
-import { iam } from "../../services.js";
-import dotenv from "dotenv";
-dotenv.config();
+/* DEPRECATED */
 
-const createInvokeLambdaPolicy = (functionName) => {
-  const region = process.env["REGION"];
-  const accountNumber = process.env["ACCOUNT_NUMBER"];
+// import { iam } from "../../services.js";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-  const policy = {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": "lambda:InvokeFunction",
-        "Resource": `arn:aws:lambda:${region}:${accountNumber}:function:${functionName}` // TODO: remove hardcoding of region and account #
-      }
-    ]
-  }
+// const createInvokeLambdaPolicy = (functionName) => {
+//   const region = process.env["REGION"];
+//   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
-  const params = {
-    PolicyDocument: JSON.stringify(policy),
-    PolicyName: `LockitSecretsInvoke${functionName}Policy`,
-    Description: `Policy for invoking the Lambda ${functionName}`,
-    Path: "/Lockit/",
-  };
+//   const policy = {
+//     "Version": "2012-10-17",
+//     "Statement": [
+//       {
+//         "Effect": "Allow",
+//         "Action": "lambda:InvokeFunction",
+//         "Resource": `arn:aws:lambda:${region}:${accountNumber}:function:${functionName}` // TODO: remove hardcoding of region and account #
+//       }
+//     ]
+//   }
 
-  return iam.createPolicy(params).promise();
-};
+//   const params = {
+//     PolicyDocument: JSON.stringify(policy),
+//     PolicyName: `LockitSecretsInvoke${functionName}Policy`,
+//     Description: `Policy for invoking the Lambda ${functionName}`,
+//     Path: "/Lockit/",
+//   };
 
-export default createInvokeLambdaPolicy;
+//   return iam.createPolicy(params).promise();
+// };
+
+// export default createInvokeLambdaPolicy;

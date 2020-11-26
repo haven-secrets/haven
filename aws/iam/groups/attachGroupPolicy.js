@@ -1,18 +1,20 @@
-// TODO: don't hardcode stuff, also pass stuff in (accountNumber)
+/* DEPRECATED */
 
-import { iam } from "../../services.js";
-import dotenv from "dotenv";
-dotenv.config();
+// // TODO: don't hardcode stuff, also pass stuff in (accountNumber)
 
-const attachGroupPolicy = (groupName, policyName) => {
-  const accountNumber = process.env["ACCOUNT_NUMBER"];
+// import { iam } from "../../services.js";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-  const params = {
-    GroupName: groupName,
-    PolicyArn: `arn:aws:iam::${accountNumber}:policy/Lockit/${policyName}`, // TODO: fix Haven path for some policies
-  };
+// const attachGroupPolicy = (groupName, policyName) => {
+//   const accountNumber = process.env["ACCOUNT_NUMBER"];
 
-  return iam.attachGroupPolicy(params).promise();
-};
+//   const params = {
+//     GroupName: groupName,
+//     PolicyArn: `arn:aws:iam::${accountNumber}:policy/Lockit/${policyName}`, // TODO: fix Haven path for some policies
+//   };
 
-export default attachGroupPolicy;
+//   return iam.attachGroupPolicy(params).promise();
+// };
+
+// export default attachGroupPolicy;

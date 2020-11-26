@@ -1,14 +1,16 @@
-// TODO: don't hardcode groupName
+/* DEPRECATED */
 
-import { iam } from "../../services.js";
+// // TODO: don't hardcode groupName
 
-const createGroup = (groupName) => {
-  const params = {
-    GroupName: groupName,
-    Path: "/Lockit/",
-  };
+// import { iam } from "../../services.js";
 
-  return iam.createGroup(params).promise();
-};
+// const createGroup = (groupName) => {
+//   const params = {
+//     GroupName: groupName,
+//     Path: "/Lockit/",
+//   };
 
-export default createGroup;
+//   return iam.createGroup(params).promise();
+// };
+
+// export default createGroup;
