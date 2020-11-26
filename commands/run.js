@@ -29,7 +29,7 @@ const runApp = async (filepath) => {
 
   const fetchedSecrets = await getAllSecrets("MoreSecrets"); // TODO: remove hardcoding
   const secretValues = Object.values(fetchedSecrets);
-  const logRedaction = '<Lockit found a secret here and redacted it>';
+  const logRedaction = '<Haven found a secret here and redacted it>';
 
   const childProcess = spawn("node", [filepath], {
     env: Object.assign({}, process.env, fetchedSecrets),

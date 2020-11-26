@@ -1,8 +1,8 @@
-import listActiveLockitStacks from "../../aws/cloudformation/listActiveLockitStacks.js";
+import listActiveHavenStacks from "../../aws/cloudformation/listActiveHavenStacks.js";
 import deleteStack from "../../aws/cloudformation/deleteStack.js";
 
 const teardownStacks = async () => {
-	const stackData = await listActiveLockitStacks();
+	const stackData = await listActiveHavenStacks();
   const stackPromises = stackData.map(stack => {
     return deleteStack(stack.StackName);
   });

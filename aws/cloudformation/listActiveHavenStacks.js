@@ -1,7 +1,8 @@
+
 import { cloudformation } from "../services.js";
 import createProjectTemplate from "../../utils/createProjectYamlWriter.js";
 
-const listActiveLockitStacks = () => {
+const listActiveHavenStacks = () => {
   const params = {
     StackStatusFilter: ["CREATE_COMPLETE"],
   };
@@ -10,10 +11,9 @@ const listActiveLockitStacks = () => {
     .promise()
     .then((result) => {
       return result.StackSummaries.filter((stack) =>
-        stack.StackName.match(/^Lockit/) || 
         stack.StackName.match(/^HavenSecrets/)
       );
     });
 };
 
-export default listActiveLockitStacks;
+export default listActiveHavenStacks;

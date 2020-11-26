@@ -2,7 +2,7 @@ import { iam } from "../../services.js";
 
 const getAllUsers = () => {
   const params = {
-    PathPrefix: "/Lockit/",
+    PathPrefix: "/HavenSecrets/",
   };
 
   return iam.listUsers(params).promise();

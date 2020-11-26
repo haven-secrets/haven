@@ -18,7 +18,7 @@ const possible_commands = [
   "getAllSecrets",
   "putSecret",
   "addUser",
-  "getAllLockitUsers",
+  "getAllHavenUsers",
   "createProject",
   "createProjectCF",
   "deleteProjectCF",

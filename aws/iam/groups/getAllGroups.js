@@ -4,7 +4,7 @@
 
 // const getAllGroups = () => {
 //   const params = {
-//     PathPrefix: "/Lockit/",
+//     PathPrefix: "/HavenSecrets/",
 //   };
 
 //   return iam.listGroups(params).promise();

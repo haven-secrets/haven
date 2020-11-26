@@ -15,7 +15,7 @@ const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey)
   const { AccessKeyId, SecretAccessKey } = JSON.parse(data.Payload).body;
 
   const credentials = `
-[lockit]
+[haven]
 aws_access_key_id = ${AccessKeyId}
 aws_secret_access_key = ${SecretAccessKey}
     `;

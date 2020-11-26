@@ -15,7 +15,7 @@ import createLoggingTable from "./setupAdmin/dynamodb/createLoggingTable.js";
 const setupWithAdmin = async () => {
   process.env.AWS_SDK_LOAD_CONFIG = true;
   const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
-  const keyAlias = "LockitKey2";
+  const keyAlias = "HavenSecretsKey";
 
   await createHavenAdmin(AWS);
 
@@ -34,7 +34,7 @@ const setupWithAdmin = async () => {
       cancelDeleteAndEnable(AWS, keyArn);
     }
   } else {
-    createMasterKey(AWS, keyAlias, "LockitMasterKey");
+    createMasterKey(AWS, keyAlias, "HavenSecretsMasterKey");
     keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
   }
 
@@ -42,7 +42,7 @@ const setupWithAdmin = async () => {
     AWS,
     region,
     accountNumber,
-    "LockitAdmin",
+    "HavenSecretsAdmin",
     keyArn
   );
 

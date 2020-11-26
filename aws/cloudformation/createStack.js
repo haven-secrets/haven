@@ -4,7 +4,7 @@ import createProjectTemplate from "../../utils/createProjectYamlWriter.js";
 const createStack = async (projectName) => {
   const projectTemplate = createProjectTemplate(projectName);
   const params = {
-    StackName: `LockitStack${projectName}` /* required */,
+    StackName: `HavenSecretsStack${projectName}` /* required */,
     TemplateBody: projectTemplate,
     Capabilities: ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"],
   };
@@ -12,7 +12,7 @@ const createStack = async (projectName) => {
 
   cloudformation
     .waitFor("stackCreateComplete", {
-      StackName: `LockitStack${projectName}`,
+      StackName: `HavenSecretsStack${projectName}`,
     })
     .promise();
 };

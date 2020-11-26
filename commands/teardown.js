@@ -17,7 +17,7 @@ const teardown = async () => {
   console.log("Tearing down stacks... this will take a minute or two...");
   await teardownStacks();
   
-  await teardownKey("LockitKey2");
+  await teardownKey("HavenSecretsKey");
   
   await teardownUsers(allUserData);
   

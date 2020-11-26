@@ -44,7 +44,7 @@ const putLoggingItem = async (
         S: response,
       },
     },
-    TableName: "LockitLogging", // TODO: remove hardcoding,
+    TableName: "HavenSecretsLogs", // TODO: remove hardcoding,
   };
 
   return dynamodb.putItem(params).promise();

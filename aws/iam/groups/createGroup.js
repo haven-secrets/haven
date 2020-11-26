@@ -7,7 +7,7 @@
 // const createGroup = (groupName) => {
 //   const params = {
 //     GroupName: groupName,
-//     Path: "/Lockit/",
+//     Path: "/HavenSecrets/",
 //   };
 
 //   return iam.createGroup(params).promise();
