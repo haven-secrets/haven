@@ -11,9 +11,7 @@ const getAllSecrets = async (project, environment) => {
 
   try {
     const data = await getItemsByFilter(tableName, "Latest");
-    const encryptedSecretValues = data.Items.map(
-      (secret) => secret.SecretValue.B
-    );
+    const encryptedSecretValues = data.Items.map((secret) => secret.SecretValue.B);
     const encryptedSecretsPromises = encryptedSecretValues.map((secret) =>
       decryptItem(secret)
     );
@@ -35,7 +33,7 @@ const getAllSecrets = async (project, environment) => {
     );
 
     // log success for getAll
-    data.Items.forEach(item => {
+    data.Items.forEach((item) => {
       const secretName = item.SecretName.S;
       const version = item.Version.S;
 

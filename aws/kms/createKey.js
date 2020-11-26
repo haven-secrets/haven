@@ -1,7 +1,7 @@
 import { kms } from "../services.js";
 import createAlias from "./createAlias.js";
 
-const createKey = async description => {
+const createKey = async (description) => {
   const params = {
     Description: description, // TODO: do we still want this? it's not required
   };

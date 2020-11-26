@@ -4,7 +4,7 @@ const logTableName = "HavenSecretsLogs"; // TODO: don't hardcode here
 
 const parseLogData = (logs) => {
 	// extract properties
-	logs.forEach(logItem => {
+	logs.forEach((logItem) => {
 		for (const logItemProperty in logItem) {
 			logItem[logItemProperty] = logItem[logItemProperty].S;
 		}
@@ -15,10 +15,11 @@ const parseLogData = (logs) => {
 		'Project', 'Environment', 'EventType', 'DateTime', 
 		'UserName', 'SecretName', 'Version', 'Response'
 	];
-	return logs.map(logItem => {
+
+	return logs.map((logItem) => {
 		let reorderedLogItem = {};
 
-		propertiesInOrder.forEach(property => {
+		propertiesInOrder.forEach((property) => {
 			reorderedLogItem[property] = logItem[property];
 		});
 

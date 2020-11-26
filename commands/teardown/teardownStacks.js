@@ -3,10 +3,7 @@ import deleteStack from "../../aws/cloudformation/deleteStack.js";
 
 const teardownStacks = async () => {
 	const stackData = await listActiveHavenStacks();
-  const stackPromises = stackData.map(stack => {
-    return deleteStack(stack.StackName);
-  });
-
+  const stackPromises = stackData.map((stack) => deleteStack(stack.StackName));
  	return Promise.all(stackPromises);
 };
 

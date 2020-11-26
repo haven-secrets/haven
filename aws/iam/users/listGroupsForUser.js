@@ -1,6 +1,6 @@
 import { iam } from "../../services.js";
 
-const listGroupsForUser = username => {
+const listGroupsForUser = (username) => {
   const params = {
     UserName: username,
   };

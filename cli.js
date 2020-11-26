@@ -22,7 +22,7 @@ const possible_commands = [
   "createProject",
   "createProjectCF",
   "deleteProjectCF",
-  "userSetup",
+  "setupUser",
   "run",
   "fetchLogs",
   "setupWithAdmin",

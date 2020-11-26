@@ -1,6 +1,6 @@
 import { iam } from "../../services.js";
 
-const getUserAccessKey = async username => {
+const getUserAccessKey = async (username) => {
   const params = {
     UserName: username,
   };

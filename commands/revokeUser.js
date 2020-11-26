@@ -4,7 +4,7 @@ import getUserAccessKey from "../aws/iam/users/getUserAccessKey.js";
 import deleteUserAccessKey from "../aws/iam/users/deleteUserAccessKey.js";
 import deleteUser from "../aws/iam/users/deleteUser.js";
 
-const revokeUser = async username => {
+const revokeUser = async (username) => {
   const list = await listGroupsForUser(username);
   const groupNames = list.Groups.map(({ GroupName }) => GroupName);
   revokeUserFromGroups(username, ...groupNames)
