@@ -27,16 +27,16 @@ const setupWithAdmin = async () => {
   } = fetchHavenAccountInfo();
 
   let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
-
-  if (keyArn) {
-    const keyInfo = await describeKey(AWS, keyArn);
-    if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
-      cancelDeleteAndEnable(AWS, keyArn);
-    }
-  } else {
-    createMasterKey(AWS, keyAlias, "LockitMasterKey");
-    keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
-  }
+  //
+  // if (keyArn) {
+  //   const keyInfo = await describeKey(AWS, keyArn);
+  //   if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
+  //     cancelDeleteAndEnable(AWS, keyArn);
+  //   }
+  // } else {
+  //   createMasterKey(AWS, keyAlias, "LockitMasterKey");
+  //   keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
+  // }
 
   const havenAdminPolicy = await createHavenAdminPolicy(
     AWS,
@@ -48,15 +48,15 @@ const setupWithAdmin = async () => {
 
   await attachUserPolicy(AWS, accountNumber);
 
-  await sleep(8000);
-  AWS.config.update({
-    region,
-    accessKeyId,
-    secretAccessKey,
-  });
+  // await sleep(8000);
+  // AWS.config.update({
+  //   region,
+  //   accessKeyId,
+  //   secretAccessKey,
+  // });
 
-  await createLoggingTable(AWS);
-  await createLogWritePolicy(AWS, region, accountNumber);
+  // await createLoggingTable(AWS);
+  // await createLogWritePolicy(AWS, region, accountNumber);
 };
 
 export default setupWithAdmin;

@@ -1,4 +1,4 @@
-const cancelDeleteAndEnable = async (AWS, keyId) => {
+const cancelKeyDeletion = async (AWS, keyId) => {
   const kms = new AWS.KMS();
   const params = { KeyId: keyId };
 
@@ -12,4 +12,4 @@ const cancelDeleteAndEnable = async (AWS, keyId) => {
   });
 };
 
-export default cancelDeleteAndEnable;
+export default cancelKeyDeletion;

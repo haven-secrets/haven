@@ -1,11 +1,9 @@
-import { iam } from "../../services.js";
-import dotenv from "dotenv";
-dotenv.config();
+import { iam, accountNumber } from "../../services.js";
 
-const accountNumber = process.env["ACCOUNT_NUMBER"]; // TODO: don't hardcode this
 const path = "HavenSecrets"; // TODO: ditto
 
 const createFetchUserCredentialsPolicy = (policyName) => {
+  console.log(accountNumber);
   const policy = {
     Version: "2012-10-17",
     Statement: [

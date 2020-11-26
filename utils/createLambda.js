@@ -1,24 +1,25 @@
 import fs from "fs";
-import dotenv from "dotenv";
-dotenv.config();
-
-const region = process.env["REGION"];
-const accountNumber = process.env["ACCOUNT_NUMBER"];
-const keyId = process.env["KEYID"];
+import { region, accountNumber } from "../aws/services.js";
 
 const path = "HavenSecrets"; // TODO: load this from a config file
 
 const lambdaCodeFile = "aws/lambda/lambdaCode.js";
 const lambdaCode = fs.readFileSync(lambdaCodeFile);
 
-const leftPadNewLines = (text, numSpaces=12) => {
+const leftPadNewLines = (text, numSpaces = 12) => {
   const twelveSpaces = " ".repeat(12);
   return text.split("\n").join("\n" + twelveSpaces);
-}
+};
 
 const createLambda = (params) => {
-  const { lambdaName, groupName, roleName, lambdaPermisionsPolicyName, 
-          invokePolicyName, lambdaCodeFile } = params;
+  const {
+    lambdaName,
+    groupName,
+    roleName,
+    lambdaPermisionsPolicyName,
+    invokePolicyName,
+    lambdaCodeFile,
+  } = params;
 
   let lambdaCodeText = lambdaCode.toString();
   lambdaCodeText = leftPadNewLines(lambdaCodeText);

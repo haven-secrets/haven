@@ -1,42 +1,67 @@
-import getMasterKeyIdFromAlias from "../aws/kms/getMasterKeyIdFromAlias.js";
-import describeKey from "../aws/kms/describeKey.js";
-import reenableKey from "../aws/kms/reenableKey.js";
-import createKey from "../aws/kms/createKey.js";
-import createLoggingStack from "../aws/cloudformation/createLoggingStack.js";
-import { lambda } from "../aws/services.js";
-import setupFetchUserCredentialsLambda from "../aws/lambda/setupFetchUserCredentialsLambda.js";
+import getMasterKeyArnFromAlias from "./setup/getMasterKeyArnFromAlias.js";
+import describeKey from "./setup/describeKey.js";
+import cancelKeyDeletion from "./setup/cancelKeyDeletion.js";
+import createMasterKey from "./setup/createMasterKey.js";
+import continueSetup from "./setup/continueSetup.js";
+import createHavenAccountFile from "../utils/createHavenAccountFile.js";
+import fs from "fs";
+import attachUserPolicy from "./setup/attachUserPolicy.js";
+import sleep from "../utils/sleep.js";
+import havenDir from "../utils/havenDir.js";
+import createHavenAdmin from "./setup/createHavenAdmin.js";
+import createHavenAdminPolicy from "./setup/createHavenAdminPolicy.js";
+import AWS from "aws-sdk";
 
-// TODO: move this function to another file, possibly in a setup folder
+// TODO: HARDCODED KEY NAME
+// TODO: NOT CALL getMasterKeyArnFromAlias TWICE
 const setupKey = async () => {
-  const keyId = await getMasterKeyIdFromAlias("LockitKey2"); // TODO: update to LockitKey
-
-  if (keyId) {
-    const keyData = await describeKey(keyId);
-    // TODO: maybe check if disabled and reenable it
-    if (keyData.KeyMetadata.KeyState === "PendingDeletion") reenableKey(keyId);
+  let keyArn = await getMasterKeyArnFromAlias(AWS, "LockitKey2");
+  if (keyArn) {
+    const keyInfo = await describeKey(AWS, keyArn);
+    if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
+      cancelKeyDeletion(AWS, keyArn);
+    }
   } else {
-    createKey("Here's your Lockit key!");
+    createMasterKey(AWS, keyAlias, "LockitMasterKey");
+    keyArn = await getMasterKeyArnFromAlias(AWS, "LockitKey2");
   }
+  return keyArn;
 };
 
-const loggingTableName = "LockitLogging"; // TODO: don't hardcode here
-const loggingPolicyName = "LockitLogWritePolicy"; // ditto
-const loggingGroupName = "LockitLogGroup"; // dittoditto
-
-const lambdaName = "HavenSecretsFetchUserCredentials"; // dittodittoditto to all 6 of these lines
-const groupName = "HavenSecretsTemporaryUsers";
-const roleName = "HavenSecretsLambdaRole";
-const lambdaPermisionsPolicyName = "HavenSecretsLambdaRolePolicy";
-const invokePolicyName = "HavenSecretsInvokeFetchUserCredentialsPolicy";
-const lambdaCodeFile = "aws/lambda/lambdaCode.js";
-
-// TODO: handle user running setup twice (check if logging stack already exists)
 const setup = async () => {
-  createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
-  setupKey();
-  await setupFetchUserCredentialsLambda({ /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
-    lambdaName, groupName, roleName, lambdaPermisionsPolicyName, invokePolicyName, lambdaCodeFile
-  });
+  const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+  if (fs.existsSync(hiddenAccountFilePath)) {
+    //   console.log(
+    //     "You already have an account setup, run teardown before running setup again!"
+    //   );
+    // } else {
+    //   const keyArn = await setupKey();
+    //
+    //   const { AccessKeyId, SecretAccessKey, accountId } = await createHavenAdmin(
+    //     AWS
+    //   );
+    //   // TODO: HARDCODED REGION
+    //   await createHavenAdminPolicy(
+    //     AWS,
+    //     "us-east-1",
+    //     accountId,
+    //     "LockitAdmin",
+    //     keyArn
+    //   );
+    //
+    //   // TODO: HARDCODED REGION
+    //   createHavenAccountFile(
+    //     Number(accountId),
+    //     "us-east-1",
+    //     AccessKeyId,
+    //     SecretAccessKey,
+    //     "Admin"
+    //   );
+    //
+    //   await attachUserPolicy(AWS, accountId);
+    // await sleep(8000);
+    await continueSetup();
+  }
 };
 
 export default setup;
