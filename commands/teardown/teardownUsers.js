@@ -5,9 +5,12 @@ import deleteUser from "../../aws/iam/users/deleteUser.js";
 
 const teardownUser = async (username) => {
   try {
-  	// The code below assumes a user will only have one access key, so our code
-  	// should never create a second access key.
-  	// TODO: check if user-creation code could ever create a second access key.
+    if (username === "lockitAdmin") {
+      return Promise.resolve();
+    }
+    // The code below assumes a user will only have one access key, so our code
+    // should never create a second access key.
+    // TODO: check if user-creation code could ever create a second access key.
     const accessKeyId = await getUserAccessKey(username);
     if (accessKeyId) await deleteUserAccessKey(accessKeyId, username);
 
@@ -18,7 +21,7 @@ const teardownUser = async (username) => {
 };
 
 const teardownUsers = async (allUserData) => {
-  const usernames = allUserData.Users.map(user => user.UserName);
+  const usernames = allUserData.Users.map((user) => user.UserName);
   const userDeletionPromises = usernames.map(teardownUser);
   return Promise.all(userDeletionPromises);
 };

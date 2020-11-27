@@ -16,6 +16,7 @@ const createHavenAccountFile = (
     secretAccessKey,
     role,
   };
+  fs.mkdirSync(havenDir);
   fs.writeFileSync(hiddenAccountFilePath, JSON.stringify(fileContents));
 };
 

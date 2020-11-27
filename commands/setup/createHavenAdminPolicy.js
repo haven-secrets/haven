@@ -25,7 +25,11 @@ const createHavenAdminPolicy = (
       },
       {
         Effect: "Allow",
-        Action: ["kms:Decrypt", "kms:GenerateDataKey"],
+        Action: [
+          "kms:Decrypt",
+          "kms:GenerateDataKey",
+          "kms:ScheduleKeyDeletion",
+        ],
         Resource: keyArn,
       },
       {
@@ -45,6 +49,7 @@ const createHavenAdminPolicy = (
           "iam:DeleteRole",
           "iam:DeleteUser",
           "iam:DeletePolicy",
+          "iam:DeleteAccessKey",
           "iam:DeleteGroupPolicy",
           "iam:PutGroupPolicy",
           "iam:GetGroupPolicy",
@@ -83,7 +88,16 @@ const createHavenAdminPolicy = (
       },
       {
         Effect: "Allow",
-        Action: ["lambda:GetFunction", "lambda:CreateFunction"],
+        Action: ["cloudformation:ListStacks"],
+        Resource: ["*"],
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "lambda:GetFunction",
+          "lambda:CreateFunction",
+          "lambda:DeleteFunction",
+        ],
         Resource: [`arn:aws:lambda:${region}:${accountNumber}:function:Haven*`],
       },
     ],

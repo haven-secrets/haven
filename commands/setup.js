@@ -61,7 +61,7 @@ const setup = async () => {
     );
 
     await attachUserPolicy(AWS, accountId);
-    await sleep(8000);
+    await sleep(14000);
     const continueDefault = await import("./setup/continueSetup.js");
     await continueDefault.default(); // all modules for commands use default exports
   }
