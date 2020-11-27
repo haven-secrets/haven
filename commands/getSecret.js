@@ -6,19 +6,22 @@ import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 
-const getSecret = async (project, environment, secretName, version) => {
+const getSecret = async (project, environment, secretName, version = "") => {
   try {
     const tableName = constructTableName(project, environment);
-    version = version ? String(version) : "";
+    version = String(version);
 
     const result = await getItem(secretName, tableName, version);
-    const encryptedSecret = version ? result.Item?.SecretValue.B : result.Items[0]?.SecretValue.B;
-    if (!encryptedSecret) return console.log("The specified secret does not exist");
+    const item = result.Items ? result.Items[0] : result.Item;
+
+    if (!item) return console.log("The specified secret does not exist");
+
+    const encryptedSecret = item.SecretValue.B;
+    if (!version) version = item.Version.S;
 
     const decryptedSecretBlob = await decryptItem(secretName, encryptedSecret, version, tableName);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
-    // TODO: specify what the latest version is if a version wasn't passed in
     putLoggingItem(project, environment, "get", secretName, version, "Succcessful");
 
     console.log("Decrypted secret: ", decryptedSecret);
