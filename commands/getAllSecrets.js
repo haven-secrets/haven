@@ -1,4 +1,4 @@
-// TODO: handle Promise.all failure (catch)
+// TODO: remove hardcoding of event type, filter, and success message?
 
 import getItemsByFilter from "../aws/dynamodb/items/getItemsByFilter.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
@@ -6,45 +6,44 @@ import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 
+const decryptAllSecrets = async (items) => {
+  const decryptedSecretsPromises = items.map((item) => decryptItem(item.SecretValue.B));
+  const decryptedSecrets = await Promise.all(decryptedSecretsPromises);
+  return decryptedSecrets.map((value) => base64ToAscii(value));
+};
+
+const getDecryptedSecretsObject = (items, decryptedSecrets) => {
+  return items.reduce((object, item, index) => {
+    const secretName = item.SecretName.S;
+    const secretValue = decryptedSecrets[index];
+    object[secretName] = secretValue;
+    return object;
+  }, {});
+};
+
+const log = (project, environment, items) => {
+  items.forEach((item) => {
+    const secretName = item.SecretName.S;
+    const version = item.Version.S;
+    putLoggingItem(project, environment, "getAll", secretName, version, "Succcessful");
+  });
+};
+
 const getAllSecrets = async (project, environment) => {
-  const tableName = constructTableName(project, environment);
-
   try {
-    const data = await getItemsByFilter(tableName, "Latest");
-    const encryptedSecretValues = data.Items.map((secret) => secret.SecretValue.B);
-    const encryptedSecretsPromises = encryptedSecretValues.map((secret) =>
-      decryptItem(secret)
-    );
+    const tableName = constructTableName(project, environment);
+    const { Items: items } = await getItemsByFilter(tableName, "Latest");
+    const decryptedSecrets = await decryptAllSecrets(items);
+    const decryptedSecretsObject = await getDecryptedSecretsObject(items, decryptedSecrets);
 
-    const decryptedSecretsPromise = await Promise.all(encryptedSecretsPromises);
-    const plaintextValues = decryptedSecretsPromise.map((plaintext) =>
-      base64ToAscii(plaintext)
-    );
+    log(project, environment, items);
 
-    // return object of secrets (keys=secret names, values=secret plaintext values)
-    const decryptedSecrets = data.Items.reduce(
-      (object, encryptedSecret, index) => {
-        const secretName = encryptedSecret.SecretName.S;
-        const secretValue = plaintextValues[index];
-        object[secretName] = secretValue;
-        return object;
-      },
-      {}
-    );
-
-    // log success for getAll
-    data.Items.forEach((item) => {
-      const secretName = item.SecretName.S;
-      const version = item.Version.S;
-
-      putLoggingItem(project, environment, 'getAll', secretName, version, 'Succcessful');
-    });
-
-    // console.log(decryptedSecrets);
-    return decryptedSecrets;
+    console.log("Decrypted secrets: ", decryptedSecretsObject)
+    return decryptedSecretsObject;
   } catch (error) {
-    console.log(error.code, error, error.stack);
-    putLoggingItem(project, environment, 'getAll', '', '', error.code);
+    console.log(`${error.code}: ${error.message}`);
+    putLoggingItem(project, environment, "getAll", "", "", error.code);
+    return error;
   }
 };
 

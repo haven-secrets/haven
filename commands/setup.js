@@ -33,11 +33,16 @@ const lambdaCodeFile = "aws/lambda/lambdaCode.js";
 
 // TODO: handle user running setup twice (check if logging stack already exists)
 const setup = async () => {
-  createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
-  setupKey();
-  await setupFetchUserCredentialsLambda({ /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
-    lambdaName, groupName, roleName, lambdaPermisionsPolicyName, invokePolicyName, lambdaCodeFile
-  });
+  try {
+    createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
+    setupKey();
+    await setupFetchUserCredentialsLambda({ /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
+      lambdaName, groupName, roleName, lambdaPermisionsPolicyName, invokePolicyName, lambdaCodeFile
+    });
+  } catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default setup;

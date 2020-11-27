@@ -25,7 +25,7 @@ const getAccessKey = async (username) => {
   const list = await iam.listAccessKeys(params).promise();
   
   if (list.AccessKeyMetadata.length > 0) {
-    return data.AccessKeyMetadata[0].AccessKeyId;
+    return list.AccessKeyMetadata[0].AccessKeyId;
   }
 };
 
@@ -47,17 +47,13 @@ const deleteUser = (username) => {
 };
 
 const teardownUser = async (username) => {
-  try {
-    const groupPromises = await removeUserFromGroups(username);
-    await Promise.all(groupPromises);
+  const groupPromises = await removeUserFromGroups(username);
+  await Promise.all(groupPromises);
 
-    const accessKeyId = await getAccessKey(username);
-    if (accessKeyId) await deleteAccessKey(accessKeyId, username);
+  const accessKeyId = await getAccessKey(username);
+  if (accessKeyId) await deleteAccessKey(accessKeyId, username);
 
-    await deleteUser(username);
-  } catch (error) {
-    console.log(error, error.stack);
-  }
+  return deleteUser(username);
 };
 
 exports.handler = async (event) => {
