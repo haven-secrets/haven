@@ -15,7 +15,7 @@ const getSecret = async (project, environment, secretName, version) => {
   try {
     const result = await getItem(secretName, tableName, version);
     const encryptedSecret = version ? result.Item.SecretValue.B : result.Items[0].SecretValue.B;
-    const decryptedSecretBlob = await decryptItem(encryptedSecret);
+    const decryptedSecretBlob = await decryptItem(secretName, encryptedSecret, version, tableName);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
     console.log("decrypted secret:", decryptedSecret);

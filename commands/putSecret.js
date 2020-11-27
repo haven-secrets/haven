@@ -23,7 +23,7 @@ const putSecret = async (project, environment, secretName, plaintextSecret) => {
 
   try {
     // TODO: add success console logs
-    const encryptedSecret = await encryptItem(plaintextSecret);
+    const encryptedSecret = await encryptItem(secretName, plaintextSecret, version, tableName);
     await putItem(secretName, encryptedSecret, version, tableName);
     putLoggingItem(
       project,
