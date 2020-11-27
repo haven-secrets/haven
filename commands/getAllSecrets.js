@@ -6,8 +6,15 @@ import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 
-const decryptAllSecrets = async (items) => {
-  const decryptedSecretsPromises = items.map((item) => decryptItem(item.SecretValue.B));
+const decryptAllSecrets = async (items, tableName) => {
+  const decryptedSecretsPromises = items.map((item) => {
+    const secretName = item.SecretName.S;
+    const secretValue = item.SecretValue.B;
+    const version = item.Version.S;
+
+    return decryptItem(secretName, secretValue, version, tableName);
+  });
+
   const decryptedSecrets = await Promise.all(decryptedSecretsPromises);
   return decryptedSecrets.map((value) => base64ToAscii(value));
 };
@@ -33,7 +40,7 @@ const getAllSecrets = async (project, environment) => {
   try {
     const tableName = constructTableName(project, environment);
     const { Items: items } = await getItemsByFilter(tableName, "Latest");
-    const decryptedSecrets = await decryptAllSecrets(items);
+    const decryptedSecrets = await decryptAllSecrets(items, tableName);
     const decryptedSecretsObject = await getDecryptedSecretsObject(items, decryptedSecrets);
 
     log(project, environment, items);

@@ -22,14 +22,14 @@ const getVersion = async (secretName, tableName) => {
   }
 };
 
-const putSecret = async (project, environment, secretName, plaintextSecret) => {
+const putSecret = async (project, environment, secretName, secretValue) => {
   let version = "";
 
   try {
     const tableName = constructTableName(project, environment);
     version = await getVersion(secretName, tableName);
 
-    const encryptedSecret = await encryptItem(plaintextSecret);
+    const encryptedSecret = await encryptItem(secretName, secretValue, version, tableName);
     await putItem(secretName, encryptedSecret, version, tableName);
 
     putLoggingItem(project, environment, "put", secretName, version, "Succcessful");

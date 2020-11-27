@@ -15,7 +15,7 @@ const getSecret = async (project, environment, secretName, version) => {
     const encryptedSecret = version ? result.Item?.SecretValue.B : result.Items[0]?.SecretValue.B;
     if (!encryptedSecret) return console.log("The specified secret does not exist");
 
-    const decryptedSecretBlob = await decryptItem(encryptedSecret);
+    const decryptedSecretBlob = await decryptItem(secretName, encryptedSecret, version, tableName);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
     // TODO: specify what the latest version is if a version wasn't passed in
