@@ -11,15 +11,15 @@ const createHavenAdmin = async (AWS) => {
     return false;
   } else {
     const adminParams = {
-      UserName: "lockitAdmin",
-      Path: "/Lockit/",
+      UserName: "HavenSecretsAdmin",
+      Path: "/HavenSecrets/",
       Tags: [{ Key: "role", Value: "admin" }],
     };
 
     await iam.createUser(adminParams).promise();
 
     const accessKeys = await iam
-      .createAccessKey({ UserName: "lockitAdmin" })
+      .createAccessKey({ UserName: "HavenSecretsAdmin" })
       .promise();
 
     const { AccessKeyId, SecretAccessKey } = accessKeys.AccessKey;

@@ -18,17 +18,18 @@ const possible_commands = [
   "getAllSecrets",
   "putSecret",
   "addUser",
-  "getAllLockitUsers",
+  "getAllHavenUsers",
   "createProject",
   "createProjectCF",
   "deleteProjectCF",
-  "userSetup",
+  "setupUser",
   "run",
   "fetchLogs",
   "setupWithAdmin",
   "addUserToGroups",
   "revokeUserFromGroups",
-  "revokeUser"
+  "revokeUser",
+  "getFlaggedSecrets"
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

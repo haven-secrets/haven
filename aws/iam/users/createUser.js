@@ -3,7 +3,7 @@ import { iam } from "../../services.js";
 const createUser = (username, tags) => {
   const params = {
     UserName: username,
-    Path: "/Lockit/",
+    Path: "/HavenSecrets/",
     Tags: tags,
   };
 

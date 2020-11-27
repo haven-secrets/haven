@@ -7,7 +7,7 @@ const createAlias =  async (aliasName, keyId) => {
   };
 
   await kms.createAlias(params).promise();
-  console.log(`Your Lockit master key is called ${aliasName}`); // TODO: return value?
+  console.log(`Your Haven master key is called ${aliasName}`); // TODO: return value?
 }
 
 export default createAlias;

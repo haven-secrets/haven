@@ -13,7 +13,7 @@ const setupLogging = (groupName, policyName, tableName) => {
       Type: AWS::IAM::Group
       Properties:
         GroupName: ${groupName}
-        Path: /Lockit/
+        Path: /HavenSecrets/
         Policies:
           - PolicyName: ${policyName}
             PolicyDocument:
@@ -39,7 +39,7 @@ const setupLogging = (groupName, policyName, tableName) => {
   fs.writeFile("utils/setupLogging.yml", template, (err) => {
     if (err) console.log(err);
     else {
-      console.log("We are creating your Lockit files.\n" +
+      console.log("We are creating your Haven files.\n" +
                   "This process should take 30-60 seconds.");
     }
   });

@@ -32,7 +32,6 @@ const createFetchUserCredentialsPolicy = (policyName) => {
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
-    Description: "Policy for Lambda to fetch permanent user credentials",
     Path: `/${path}/`,
   };
 

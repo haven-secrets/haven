@@ -3,9 +3,9 @@ import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
 import createGroup from "../aws/iam/groups/createGroup.js";
 import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
 
-const tableName = "LockitLogging"; // TODO: don't hardcode here
-const policyName = "LockitLogWritePolicy"; // ditto
-const groupName = "LockitLogGroup"; // dittoditto
+const tableName = "HavenSecretsLogs"; // TODO: don't hardcode here
+const policyName = "HavenSecretsLogWritePolicy"; // ditto
+const groupName = "HavenSecretsLogGroup"; // dittoditto
 
 const configureLogging = async () => {
   const loggingTable = await createLoggingTable(tableName);

@@ -18,7 +18,7 @@ const createHavenAdminPolicy = (
           "dynamodb:PutItem",
           "dynamodb:CreateTable",
         ],
-        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit*`,
+        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets*`,
       },
       {
         Effect: "Allow",
@@ -34,8 +34,8 @@ const createHavenAdminPolicy = (
           "iam:AddUserToGroup",
         ],
         Resource: [
-          `arn:aws:iam::${accountNumber}:policy/Lockit*`,
-          `arn:aws:iam::${accountNumber}:group/Lockit*`,
+          `arn:aws:iam::${accountNumber}:policy/HavenSecrets*`,
+          `arn:aws:iam::${accountNumber}:group/HavenSecrets*`,
         ],
       },
     ],
@@ -44,8 +44,8 @@ const createHavenAdminPolicy = (
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
-    Description: `Policy for Lockit Admin permissions`,
-    Path: "/LockitSecrets/",
+    Description: `Policy for Haven Admin permissions`,
+    Path: "/HavenSecrets/",
   };
 
   return iam.createPolicy(params).promise();

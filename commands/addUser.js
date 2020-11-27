@@ -4,11 +4,11 @@ import addUserToGroups from "./addUserToGroups.js";
 import { v4 as uuidv4 } from 'uuid';
 
 const temporaryGroupName = "HavenSecretsTemporaryUsers"; // TODO: load this from a config file
-const loggingGroup = "LockitLogGroup"; // TODO: ditto
+const loggingGroup = "HavenSecretsLogGroup"; // TODO: ditto
 // TODO: discuss which hardcoded strings to remove
 
 const createTemporaryUser = async (permanentUsername) => {
-  const temporaryUsername = "LockitTemporaryUser" + uuidv4();
+  const temporaryUsername = "HavenSecretsTemporaryUser" + uuidv4();
   const temporaryUserData = await createUser(temporaryUsername, [{ Key: "permanentUsername", Value: permanentUsername }]);
   const temporaryAccessKeyData = await createAccessKey(temporaryUserData.User.UserName);
 

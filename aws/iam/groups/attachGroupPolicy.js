@@ -11,7 +11,7 @@
 
 //   const params = {
 //     GroupName: groupName,
-//     PolicyArn: `arn:aws:iam::${accountNumber}:policy/Lockit/${policyName}`, // TODO: fix Haven path for some policies
+//     PolicyArn: `arn:aws:iam::${accountNumber}:policy/HavenSecrets/${policyName}`, // TODO: fix Haven path for some policies
 //   };
 
 //   return iam.attachGroupPolicy(params).promise();

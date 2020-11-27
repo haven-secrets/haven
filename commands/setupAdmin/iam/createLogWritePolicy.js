@@ -1,7 +1,7 @@
 const createLogWritePolicy = (AWS, region, accountNumber) => {
   const iam = new AWS.IAM();
-  const tableName = "LockitLogging";
-  const policyName = "LockitLogWritePolicy";
+  const tableName = "HavenSecretsLogs";
+  const policyName = "HavenSecretsLogWritePolicy";
   const policy = {
     Version: "2012-10-17",
     Statement: [
@@ -17,7 +17,7 @@ const createLogWritePolicy = (AWS, region, accountNumber) => {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
     Description: `Policy for writing to DynamoDB ${tableName} table, to log the reading and/or writing of secrets.`,
-    Path: "/Lockit/",
+    Path: "/HavenSecrets/",
   };
 
   return iam.createPolicy(params).promise();

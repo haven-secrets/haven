@@ -1,6 +1,6 @@
 import { iam } from "../../services.js";
 
-const deleteUser = username => {
+const deleteUser = (username) => {
   const params = {
     UserName: username,
   };

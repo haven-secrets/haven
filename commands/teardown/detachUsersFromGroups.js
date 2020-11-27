@@ -1,10 +1,8 @@
-import removeUserFromGroups from "../../aws/iam/users/removeUserFromGroups.js";
+import removeUserFromAllGroups from "../../aws/iam/users/removeUserFromAllGroups.js";
 
-const detachUsersFromGroups = async (allUserData, projectName) => {
-	const usernames = allUserData.Users.map(user => user.UserName);
-	const detachmentPromises = usernames.flatMap(username => {
-		return removeUserFromGroups(username, projectName);
-	});
+const detachUsersFromGroups = (allUserData, projectName) => {
+	const usernames = allUserData.Users.map((user) => user.UserName);
+	const detachmentPromises = usernames.flatMap((username) => removeUserFromAllGroups(username, projectName));
 	return Promise.all(detachmentPromises);
 };
 

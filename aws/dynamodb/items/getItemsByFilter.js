@@ -6,7 +6,7 @@ const getItemsByFilter = (tableName, filterAttribute) => {
   const filterObject = {
     ExpressionAttributeValues: {
       [filterAlias]: {
-        BOOL: true
+        BOOL: true,
       },
     },
     FilterExpression: `${filterAttribute} = ${filterAlias}`,

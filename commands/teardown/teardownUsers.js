@@ -18,7 +18,7 @@ const teardownUser = async (username) => {
 };
 
 const teardownUsers = async (allUserData) => {
-  const usernames = allUserData.Users.map(user => user.UserName);
+  const usernames = allUserData.Users.map((user) => user.UserName);
   const userDeletionPromises = usernames.map(teardownUser);
   return Promise.all(userDeletionPromises);
 };

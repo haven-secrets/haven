@@ -1,4 +1,4 @@
-import getMasterKeyIdFromAlias from "../aws/kms/getMasterKeyIdFromAlias.js";
+import getMasterKeyFromAlias from "../aws/kms/getMasterKeyFromAlias.js";
 import describeKey from "../aws/kms/describeKey.js";
 import reenableKey from "../aws/kms/reenableKey.js";
 import createKey from "../aws/kms/createKey.js";
@@ -8,20 +8,21 @@ import setupFetchUserCredentialsLambda from "../aws/lambda/setupFetchUserCredent
 
 // TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
-  const keyId = await getMasterKeyIdFromAlias("LockitKey2"); // TODO: update to LockitKey
+  const masterKey = await getMasterKeyFromAlias("HavenSecretsKey");
+  const keyId = masterKey.TargetKeyId;
 
   if (keyId) {
     const keyData = await describeKey(keyId);
     // TODO: maybe check if disabled and reenable it
     if (keyData.KeyMetadata.KeyState === "PendingDeletion") reenableKey(keyId);
   } else {
-    createKey("Here's your Lockit key!");
+    createKey("Here's your Haven key!");
   }
 };
 
-const loggingTableName = "LockitLogging"; // TODO: don't hardcode here
-const loggingPolicyName = "LockitLogWritePolicy"; // ditto
-const loggingGroupName = "LockitLogGroup"; // dittoditto
+const loggingTableName = "HavenSecretsLogs"; // TODO: don't hardcode here
+const loggingPolicyName = "HavenSecretsLogWritePolicy"; // ditto
+const loggingGroupName = "HavenSecretsLogGroup"; // dittoditto
 
 const lambdaName = "HavenSecretsFetchUserCredentials"; // dittodittoditto to all 6 of these lines
 const groupName = "HavenSecretsTemporaryUsers";

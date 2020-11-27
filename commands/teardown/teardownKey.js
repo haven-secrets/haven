@@ -1,15 +1,16 @@
 import { kms } from "../../aws/services.js";
+import getMasterKeyFromAlias from "../../aws/kms/getMasterKeyFromAlias.js";
 
 const teardownKey = async (aliasName) => {
-  const list = await kms.listAliases({}).promise();
-  const lockitKeyAlias = list.Aliases.find(alias => {
-  	return alias.AliasName === `alias/${aliasName}`;
-  });
+  const masterKey = await getMasterKeyFromAlias(aliasName);
+  const keyId = masterKey.TargetKeyId;
 
-  return kms.scheduleKeyDeletion({
-    KeyId: lockitKeyAlias.TargetKeyId,
+  const params = {
+    KeyId: keyId,
     PendingWindowInDays: "7",
-  }).promise();
+  };
+
+  return kms.scheduleKeyDeletion(params).promise();
 };
 
 export default teardownKey;

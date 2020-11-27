@@ -9,13 +9,13 @@ const keyId = process.env["KEYID"];
 const createProjectTemplate = (projectName) => {
   const template = `---
   Resources:
-    Lockit${projectName}DevReadGroup:
+    HavenSecrets${projectName}DevReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}DevReadGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}DevReadGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}DevReadPolicy
+          - PolicyName: HavenSecrets${projectName}DevReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -23,36 +23,36 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Dev
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Dev
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}DevWriteGroup:
+    HavenSecrets${projectName}DevWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}DevWriteGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}DevWriteGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}DevWritePolicy
+          - PolicyName: HavenSecrets${projectName}DevWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Dev
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Dev
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}StgReadGroup:
+    HavenSecrets${projectName}StgReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}StgReadGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}StgReadGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}StgReadPolicy
+          - PolicyName: HavenSecrets${projectName}StgReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -60,36 +60,36 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Stg
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Stg
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}StgWriteGroup:
+    HavenSecrets${projectName}StgWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}StgWriteGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}StgWriteGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}StgWritePolicy
+          - PolicyName: HavenSecrets${projectName}StgWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Stg
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Stg
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}ProdReadGroup:
+    HavenSecrets${projectName}ProdReadGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}ProdReadGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}ProdReadGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}ProdReadPolicy
+          - PolicyName: HavenSecrets${projectName}ProdReadPolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
@@ -97,33 +97,33 @@ const createProjectTemplate = (projectName) => {
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Prod
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Prod
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}ProdWriteGroup:
+    HavenSecrets${projectName}ProdWriteGroup:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: Lockit${projectName}ProdWriteGroup
-        Path: /Lockit/
+        GroupName: HavenSecrets${projectName}ProdWriteGroup
+        Path: /HavenSecrets/
         Policies:
-          - PolicyName: Lockit${projectName}ProdWritePolicy
+          - PolicyName: HavenSecrets${projectName}ProdWritePolicy
             PolicyDocument:
               Version: 2012-10-17
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Prod
+                  Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Prod
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
-    Lockit${projectName}Dev:
+    HavenSecrets${projectName}Dev:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Lockit${projectName}Dev
+        TableName: HavenSecrets${projectName}Dev
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -137,10 +137,10 @@ const createProjectTemplate = (projectName) => {
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-    Lockit${projectName}Stg:
+    HavenSecrets${projectName}Stg:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Lockit${projectName}Stg
+        TableName: HavenSecrets${projectName}Stg
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -154,10 +154,10 @@ const createProjectTemplate = (projectName) => {
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-    Lockit${projectName}Prod:
+    HavenSecrets${projectName}Prod:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Lockit${projectName}Prod
+        TableName: HavenSecrets${projectName}Prod
         AttributeDefinitions:
         - AttributeName: SecretName
           AttributeType: S
@@ -175,7 +175,7 @@ const createProjectTemplate = (projectName) => {
   fs.writeFile("utils/createProjectCloudformation.yml", template, (err) => {
     if (err) console.log(err);
     else {
-      console.log("We are creating your Lockit files.\n" +
+      console.log("We are creating your Haven files.\n" +
                   "This process should take 30-60 seconds.");
     }
   });

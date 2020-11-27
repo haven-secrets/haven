@@ -1,7 +1,7 @@
-const toUpperCase = str => str[0].toUpperCase() + str.substr(1);
+import capitalize from "./capitalize.js"
 
 const constructTableName = (project, environment) => {
-	return 'Lockit' + project + toUpperCase(environment);
+	return `HavenSecrets${capitalize(project)}${capitalize(environment)}`;
 }
 
 export default constructTableName;
