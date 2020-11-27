@@ -6,8 +6,13 @@ import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
 import updateItemAttribute from "../aws/dynamodb/items/updateItemAttribute.js";
+import { keyAlias } from "../utils/config.js";
 
 const putSecret = async (project, environment, secretName, plaintextSecret) => {
+  if (secretName === undefined || plaintextSecret === undefined) {
+    console.log("You must enter a secret and a secret value.");
+    return;
+  }
   const tableName = constructTableName(project, environment);
   let version = await getLatestVersion(secretName, tableName);
 
@@ -23,8 +28,11 @@ const putSecret = async (project, environment, secretName, plaintextSecret) => {
 
   try {
     // TODO: add success console logs
-    const encryptedSecret = await encryptItem(plaintextSecret);
-    await putItem(secretName, encryptedSecret, version, tableName);
+    const encryptedSecret = await encryptItem(
+      String(plaintextSecret),
+      keyAlias
+    );
+    await putItem(String(secretName), encryptedSecret, version, tableName);
     putLoggingItem(
       project,
       environment,

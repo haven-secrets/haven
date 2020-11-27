@@ -1,9 +1,9 @@
 import { iam } from "../../services.js";
 
-const createUser = (username, tags) => {
+const createUser = (username, path, tags) => {
   const params = {
     UserName: username,
-    Path: "/HavenSecrets/",
+    Path: `/${path}/`,
     Tags: tags,
   };
 

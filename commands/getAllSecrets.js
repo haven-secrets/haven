@@ -5,15 +5,18 @@ import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
+import { keyAlias } from "../utils/config.js";
 
 const getAllSecrets = async (project, environment) => {
   const tableName = constructTableName(project, environment);
 
   try {
     const data = await getItemsByFilter(tableName, "Latest");
-    const encryptedSecretValues = data.Items.map((secret) => secret.SecretValue.B);
+    const encryptedSecretValues = data.Items.map(
+      (secret) => secret.SecretValue.B
+    );
     const encryptedSecretsPromises = encryptedSecretValues.map((secret) =>
-      decryptItem(secret)
+      decryptItem(secret, keyAlias)
     );
 
     const decryptedSecretsPromise = await Promise.all(encryptedSecretsPromises);
@@ -31,20 +34,27 @@ const getAllSecrets = async (project, environment) => {
       },
       {}
     );
-
+    
     // log success for getAll
     data.Items.forEach((item) => {
       const secretName = item.SecretName.S;
       const version = item.Version.S;
 
-      putLoggingItem(project, environment, 'getAll', secretName, version, 'Succcessful');
+      putLoggingItem(
+        project,
+        environment,
+        "getAll",
+        secretName,
+        version,
+        "Succcessful"
+      );
     });
 
     // console.log(decryptedSecrets);
     return decryptedSecrets;
   } catch (error) {
     console.log(error.code, error, error.stack);
-    putLoggingItem(project, environment, 'getAll', '', '', error.code);
+    putLoggingItem(project, environment, "getAll", "", "", error.code);
   }
 };
 

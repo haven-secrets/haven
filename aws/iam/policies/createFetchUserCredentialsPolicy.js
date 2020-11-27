@@ -3,9 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const accountNumber = process.env["ACCOUNT_NUMBER"]; // TODO: don't hardcode this
-const path = "HavenSecrets"; // TODO: ditto
 
-const createFetchUserCredentialsPolicy = (policyName) => {
+const createFetchUserCredentialsPolicy = (policyName, path) => {
   const policy = {
     Version: "2012-10-17",
     Statement: [

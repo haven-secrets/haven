@@ -3,7 +3,8 @@ const createHavenAdminPolicy = (
   region,
   accountNumber,
   policyName,
-  keyArn
+  keyArn,
+  path
 ) => {
   const iam = new AWS.IAM();
 
@@ -18,7 +19,7 @@ const createHavenAdminPolicy = (
           "dynamodb:PutItem",
           "dynamodb:CreateTable",
         ],
-        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets*`,
+        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${path}*`,
       },
       {
         Effect: "Allow",
@@ -34,8 +35,8 @@ const createHavenAdminPolicy = (
           "iam:AddUserToGroup",
         ],
         Resource: [
-          `arn:aws:iam::${accountNumber}:policy/HavenSecrets*`,
-          `arn:aws:iam::${accountNumber}:group/HavenSecrets*`,
+          `arn:aws:iam::${accountNumber}:policy/${path}*`,
+          `arn:aws:iam::${accountNumber}:group/${path}*`,
         ],
       },
     ],
@@ -45,7 +46,7 @@ const createHavenAdminPolicy = (
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
     Description: `Policy for Haven Admin permissions`,
-    Path: "/HavenSecrets/",
+    Path:`/${path}/`,
   };
 
   return iam.createPolicy(params).promise();

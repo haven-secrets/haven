@@ -2,16 +2,17 @@ import createLoggingTable from "../aws/dynamodb/tables/createLoggingTable.js";
 import createLogWritePolicy from "../aws/iam/policies/createLogWritePolicy.js";
 import createGroup from "../aws/iam/groups/createGroup.js";
 import attachGroupPolicy from "../aws/iam/groups/attachGroupPolicy.js";
-
-const tableName = "HavenSecretsLogs"; // TODO: don't hardcode here
-const policyName = "HavenSecretsLogWritePolicy"; // ditto
-const groupName = "HavenSecretsLogGroup"; // dittoditto
+import {
+  loggingTableName,
+  loggingPolicyName,
+  loggingGroupName,
+} from "../utils/config.js";
 
 const configureLogging = async () => {
-  const loggingTable = await createLoggingTable(tableName);
-  const loggingPolicy = await createLogWritePolicy(tableName, policyName);
-  const loggingGroup = await createGroup(groupName);
-  attachGroupPolicy(groupName, policyName);
+  await createLoggingTable(loggingTableName);
+  await createLogWritePolicy(loggingTableName, loggingPolicyName);
+  await createGroup(loggingGroupName);
+  attachGroupPolicy(loggingGroupName, loggingPolicyName);
 };
 
 export default configureLogging;

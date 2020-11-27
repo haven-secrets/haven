@@ -1,3 +1,16 @@
 export const temporaryGroupName = "HavenSecretsTemporaryUsers";
-export const loggingGroup = "HavenSecretsLogGroup";
 export const temporaryUserData = "HavenSecretsTemporaryUser";
+export const loggingTableName = "HavenSecretsLogs";
+export const loggingPolicyName = "HavenSecretsLogWritePolicy";
+export const loggingGroupName = "HavenSecretsLogGroup";
+export const lambdaName = "HavenSecretsFetchUserCredentials";
+export const roleName = "HavenSecretsLambdaRole";
+export const lambdaPermisionsPolicyName = "HavenSecretsLambdaRolePolicy";
+export const invokePolicyName = "HavenSecretsInvokeFetchUserCredentialsPolicy";
+export const lambdaCodeFile = "aws/lambda/lambdaCode.js";
+export const keyAlias = "HavenSecretsKey";
+export const masterKey = "HavenSecretsMasterKey";
+export const adminUserName = "HavenSecretsAdmin";
+export const path = "HavenSecrets";
+export const newUserCreationStackName = "HavenSecretsNewUserCreationStack";
+export const temporaryUsername = "HavenSecretsTemporaryUser"

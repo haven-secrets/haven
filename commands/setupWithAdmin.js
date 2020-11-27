@@ -11,13 +11,20 @@ import describeKey from "./setupAdmin/kms/describeKey.js";
 import getMasterKeyArnFromAlias from "./setupAdmin/kms/getMasterKeyArnFromAlias.js";
 import cancelDeleteAndEnable from "./setupAdmin/kms/reenableKey.js";
 import createLoggingTable from "./setupAdmin/dynamodb/createLoggingTable.js";
+import {
+  keyAlias,
+  masterKey,
+  adminUserName,
+  loggingTableName,
+  loggingPolicyName,
+  path,
+} from "../utils/config.js";
 
 const setupWithAdmin = async () => {
   process.env.AWS_SDK_LOAD_CONFIG = true;
   const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
-  const keyAlias = "HavenSecretsKey";
 
-  await createHavenAdmin(AWS);
+  await createHavenAdmin(AWS, path, adminUserName);
 
   const {
     accountNumber,
@@ -34,7 +41,7 @@ const setupWithAdmin = async () => {
       cancelDeleteAndEnable(AWS, keyArn);
     }
   } else {
-    createMasterKey(AWS, keyAlias, "HavenSecretsMasterKey");
+    createMasterKey(AWS, keyAlias, masterKey);
     keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
   }
 
@@ -42,11 +49,12 @@ const setupWithAdmin = async () => {
     AWS,
     region,
     accountNumber,
-    "HavenSecretsAdmin",
-    keyArn
+    adminUserName,
+    keyArn,
+    path
   );
 
-  await attachUserPolicy(AWS, accountNumber);
+  await attachUserPolicy(AWS, accountNumber, path, adminUserName);
 
   await sleep(8000);
   AWS.config.update({
@@ -55,8 +63,8 @@ const setupWithAdmin = async () => {
     secretAccessKey,
   });
 
-  await createLoggingTable(AWS);
-  await createLogWritePolicy(AWS, region, accountNumber);
+  await createLoggingTable(AWS, loggingTableName);
+  await createLogWritePolicy(AWS, region, accountNumber, loggingTableName, loggingPolicyName);
 };
 
 export default setupWithAdmin;

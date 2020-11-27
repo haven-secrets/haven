@@ -7,6 +7,7 @@ import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 import getLatestVersion from "../aws/dynamodb/items/getLatestVersion.js";
+import { keyAlias } from "../utils/config.js";
 
 const getSecret = async (project, environment, secretName, version) => {
   const tableName = constructTableName(project, environment);
@@ -15,7 +16,7 @@ const getSecret = async (project, environment, secretName, version) => {
   try {
     const result = await getItem(secretName, tableName, version);
     const encryptedSecret = version ? result.Item.SecretValue.B : result.Items[0].SecretValue.B;
-    const decryptedSecretBlob = await decryptItem(encryptedSecret);
+    const decryptedSecretBlob = await decryptItem(encryptedSecret, keyAlias);
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
     console.log("decrypted secret:", decryptedSecret);
