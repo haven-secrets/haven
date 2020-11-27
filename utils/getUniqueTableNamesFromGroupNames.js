@@ -1,5 +1,13 @@
 const getUniqueTableNamesFromGroupNames = (groupNames) => {
-  return groupNames.map(groupName => groupName.endsWith("ReadGroup") ? groupName.slice(0, -9) : groupName.slice(0, -10))
+  return groupNames.reduce((tableNames, groupName) => {
+                      if (groupName.endsWith("ReadGroup")) {
+                        tableNames.push(groupName.slice(0, -9));
+                      } else if (groupName.endsWith("WriteGroup")) {
+                        tableNames.push(groupName.slice(0, -10));
+                      }
+
+                      return tableNames;
+                    }, [])
                    .filter((tableName, index, self) => self.indexOf(tableName) === index);
 };
 
