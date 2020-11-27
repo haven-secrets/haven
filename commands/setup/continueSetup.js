@@ -1,5 +1,4 @@
 import createLoggingStack from "../../aws/cloudformation/createLoggingStack.js";
-import { lambda } from "../../aws/services.js";
 import setupFetchUserCredentialsLambda from "../../aws/lambda/setupFetchUserCredentialsLambda.js";
 
 const continueSetup = async () => {

@@ -3,7 +3,6 @@ import { iam, accountNumber } from "../../services.js";
 const path = "HavenSecrets"; // TODO: ditto
 
 const createFetchUserCredentialsPolicy = (policyName) => {
-  console.log(accountNumber);
   const policy = {
     Version: "2012-10-17",
     Statement: [
