@@ -47,7 +47,7 @@ const setup = async () => {
       AWS,
       "us-east-1",
       accountId,
-      "LockitAdmin",
+      "LockitAdmin", /* TODO: is this needed? */
       keyArn
     );
 
@@ -55,6 +55,7 @@ const setup = async () => {
     createHavenAccountFile(
       Number(accountId),
       "us-east-1",
+      "LockitAdmin",
       AccessKeyId,
       SecretAccessKey,
       "Admin"

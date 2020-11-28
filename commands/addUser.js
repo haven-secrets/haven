@@ -1,6 +1,8 @@
 import createUser from "../aws/iam/users/createUser.js";
 import createAccessKey from "../aws/iam/users/createAccessKey.js";
 import addUserToGroups from "./addUserToGroups.js";
+import createHavenAccountFile from "../utils/createHavenAccountFile.js";
+import { accountNumber, region } from "../aws/services.js";
 import { v4 as uuidv4 } from "uuid";
 
 const temporaryGroupName = "HavenSecretsTemporaryUsers"; // TODO: load this from a config file
@@ -22,12 +24,21 @@ const createTemporaryUser = async (permanentUsername) => {
   } = temporaryAccessKeyData.AccessKey;
 
   addUserToGroups(temporaryUsername, temporaryGroupName);
-  // TODO: determine how to return the temporary username + keys and when the user will need them
-  console.log({
+  
+  createHavenAccountFile(
+    accountNumber,
+    region,
     temporaryUsername,
     temporaryAccessKeyId,
     temporarySecretAccessKey,
-  });
+    "TemporaryUser",
+    process.cwd()  /* current working directory (by default) */
+  );
+  // console.log({
+  //   temporaryUsername,
+  //   temporaryAccessKeyId,
+  //   temporarySecretAccessKey,
+  // });
 };
 
 const createPermanentUser = async (permanentUsername, groupNames) => {

@@ -22,6 +22,9 @@ const setupLogging = (groupName, policyName, tableName) => {
               - Effect: Allow
                 Action: dynamodb:PutItem
                 Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}
+              - Effect: Allow
+                Action: iam:GetUser
+                Resource: "*"
     ${tableName}:
       Type: AWS::DynamoDB::Table
       Properties:

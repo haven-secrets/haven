@@ -1,34 +1,36 @@
 import AWS from "aws-sdk";
-import os from "os";
-import fs from "fs";
 import { lambda } from "../aws/services.js"; // to be instantiated with temporay credentials
+import fetchHavenAccountInfo from "../utils/fetchHavenAccountInfo.js";
+import createHavenAccountFile from "../utils/createHavenAccountFile.js";
 
 const lambdaName = "HavenSecretsFetchUserCredentials"; // TODO: load this from a config file
 
-const userSetup = async (username, temporaryAccessKey, temporarySecretAccessKey) => {
-  const params = {   
+const userSetup = async () => {
+  const {
+    region,
+    accountNumber,
+    accessKeyId: temporaryAccessKey,
+    secretAccessKey: temporarySecretAccessKey,
+    username,
+    role
+  } = fetchHavenAccountInfo();
+
+  const params = {
     FunctionName: lambdaName,
-    Payload: JSON.stringify({ temporaryUsername: username }), 
-  };  
+    Payload: JSON.stringify({ temporaryUsername: username }),
+  };
 
   const data = await lambda.invoke(params).promise();
   const { AccessKeyId, SecretAccessKey } = JSON.parse(data.Payload).body;
 
-  const credentials = `
-[lockit]
-aws_access_key_id = ${AccessKeyId}
-aws_secret_access_key = ${SecretAccessKey}
-    `;
-
-  const homedir = os.homedir();
-  const configDir = ".aws/credentials";
-
-  fs.writeFile(`${homedir}/${configDir}`, credentials, { flag: "a+" }, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("File is updated.");
-  });
+  createHavenAccountFile(
+    Number(accountNumber),
+    region,
+    username,
+    AccessKeyId,
+    SecretAccessKey,
+    "Dev"
+  );
 };
 
 export default userSetup;

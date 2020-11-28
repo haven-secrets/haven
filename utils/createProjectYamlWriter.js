@@ -40,12 +40,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Dev
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     Lockit${projectName}StgReadGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -77,12 +81,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Stg
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     Lockit${projectName}ProdReadGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -114,12 +122,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit${projectName}Prod
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     Lockit${projectName}Dev:
       Type: AWS::DynamoDB::Table
       Properties:

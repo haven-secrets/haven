@@ -5,7 +5,7 @@ import deleteUser from "../../aws/iam/users/deleteUser.js";
 
 const teardownUser = async (username) => {
   try {
-    if (username === "lockitAdmin") {
+    if (username === "LockitAdmin") {
       return Promise.resolve();
     }
     // The code below assumes a user will only have one access key, so our code

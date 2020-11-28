@@ -22,7 +22,7 @@ const continueSetup = async () => {
   );
 
   await setupFetchUserCredentialsLambda({
-    /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
+     //TODO: rename to e.g. createNewUserLambdaAndGroup(); 
     lambdaName,
     groupName,
     roleName,
