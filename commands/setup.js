@@ -82,7 +82,7 @@ const setup = async () => {
     );
 
     await attachUserPolicy(AWS, accountNumber, path, adminUserName);
-    await sleep(14000);
+    await sleep(15000);
     const continueSetup = await import("./setup/continueSetup.js");
     await continueSetup.default(); // all modules for commands use default exports
   }

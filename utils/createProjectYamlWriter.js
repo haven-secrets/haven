@@ -1,8 +1,7 @@
 import fs from "fs";
-
-// const region = process.env["REGION"];
-// const accountNumber = process.env["ACCOUNT_NUMBER"];
-// const keyId = process.env["KEYID"];
+import { region, accountNumber } from "../aws/services.js";
+import getKeyId from "./getKeyIdFromAlias.js";
+const keyId = await getKeyId();
 
 const createProjectTemplate = (projectName) => {
   const template = `---
