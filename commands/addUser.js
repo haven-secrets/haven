@@ -1,31 +1,41 @@
 import createUser from "../aws/iam/users/createUser.js";
 import createAccessKey from "../aws/iam/users/createAccessKey.js";
 import addUserToGroups from "./addUserToGroups.js";
-import { v4 as uuidv4 } from 'uuid';
-
-const temporaryGroupName = "HavenSecretsTemporaryUsers"; // TODO: load this from a config file
-const loggingGroup = "HavenSecretsLogGroup"; // TODO: ditto
-// TODO: discuss which hardcoded strings to remove
+import { v4 as uuidv4 } from "uuid";
+import {
+  temporaryGroupName,
+  loggingGroupName,
+  temporaryUsername,
+  path,
+} from "../utils/config.js";
 
 const createTemporaryUser = async (permanentUsername) => {
-  const temporaryUsername = "HavenSecretsTemporaryUser" + uuidv4();
-  const temporaryUserData = await createUser(temporaryUsername, [{ Key: "permanentUsername", Value: permanentUsername }]);
-  const temporaryAccessKeyData = await createAccessKey(temporaryUserData.User.UserName);
+  const temporaryUniqueUsername = temporaryUsername + uuidv4();
+  const temporaryUserData = await createUser(temporaryUniqueUsername, path, [
+    { Key: "permanentUsername", Value: permanentUsername },
+  ]);
+  const temporaryAccessKeyData = await createAccessKey(
+    temporaryUserData.User.UserName
+  );
 
   const {
     AccessKeyId: temporaryAccessKeyId,
     SecretAccessKey: temporarySecretAccessKey,
   } = temporaryAccessKeyData.AccessKey;
 
-  addUserToGroups(temporaryUsername, temporaryGroupName);
+  addUserToGroups(temporaryUniqueUsername, temporaryGroupName);
   // TODO: determine how to return the temporary username + keys and when the user will need them
-  console.log({ temporaryUsername, temporaryAccessKeyId, temporarySecretAccessKey });
-}
+  console.log({
+    temporaryUniqueUsername,
+    temporaryAccessKeyId,
+    temporarySecretAccessKey,
+  });
+};
 
 const createPermanentUser = async (permanentUsername, groupNames) => {
-  await createUser(permanentUsername);
-  addUserToGroups(permanentUsername, ...groupNames, loggingGroup);
-}
+  await createUser(permanentUsername, path);
+  addUserToGroups(permanentUsername, ...groupNames, loggingGroupName);
+};
 
 const addUser = async (permanentUsername, ...groupNames) => {
   try {

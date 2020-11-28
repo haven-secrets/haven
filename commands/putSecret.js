@@ -6,6 +6,7 @@ import updateItemAttribute from "../aws/dynamodb/items/updateItemAttribute.js";
 import encryptItem from "../aws/encryption/encryptItem.js";
 import putItem from "../aws/dynamodb/items/putItem.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
+import { keyAlias } from "../utils/config.js";
 
 // TODO: remove hardcoding of event type, filter, and success message?
 
@@ -29,7 +30,7 @@ const putSecret = async (project, environment, secretName, secretValue) => {
     const tableName = constructTableName(project, environment);
     version = await getVersion(secretName, tableName);
 
-    const encryptedSecret = await encryptItem(secretName, secretValue, version, tableName);
+    const encryptedSecret = await encryptItem(secretName, secretValue, version, tableName, keyAlias);
     await putItem(secretName, encryptedSecret, version, tableName);
 
     putLoggingItem(project, environment, "put", secretName, version, "Succcessful");

@@ -6,8 +6,6 @@ const region = process.env["REGION"];
 const accountNumber = process.env["ACCOUNT_NUMBER"];
 const keyId = process.env["KEYID"];
 
-const path = "HavenSecrets"; // TODO: load this from a config file
-
 const lambdaCodeFile = "aws/lambda/lambdaCode.js";
 const lambdaCode = fs.readFileSync(lambdaCodeFile);
 
@@ -17,8 +15,8 @@ const leftPadNewLines = (text, numSpaces=12) => {
 }
 
 const createLambda = (params) => {
-  const { lambdaName, groupName, roleName, lambdaPermisionsPolicyName, 
-          invokePolicyName, lambdaCodeFile } = params;
+  const { lambdaName, temporaryGroupName, roleName, lambdaPermisionsPolicyName,
+          invokePolicyName, lambdaCodeFile, path } = params;
 
   let lambdaCodeText = lambdaCode.toString();
   lambdaCodeText = leftPadNewLines(lambdaCodeText);
@@ -35,10 +33,10 @@ const createLambda = (params) => {
         Handler: index.handler
         Code:
           ZipFile: | ${lambdaCodeText}
-    ${groupName}:
+    ${temporaryGroupName}:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: ${groupName}
+        GroupName: ${temporaryGroupName}
         Path: /${path}/
         Policies:
           - PolicyName: ${invokePolicyName}

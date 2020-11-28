@@ -5,6 +5,7 @@ import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
 import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
+import { keyAlias } from "../utils/config.js";
 
 const decryptAllSecrets = async (items, tableName) => {
   const decryptedSecretsPromises = items.map((item) => {
@@ -12,7 +13,7 @@ const decryptAllSecrets = async (items, tableName) => {
     const secretValue = item.SecretValue.B;
     const version = item.Version.S;
 
-    return decryptItem(secretName, secretValue, version, tableName);
+    return decryptItem(secretName, secretValue, version, tableName, keyAlias);
   });
 
   const decryptedSecrets = await Promise.all(decryptedSecretsPromises);

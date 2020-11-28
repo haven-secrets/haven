@@ -1,7 +1,5 @@
-const createLogWritePolicy = (AWS, region, accountNumber) => {
+const createLogWritePolicy = (AWS, region, accountNumber, tableName, policyName) => {
   const iam = new AWS.IAM();
-  const tableName = "HavenSecretsLogs";
-  const policyName = "HavenSecretsLogWritePolicy";
   const policy = {
     Version: "2012-10-17",
     Statement: [

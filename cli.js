@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // TODO: tell minimist all arguments are strings
 // (so it doesn't interpret them as numbers)
-// import AWS from "aws-sdk";
-// const credentials = new AWS.SharedIniFileCredentials({ profile: "default" });
-// AWS.config.credentials = credentials;
+import AWS from "aws-sdk";
+const credentials = new AWS.SharedIniFileCredentials({ profile: "default" });
+AWS.config.credentials = credentials;
 
 import parseArgs from "minimist";
 

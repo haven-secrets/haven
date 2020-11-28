@@ -1,5 +1,4 @@
-const createLoggingTable = (AWS) => {
-  const tableName = "HavenSecretsLogs";
+const createLoggingTable = (AWS, tableName) => {
   const dynamodb = new AWS.DynamoDB();
   const params = {
     AttributeDefinitions: [

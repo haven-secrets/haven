@@ -1,8 +1,8 @@
 import createProjectTemplate from "../../utils/createProjectYamlWriter.js";
 import createStack from "./createStack.js";
 
-const createProjectStack = (projectName) => {
-  const stackName = `HavenSecrets${projectName}Stack`;
+const createProjectStack = (projectName, path) => {
+  const stackName = `${path}${projectName}Stack`;
   const template = createProjectTemplate(projectName);
   createStack(stackName, template);
 };

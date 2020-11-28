@@ -1,8 +1,9 @@
 import { dynamodb } from "../../services.js";
 
-const getAllHavenTables = async () => {
+const getAllHavenTables = async (path) => {
   const list = await dynamodb.listTables({}).promise();
-  return list.TableNames.filter(table => table.match(/^HavenSecrets/));
+  const regex = new RegExp(`^${path}`);
+  return list.TableNames.filter((table) => table.match(regex));
 };
 
 export default getAllHavenTables;
