@@ -3,12 +3,13 @@ import capitalize from "../utils/capitalize.js";
 import { path } from "../utils/config.js";
 
 const createProjectCF = async (projectName) => {
-  if (projectName === undefined) {
-    console.log("You must enter a project name.");
-    return;
+  try {
+    projectName = capitalize(projectName);
+    await createProjectStack(projectName, path);
+  } catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
   }
-  projectName = capitalize(projectName);
-  await createProjectStack(projectName, path);
 };
 
 export default createProjectCF;

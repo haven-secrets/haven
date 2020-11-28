@@ -39,18 +39,23 @@ const sortLogs = (logs) => {
 };
 
 const fetchLogs = async () => {
-  let logs = await getAllItems(loggingTableName);
-  logs = logs.Items;
-  logs = parseLogData(logs);
-  sortLogs(logs);
+	try {
+		let logs = await getAllItems(loggingTableName);
+		logs = logs.Items;
+		logs = parseLogData(logs);
+		sortLogs(logs);
 
-  logs.forEach((logItem) => {
-    for (const logItemProperty in logItem) {
-      console.log(`${logItemProperty}: ${logItem[logItemProperty]}`);
-    }
+		logs.forEach((logItem) => {
+			for (const logItemProperty in logItem) {
+				console.log(`${logItemProperty}: ${logItem[logItemProperty]}`);
+			}
 
-    console.log("-".repeat(80));
-  });
+			console.log('-'.repeat(80));
+		});
+	} catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default fetchLogs;

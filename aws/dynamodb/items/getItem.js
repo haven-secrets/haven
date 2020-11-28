@@ -28,7 +28,6 @@ const getItem = (secretName, tableName, version) => {
       FilterExpression: "SecretName = :s and Latest = :l",
       TableName: tableName,
     };
-
     return dynamodb.scan(params).promise();
   }
 };

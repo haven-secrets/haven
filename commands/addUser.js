@@ -42,7 +42,8 @@ const addUser = async (permanentUsername, ...groupNames) => {
     createTemporaryUser(permanentUsername);
     createPermanentUser(permanentUsername, groupNames);
   } catch (error) {
-    console.log(error, error.stack);
+    console.log(`${error.code}: ${error.message}`);
+    return error;
   }
 };
 

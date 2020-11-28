@@ -23,7 +23,7 @@ import {
 // TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
   const masterKey = await getMasterKeyFromAlias(keyAlias);
-  
+
   if (masterKey) {
     const keyId = masterKey.TargetKeyId;
     const keyData = await describeKey(keyId);
@@ -36,11 +36,10 @@ const setupKey = async () => {
 
 // TODO: handle user running setup twice (check if logging stack already exists)
 const setup = async () => {
-  createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
-  setupKey();
-  await setupFetchUserCredentialsLambda(
-    {
-      /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
+  try {
+    createLoggingStack(loggingGroupName, loggingPolicyName, loggingTableName);
+    setupKey();
+    await setupFetchUserCredentialsLambda({ /* TODO: rename to e.g. createNewUserLambdaAndGroup(); */
       lambdaName,
       temporaryGroupName,
       roleName,
@@ -49,8 +48,11 @@ const setup = async () => {
       lambdaCodeFile,
       path,
       newUserCreationStackName,
-    }
-  );
+    });
+  } catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default setup;
