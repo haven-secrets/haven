@@ -7,10 +7,10 @@ import constructTableName from "../utils/constructTableName.js";
 import putLoggingItem from "../aws/dynamodb/items/putLoggingItem.js";
 import { keyAlias } from "../utils/config.js";
 
-const getSecret = async (project, environment, secretName, version) => {
+const getSecret = async (project, environment, secretName, version = "") => {
   try {
     const tableName = constructTableName(project, environment);
-    version = version ? String(version) : "";
+    version = String(version);
 
     const result = await getItem(secretName, tableName, version);
     const encryptedSecret = version
