@@ -1,18 +1,13 @@
 import fs from "fs";
-import dotenv from "dotenv";
-dotenv.config();
-
-const region = process.env["REGION"];
-const accountNumber = process.env["ACCOUNT_NUMBER"];
-const keyId = process.env["KEYID"];
+import { region, accountNumber } from "../aws/services.js";
 
 const lambdaCodeFile = "aws/lambda/lambdaCode.js";
 const lambdaCode = fs.readFileSync(lambdaCodeFile);
 
-const leftPadNewLines = (text, numSpaces=12) => {
+const leftPadNewLines = (text, numSpaces = 12) => {
   const twelveSpaces = " ".repeat(12);
   return text.split("\n").join("\n" + twelveSpaces);
-}
+};
 
 const createLambda = (params) => {
   const { lambdaName, temporaryGroupName, roleName, lambdaPermisionsPolicyName,
@@ -47,12 +42,6 @@ const createLambda = (params) => {
                 Action: lambda:InvokeFunction
                 Resource: arn:aws:lambda:${region}:${accountNumber}:function:${lambdaName}
     `;
-
-  // FOR TESTING
-  // fs.writeFile("utils/createLambdaAndGroup.yml", template, (err) => {
-  //   if (err) console.log(err);
-  //   else console.log("Files created.");
-  // });
 
   return template;
 };

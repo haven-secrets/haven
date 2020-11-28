@@ -4,31 +4,31 @@ import detachUsersFromGroups from "./teardown/detachUsersFromGroups.js";
 import teardownStacks from "./teardown/teardownStacks.js";
 import teardownKey from "./teardown/teardownKey.js";
 import teardownUsers from "./teardown/teardownUsers.js";
-import { path } from "../utils/config.js"
+import { path, keyAlias } from "../utils/config.js"
+import deleteHavenAccountFile from "../utils/deleteHavenAccountFile.js";
 
 // TODO: teardown adminHaven user (after it's stackified)
 const teardown = async () => {
-  try {
-    const allUserData = await getAllUsers(path);
+  const allUserData = await getAllUsers(path);
 
-    console.log("Tearing down the Lambda and other services used to enable 'haven addUser'...");
-    await teardownNewUserCreation();
+  console.log(
+    "Tearing down the Lambda and other services used to enable 'haven addUser'..."
+  );
+  await teardownNewUserCreation();
 
-    await detachUsersFromGroups(allUserData, path);
+  await detachUsersFromGroups(allUserData, path);
 
-    console.log("Tearing down stacks... this will take a minute or two...");
-    await teardownStacks();
+  console.log("Tearing down stacks... this will take a minute or two...");
+  await teardownStacks();
 
-    await teardownKey("HavenSecretsKey");
+  await teardownKey(keyAlias);
 
-    await teardownUsers(allUserData);
-
-    console.log("Teardown complete. All CloudFormation, IAM, DynamoDB, Lambda entities" +
-    			" deleted, and the Haven KMS key has been scheduled for deletion in 7 days.");
-  } catch (error) {
-    console.log(`${error.code}: ${error.message}`);
-    return error;
-  }
+  await teardownUsers(allUserData);
+  deleteHavenAccountFile();
+  console.log(
+    "Teardown complete. All CloudFormation, IAM, DynamoDB, Lambda entities" +
+      " deleted, and the Haven KMS key has been scheduled for deletion in 7 days."
+  );
 };
 
 export default teardown;

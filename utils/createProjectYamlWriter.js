@@ -1,10 +1,7 @@
-import dotenv from "dotenv";
 import fs from "fs";
-dotenv.config();
-
-const region = process.env["REGION"];
-const accountNumber = process.env["ACCOUNT_NUMBER"];
-const keyId = process.env["KEYID"];
+import { region, accountNumber } from "../aws/services.js";
+import getKeyId from "./getKeyIdFromAlias.js";
+const keyId = await getKeyId();
 
 const createProjectTemplate = (projectName) => {
   const template = `---
@@ -40,12 +37,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Dev
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}StgReadGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -77,12 +78,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Stg
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}ProdReadGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -114,12 +119,16 @@ const createProjectTemplate = (projectName) => {
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:UpdateItem
                   Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/HavenSecrets${projectName}Prod
                 - Effect: Allow
                   Action:
                     - kms:Encrypt
                     - kms:GenerateDataKey
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}Dev:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -172,13 +181,6 @@ const createProjectTemplate = (projectName) => {
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5`;
 
-  fs.writeFile("utils/createProjectCloudformation.yml", template, (err) => {
-    if (err) console.log(err);
-    else {
-      console.log("We are creating your Haven files.\n" +
-                  "This process should take 30-60 seconds.");
-    }
-  });
   return template;
 };
 

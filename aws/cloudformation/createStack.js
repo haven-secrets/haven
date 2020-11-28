@@ -8,7 +8,7 @@ const createStack = async (stackName, template) => {
   };
 
   await cloudformation.createStack(params).promise();
-  cloudformation.waitFor("stackCreateComplete", { StackName: stackName }).promise();
+  return cloudformation.waitFor("stackCreateComplete", { StackName: stackName }).promise();
 };
 
 export default createStack;

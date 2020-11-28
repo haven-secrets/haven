@@ -1,10 +1,7 @@
-import dotenv from "dotenv";
 import fs from "fs";
-dotenv.config();
-
-const region = process.env["REGION"];
-const accountNumber = process.env["ACCOUNT_NUMBER"];
-const keyId = process.env["KEYID"];
+import { region, accountNumber } from "../aws/services.js";
+import getKeyId from "./getKeyIdFromAlias.js";
+const keyId = await getKeyId();
 
 const setupLogging = (groupName, policyName, tableName) => {
   const template = `---
@@ -22,6 +19,9 @@ const setupLogging = (groupName, policyName, tableName) => {
               - Effect: Allow
                 Action: dynamodb:PutItem
                 Resource: arn:aws:dynamodb:${region}:${accountNumber}:table/${tableName}
+              - Effect: Allow
+                Action: iam:GetUser
+                Resource: "*"
     ${tableName}:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -36,13 +36,6 @@ const setupLogging = (groupName, policyName, tableName) => {
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5`;
 
-  fs.writeFile("utils/setupLogging.yml", template, (err) => {
-    if (err) console.log(err);
-    else {
-      console.log("We are creating your Haven files.\n" +
-                  "This process should take 30-60 seconds.");
-    }
-  });
   return template;
 };
 

@@ -19,17 +19,16 @@ const possible_commands = [
   "putSecret",
   "addUser",
   "getAllHavenUsers",
-  "createProject",
   "createProjectCF",
   "deleteProjectCF",
-  "setupUser",
   "run",
   "fetchLogs",
-  "setupWithAdmin",
   "addUserToGroups",
   "revokeUserFromGroups",
   "revokeUser",
-  "getFlaggedSecrets"
+  "deleteHavenFile",
+  "getFlaggedSecrets",
+  "userSetup"
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

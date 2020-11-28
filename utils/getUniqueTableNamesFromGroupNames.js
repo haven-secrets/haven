@@ -1,3 +1,4 @@
+//TODO: REFACTOR
 const getUniqueTableNamesFromGroupNames = (groupNames) => {
   return groupNames.reduce((tableNames, groupName) => {
                       if (groupName.endsWith("ReadGroup")) {

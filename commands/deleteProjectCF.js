@@ -6,7 +6,7 @@ import { path } from "../utils/config.js";
 
 const deleteProjectCF = async (projectName) => {
   try {
-    console.log("We are deleting your Lockit files for this project.");
+    console.log("We are deleting your Haven files for this project.");
     console.log("This should take 30-60 seconds");
 
     const allUsersInProject = await getAllUsers(path);

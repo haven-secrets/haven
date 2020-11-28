@@ -1,22 +1,26 @@
 import fs from "fs";
 import havenDir from "./havenDir.js";
-const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
+const accountFileName = "havenAccountInfo.json";
 
 const createHavenAccountFile = (
   accountNumber,
   region,
+  username,
   accessKeyId,
   secretAccessKey,
-  role
+  role,
+  destinationFolder=havenDir
 ) => {
   const fileContents = {
     accountNumber,
     region,
+    username,
     accessKeyId,
     secretAccessKey,
     role,
   };
-  fs.writeFileSync(hiddenAccountFilePath, JSON.stringify(fileContents));
+  if (!fs.existsSync(destinationFolder)) fs.mkdirSync(destinationFolder);
+  fs.writeFileSync(`${destinationFolder}/${accountFileName}`, JSON.stringify(fileContents));
 };
 
 export default createHavenAccountFile;
