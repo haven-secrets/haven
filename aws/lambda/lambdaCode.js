@@ -7,7 +7,7 @@ const MILLISECONDS_PER_HOUR = 1000 * 60 * 60;
 const removeUserFromGroups = async (username) => {
   const groups = await iam.listGroupsForUser({ UserName: username }).promise();
 
-  return groups.Groups.map(group => {
+  return groups.Groups.map((group) => {
     const params = {
       GroupName: group.GroupName,
       UserName: username,
@@ -17,19 +17,16 @@ const removeUserFromGroups = async (username) => {
   });
 };
 
-const getAccessKey = (username) => {
+const getAccessKey = async (username) => {
   const params = {
     UserName: username,
   };
 
-  return iam
-    .listAccessKeys(params)
-    .promise()
-    .then((data) => {
-      if (data.AccessKeyMetadata.length > 0) {
-        return data.AccessKeyMetadata[0].AccessKeyId;
-      }
-    });
+  const list = await iam.listAccessKeys(params).promise();
+  
+  if (list.AccessKeyMetadata.length > 0) {
+    return list.AccessKeyMetadata[0].AccessKeyId;
+  }
 };
 
 const deleteAccessKey = (accessKeyId, username) => {
@@ -50,17 +47,13 @@ const deleteUser = (username) => {
 };
 
 const teardownUser = async (username) => {
-  try {
-    const groupPromises = await removeUserFromGroups(username);
-    await Promise.all(groupPromises);
+  const groupPromises = await removeUserFromGroups(username);
+  await Promise.all(groupPromises);
 
-    const accessKeyId = await getAccessKey(username);
-    if (accessKeyId) await deleteAccessKey(accessKeyId, username);
+  const accessKeyId = await getAccessKey(username);
+  if (accessKeyId) await deleteAccessKey(accessKeyId, username);
 
-    await deleteUser(username);
-  } catch (error) {
-    console.log(error, error.stack);
-  }
+  return deleteUser(username);
 };
 
 exports.handler = async (event) => {
@@ -76,7 +69,7 @@ exports.handler = async (event) => {
     await teardownUser(permanentUsername);
 
     response = {
-        statusCode: 403
+      statusCode: 403,
     };
   } else {
     const accessKeys = await iam.createAccessKey({ UserName: permanentUsername }).promise();
@@ -85,8 +78,8 @@ exports.handler = async (event) => {
     await teardownUser(temporaryUser.User.UserName);
 
     response = {
-        statusCode: 200,
-        body: { AccessKeyId, SecretAccessKey }
+      statusCode: 200,
+      body: { AccessKeyId, SecretAccessKey },
     }
   }
 

@@ -1,8 +1,8 @@
 import { iam } from "../../services.js";
 
-const getAllUsers = () => {
+const getAllUsers = (path) => {
   const params = {
-    PathPrefix: "/Lockit/",
+    PathPrefix: `/${path}/`,
   };
 
   return iam.listUsers(params).promise();

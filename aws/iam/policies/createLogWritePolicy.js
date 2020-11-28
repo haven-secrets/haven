@@ -25,7 +25,7 @@
 //     PolicyDocument: JSON.stringify(policy),
 //     PolicyName: policyName,
 //     Description: `Policy for writing to DynamoDB ${tableName} table, to log the reading and/or writing of secrets.`,
-//     Path: "/Lockit/",
+//     Path: "/HavenSecrets/",
 //   };
 
 //   return iam.createPolicy(params).promise();

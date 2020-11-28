@@ -1,8 +1,6 @@
 import fs from "fs";
 import { region, accountNumber } from "../aws/services.js";
 
-const path = "HavenSecrets"; // TODO: load this from a config file
-
 const lambdaCodeFile = "aws/lambda/lambdaCode.js";
 const lambdaCode = fs.readFileSync(lambdaCodeFile);
 
@@ -12,14 +10,8 @@ const leftPadNewLines = (text, numSpaces = 12) => {
 };
 
 const createLambda = (params) => {
-  const {
-    lambdaName,
-    groupName,
-    roleName,
-    lambdaPermisionsPolicyName,
-    invokePolicyName,
-    lambdaCodeFile,
-  } = params;
+  const { lambdaName, temporaryGroupName, roleName, lambdaPermisionsPolicyName,
+          invokePolicyName, lambdaCodeFile, path } = params;
 
   let lambdaCodeText = lambdaCode.toString();
   lambdaCodeText = leftPadNewLines(lambdaCodeText);
@@ -36,10 +28,10 @@ const createLambda = (params) => {
         Handler: index.handler
         Code:
           ZipFile: | ${lambdaCodeText}
-    ${groupName}:
+    ${temporaryGroupName}:
       Type: AWS::IAM::Group
       Properties:
-        GroupName: ${groupName}
+        GroupName: ${temporaryGroupName}
         Path: /${path}/
         Policies:
           - PolicyName: ${invokePolicyName}
@@ -50,12 +42,6 @@ const createLambda = (params) => {
                 Action: lambda:InvokeFunction
                 Resource: arn:aws:lambda:${region}:${accountNumber}:function:${lambdaName}
     `;
-
-  // FOR TESTING
-  // fs.writeFile("utils/createLambdaAndGroup.yml", template, (err) => {
-  //   if (err) console.log(err);
-  //   else console.log("Files created.");
-  // });
 
   return template;
 };

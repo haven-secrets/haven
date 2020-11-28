@@ -1,4 +1,5 @@
-// DEPRECATED
+/* DEPRECATED */
+
 // import { kms } from "../services.js";
 // import listAliases from "./listAliases.js";
 //
@@ -10,4 +11,5 @@
 //   if (masterKey) return masterKey.TargetKeyId;
 // };
 //
+
 // export default getMasterKeyIdFromAlias;

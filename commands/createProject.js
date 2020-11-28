@@ -17,7 +17,7 @@
 //     ["ProdRead", "Prod"],
 //     ["ProdWrite", "Prod"],
 //   ];
-//   const keyId = await getMasterKeyIdFromAlias("LockitKey2");
+//   const keyId = await getMasterKeyIdFromAlias("HavenSecretsKey");
 
 //   await Promise.all(
 //     environments.map((environment) =>
@@ -25,22 +25,22 @@
 //     )
 //   );
 //   const groups = environmentOperations.map((environmentOperation) => {
-//     return createGroup(`Lockit${projectName}${environmentOperation[0]}`);
+//     return createGroup(`HavenSecrets${projectName}${environmentOperation[0]}`);
 //   });
 
 //   await Promise.all(groups);
 
 //   const policies = environmentOperations.map((environmentOperation) => {
-//     const table = `Lockit${projectName}${environmentOperation[1]}`;
+//     const table = `HavenSecrets${projectName}${environmentOperation[1]}`;
 //     return /Read/.test(environmentOperation[0])
 //       ? createSecretReadPolicy(
 //           table,
-//           `Lockit${projectName}${environmentOperation[0]}`,
+//           `HavenSecrets${projectName}${environmentOperation[0]}`,
 //           keyId
 //         )
 //       : createSecretWritePolicy(
 //           table,
-//           `Lockit${projectName}${environmentOperation[0]}`,
+//           `HavenSecrets${projectName}${environmentOperation[0]}`,
 //           keyId
 //         );
 //   });
@@ -48,14 +48,14 @@
 //   await Promise.all(policies);
 
 //   const secretPolicyAttachments = environmentOperations.map((environmentOperation) => {
-//     const group = `Lockit${projectName}${environmentOperation[0]}`;
-//     const policy = `Lockit${projectName}${environmentOperation[0]}`;
+//     const group = `HavenSecrets${projectName}${environmentOperation[0]}`;
+//     const policy = `HavenSecrets${projectName}${environmentOperation[0]}`;
 //     return attachGroupPolicy(group, policy);
 //   });
 
 //   const logPolicyAttachments = environmentOperations.map((environmentOperation) => {
-//     const group = `Lockit${environmentOperation[0]}${projectName}`;
-//     return attachGroupPolicy(group, "LockitLogWritePolicy");
+//     const group = `HavenSecrets${environmentOperation[0]}${projectName}`;
+//     return attachGroupPolicy(group, "HavenSecretsLogWritePolicy");
 //   });
 
 //   await Promise.all(secretPolicyAttachments);

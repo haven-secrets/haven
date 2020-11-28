@@ -4,14 +4,16 @@ import addUserToGroups from "./addUserToGroups.js";
 import createHavenAccountFile from "../utils/createHavenAccountFile.js";
 import { accountNumber, region } from "../aws/services.js";
 import { v4 as uuidv4 } from "uuid";
-
-const temporaryGroupName = "HavenSecretsTemporaryUsers"; // TODO: load this from a config file
-const loggingGroup = "LockitLogGroup"; // TODO: ditto
-// TODO: discuss which hardcoded strings to remove
+import {
+  temporaryGroupName,
+  loggingGroupName,
+  temporaryUsername,
+  path,
+} from "../utils/config.js";
 
 const createTemporaryUser = async (permanentUsername) => {
-  const temporaryUsername = "LockitTemporaryUser" + uuidv4();
-  const temporaryUserData = await createUser(temporaryUsername, [
+  const temporaryUniqueUsername = temporaryUsername + uuidv4();
+  const temporaryUserData = await createUser(temporaryUniqueUsername, path, [
     { Key: "permanentUsername", Value: permanentUsername },
   ]);
   const temporaryAccessKeyData = await createAccessKey(
@@ -23,27 +25,22 @@ const createTemporaryUser = async (permanentUsername) => {
     SecretAccessKey: temporarySecretAccessKey,
   } = temporaryAccessKeyData.AccessKey;
 
-  addUserToGroups(temporaryUsername, temporaryGroupName);
+  addUserToGroups(temporaryUniqueUsername, temporaryGroupName);
   
   createHavenAccountFile(
     accountNumber,
     region,
-    temporaryUsername,
+    temporaryUniqueUsername,
     temporaryAccessKeyId,
     temporarySecretAccessKey,
     "TemporaryUser",
     process.cwd()  /* current working directory (by default) */
   );
-  // console.log({
-  //   temporaryUsername,
-  //   temporaryAccessKeyId,
-  //   temporarySecretAccessKey,
-  // });
 };
 
 const createPermanentUser = async (permanentUsername, groupNames) => {
-  await createUser(permanentUsername);
-  addUserToGroups(permanentUsername, ...groupNames, loggingGroup);
+  await createUser(permanentUsername, path);
+  addUserToGroups(permanentUsername, ...groupNames, loggingGroupName);
 };
 
 const addUser = async (permanentUsername, ...groupNames) => {
@@ -51,7 +48,8 @@ const addUser = async (permanentUsername, ...groupNames) => {
     createTemporaryUser(permanentUsername);
     createPermanentUser(permanentUsername, groupNames);
   } catch (error) {
-    console.log(error, error.stack);
+    console.log(`${error.code}: ${error.message}`);
+    return error;
   }
 };
 

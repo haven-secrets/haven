@@ -11,7 +11,7 @@ const runApp = async (filepath) => {
 
   const handleStdout = (data) => {
     let dataString = data.toString();
-    secretValues.forEach(secretValue => {
+    secretValues.forEach((secretValue) => {
       dataString = dataString.replace(secretValue, logRedaction);
     });
 
@@ -20,7 +20,7 @@ const runApp = async (filepath) => {
 
   const handleStderr = (data) => {
     let dataString = data.toString();
-    secretValues.forEach(secretValue => {
+    secretValues.forEach((secretValue) => {
       dataString = dataString.replace(secretValue, logRedaction);
     });
 
@@ -29,7 +29,7 @@ const runApp = async (filepath) => {
 
   const fetchedSecrets = await getAllSecrets("MoreSecrets"); // TODO: remove hardcoding
   const secretValues = Object.values(fetchedSecrets);
-  const logRedaction = '<Lockit found a secret here and redacted it>';
+  const logRedaction = '<Haven found a secret here and redacted it>';
 
   const childProcess = spawn("node", [filepath], {
     env: Object.assign({}, process.env, fetchedSecrets),
@@ -39,9 +39,7 @@ const runApp = async (filepath) => {
 
   childProcess.stderr.on("data", handleStderr);
 
-  childProcess.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
+  childProcess.on("close", (code) => console.log(`child process exited with code ${code}`));
 };
 
 export default runApp;

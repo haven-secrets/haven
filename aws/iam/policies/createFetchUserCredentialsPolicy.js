@@ -1,8 +1,6 @@
 import { iam, accountNumber } from "../../services.js";
 
-const path = "HavenSecrets"; // TODO: ditto
-
-const createFetchUserCredentialsPolicy = (policyName) => {
+const createFetchUserCredentialsPolicy = (policyName, path) => {
   const policy = {
     Version: "2012-10-17",
     Statement: [
@@ -18,7 +16,7 @@ const createFetchUserCredentialsPolicy = (policyName) => {
           "iam:ListAccessKeys",
         ],
         Resource: [
-          // TODO: restrict resources (Haven path) & remove account # hardcoding
+          // TODO: restrict resources (Haven path)
           `arn:aws:iam::${accountNumber}:group/*`,
           `arn:aws:iam::${accountNumber}:user/*`,
         ],
@@ -29,7 +27,6 @@ const createFetchUserCredentialsPolicy = (policyName) => {
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
-    Description: "Policy for Lambda to fetch permanent user credentials",
     Path: `/${path}/`,
   };
 

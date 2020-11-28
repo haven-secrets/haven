@@ -1,23 +1,19 @@
-const createMasterKey = (AWS, description, alias) => {
+const createMasterKey = async (AWS, description, keyAlias) => {
   const kms = new AWS.KMS();
 
-  const params = {
+  const keyParams = {
     Description: description,
   };
 
-  kms.createKey(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else {
-      const targetKeyId = data.KeyMetadata.KeyId;
+  const key = await kms.createKey(keyParams).promise();
 
-      const params = {
-        AliasName: `alias/${keyAlias}`,
-        TargetKeyId: targetKeyId,
-      };
+  const targetKeyId = key.KeyMetadata.KeyId;
+  const aliasParams = {
+    AliasName: `alias/${keyAlias}`,
+    TargetKeyId: targetKeyId,
+  };
 
-      kms.createAlias(params, function (err, data) {});
-    }
-  });
+  return await kms.createAlias(aliasParams).promise();
 };
 
 export default createMasterKey;

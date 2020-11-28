@@ -4,23 +4,24 @@ import detachUsersFromGroups from "./teardown/detachUsersFromGroups.js";
 import teardownStacks from "./teardown/teardownStacks.js";
 import teardownKey from "./teardown/teardownKey.js";
 import teardownUsers from "./teardown/teardownUsers.js";
+import { path, keyAlias } from "../utils/config.js"
 import deleteHavenAccountFile from "../utils/deleteHavenAccountFile.js";
 
 // TODO: teardown adminHaven user (after it's stackified)
 const teardown = async () => {
-  const allUserData = await getAllUsers();
+  const allUserData = await getAllUsers(path);
 
   console.log(
     "Tearing down the Lambda and other services used to enable 'haven addUser'..."
   );
   await teardownNewUserCreation();
-  //
-  await detachUsersFromGroups(allUserData);
+
+  await detachUsersFromGroups(allUserData, path);
 
   console.log("Tearing down stacks... this will take a minute or two...");
   await teardownStacks();
-  //
-  await teardownKey("LockitKey2");
+
+  await teardownKey(keyAlias);
 
   await teardownUsers(allUserData);
   deleteHavenAccountFile();

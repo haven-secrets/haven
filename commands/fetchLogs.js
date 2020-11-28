@@ -1,50 +1,61 @@
 import getAllItems from "../aws/dynamodb/items/getAllItems.js";
-
-const logTableName = "LockitLogging"; // TODO: don't hardcode here
+import { loggingTableName } from "../utils/config.js";
 
 const parseLogData = (logs) => {
-	// extract properties
-	logs.forEach(logItem => {
-		for (const logItemProperty in logItem) {
-			logItem[logItemProperty] = logItem[logItemProperty].S;
-		}
-	});
+  // extract properties
+  logs.forEach((logItem) => {
+    for (const logItemProperty in logItem) {
+      logItem[logItemProperty] = logItem[logItemProperty].S;
+    }
+  });
 
-	// reorder properties
-	const propertiesInOrder = [
-		'Project', 'Environment', 'EventType', 'DateTime', 
-		'UserName', 'SecretName', 'Version', 'Response'
-	];
-	return logs.map(logItem => {
-		let reorderedLogItem = {};
+  // reorder properties
+  const propertiesInOrder = [
+    "Project",
+    "Environment",
+    "EventType",
+    "DateTime",
+    "UserName",
+    "SecretName",
+    "Version",
+    "Response",
+  ];
 
-		propertiesInOrder.forEach(property => {
-			reorderedLogItem[property] = logItem[property];
-		});
+  return logs.map((logItem) => {
+    let reorderedLogItem = {};
 
-		return reorderedLogItem;
-	});
+    propertiesInOrder.forEach((property) => {
+      reorderedLogItem[property] = logItem[property];
+    });
+
+    return reorderedLogItem;
+  });
 };
 
 const sortLogs = (logs) => {
-	logs.sort((item1, item2) => {
-		return Date.parse(item2.DateTime) - Date.parse(item1.DateTime);
-	});
+  logs.sort((item1, item2) => {
+    return Date.parse(item2.DateTime) - Date.parse(item1.DateTime);
+  });
 };
 
 const fetchLogs = async () => {
-	let logs = await getAllItems(logTableName);
-	logs = logs.Items;
-	logs = parseLogData(logs);
-	sortLogs(logs);
+	try {
+		let logs = await getAllItems(loggingTableName);
+		logs = logs.Items;
+		logs = parseLogData(logs);
+		sortLogs(logs);
 
-	logs.forEach((logItem) => {
-		for (const logItemProperty in logItem) {
-			console.log(`${logItemProperty}: ${logItem[logItemProperty]}`);
-		}
+		logs.forEach((logItem) => {
+			for (const logItemProperty in logItem) {
+				console.log(`${logItemProperty}: ${logItem[logItemProperty]}`);
+			}
 
-		console.log('-'.repeat(80));
-	});
+			console.log('-'.repeat(80));
+		});
+	} catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default fetchLogs;

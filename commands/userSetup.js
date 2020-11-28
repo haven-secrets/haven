@@ -2,8 +2,7 @@ import AWS from "aws-sdk";
 import { lambda } from "../aws/services.js"; // to be instantiated with temporay credentials
 import fetchHavenAccountInfo from "../utils/fetchHavenAccountInfo.js";
 import createHavenAccountFile from "../utils/createHavenAccountFile.js";
-
-const lambdaName = "HavenSecretsFetchUserCredentials"; // TODO: load this from a config file
+import { lambdaName } from "../utils/config.js";
 
 const userSetup = async () => {
   const {

@@ -1,9 +1,10 @@
 import { iam, accountNumber } from "../../aws/services.js";
 import detachRolePolicy from "../../aws/iam/roles/detachRolePolicy.js";
-
-const lambdaPermisionsPolicyName = "HavenSecretsLambdaRolePolicy"; // TODO: load this from a config file
-const roleName = "HavenSecretsLambdaRole"; // TODO: ditto
-const path = "HavenSecrets"; // TODO: ditto
+import {
+  lambdaPermisionsPolicyName,
+  roleName,
+  path,
+} from "../../utils/config.js";
 
 /* The newUserCreation stack (lambda and group-with-policy) will be deleted
 	 by teardownStacks. This function deletes the lambda-role and its policy. */

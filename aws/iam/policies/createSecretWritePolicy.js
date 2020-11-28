@@ -35,7 +35,7 @@
 //     PolicyDocument: JSON.stringify(policy),
 //     PolicyName: policyName,
 //     Description: `Policy for writing to DynamoDB ${tableName}, listing key aliases, and generating data encryption keys`,
-//     Path: "/Lockit/",
+//     Path: "/HavenSecrets/",
 //   };
 
 //   return iam.createPolicy(params).promise();

@@ -1,24 +1,24 @@
-import getAccountId from "../../utils/getAccountId.js";
+import getAccountNumber from "../../utils/getAccountId.js";
 
-const createHavenAdmin = async (AWS) => {
+const createHavenAdmin = async (AWS, path, adminUserName) => {
   const iam = new AWS.IAM();
 
   const adminParams = {
-    UserName: "LockitAdmin",
-    Path: "/Lockit/",
+    UserName: adminUserName,
+    Path: `/${path}/`,
     Tags: [{ Key: "role", Value: "admin" }],
   };
 
   await iam.createUser(adminParams).promise();
 
   const accessKeys = await iam
-    .createAccessKey({ UserName: "LockitAdmin" })
+    .createAccessKey({ UserName: adminUserName })
     .promise();
 
   const { AccessKeyId, SecretAccessKey } = accessKeys.AccessKey;
-  const accountId = await getAccountId();
+  const accountNumber = await getAccountNumber();
 
-  return { AccessKeyId, SecretAccessKey, accountId };
+  return { AccessKeyId, SecretAccessKey, accountNumber };
 };
 
 export default createHavenAdmin;

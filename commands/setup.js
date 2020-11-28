@@ -12,19 +12,37 @@ import createHavenAdmin from "./setup/createHavenAdmin.js";
 import createHavenAdminPolicy from "./setup/createHavenAdminPolicy.js";
 import AWS from "aws-sdk";
 
+import {
+  loggingTableName,
+  loggingPolicyName,
+  loggingGroupName,
+  lambdaName,
+  temporaryGroupName,
+  roleName,
+  lambdaPermisionsPolicyName,
+  invokePolicyName,
+  lambdaCodeFile,
+  keyAlias,
+  masterKeyDescription,
+  adminUserName,
+  path,
+  newUserCreationStackName
+} from "../utils/config.js";
+
 // TODO: HARDCODED KEY NAME
 // TODO: NOT CALL getMasterKeyArnFromAlias TWICE
 // TODO: POSSIBLY NOT USE LIST ALIASES FOR HAVEN ADMIN AND OTHERS
+// TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
-  let keyArn = await getMasterKeyArnFromAlias(AWS, "LockitKey2");
+  let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
   if (keyArn) {
     const keyInfo = await describeKey(AWS, keyArn);
     if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
       cancelKeyDeletion(AWS, keyArn);
     }
   } else {
-    createMasterKey(AWS, keyAlias, "LockitMasterKey");
-    keyArn = await getMasterKeyArnFromAlias(AWS, "LockitKey2");
+    await createMasterKey(AWS, masterKeyDescription, keyAlias);
+    keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
   }
   return keyArn;
 };
@@ -39,32 +57,34 @@ const setup = async () => {
   } else {
     const keyArn = await setupKey();
 
-    const { AccessKeyId, SecretAccessKey, accountId } = await createHavenAdmin(
-      AWS
+    const { AccessKeyId, SecretAccessKey, accountNumber } = await createHavenAdmin(
+      AWS, path, adminUserName
     );
+    
     // TODO: HARDCODED REGION
     await createHavenAdminPolicy(
       AWS,
       "us-east-1",
-      accountId,
-      "LockitAdmin", /* TODO: is this needed? */
-      keyArn
+      accountNumber,
+      adminUserName,
+      keyArn,
+      path
     );
 
     // TODO: HARDCODED REGION
     createHavenAccountFile(
-      Number(accountId),
+      Number(accountNumber),
       "us-east-1",
-      "LockitAdmin",
+      adminUserName,
       AccessKeyId,
       SecretAccessKey,
       "Admin"
     );
 
-    await attachUserPolicy(AWS, accountId);
+    await attachUserPolicy(AWS, accountNumber, path, adminUserName);
     await sleep(14000);
-    const continueDefault = await import("./setup/continueSetup.js");
-    await continueDefault.default(); // all modules for commands use default exports
+    const continueSetup = await import("./setup/continueSetup.js");
+    await continueSetup.default(); // all modules for commands use default exports
   }
 };
 

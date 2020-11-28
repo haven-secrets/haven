@@ -1,10 +1,26 @@
-import getAllLockitTables from "../aws/dynamodb/tables/getAllLockitTables.js";
+import getAllHavenTables from "../aws/dynamodb/tables/getAllHavenTables.js";
 import getItemsByFilter from "../aws/dynamodb/items/getItemsByFilter.js";
+import { path } from "../utils/config.js";
 
 const getFlaggedSecrets = async () => {
-  const tableNames = await getAllLockitTables();
-  const { Items } = await getItemsByFilter(tableNames[0], "Flagged"); // TODO: get secrets from ALL tables
-  return Items; // TODO: determine what exactly to return here
+  try {
+    const tableNames = await getAllHavenTables(path);
+    const itemsPromises = tableNames.map((tableName) =>
+      getItemsByFilter(tableName, "Flagged")
+    );
+    const items = await Promise.all(itemsPromises);
+
+    // TODO: determine what information exactly to return here, maybe table name too
+    return items
+      .flatMap(({ Items }) => Items)
+      .map((item) => ({
+        SecretName: item.SecretName.S,
+        Version: item.Version.S,
+      }));
+  } catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default getFlaggedSecrets;

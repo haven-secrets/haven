@@ -1,19 +1,21 @@
 import createLoggingStack from "../../aws/cloudformation/createLoggingStack.js";
 import setupFetchUserCredentialsLambda from "../../aws/lambda/setupFetchUserCredentialsLambda.js";
+import {
+  loggingTableName,
+  loggingPolicyName,
+  loggingGroupName,
+  lambdaName,
+  temporaryGroupName,
+  roleName,
+  lambdaPermisionsPolicyName,
+  invokePolicyName,
+  lambdaCodeFile,
+  newUserCreationStackName,
+  path
+} from "../../utils/config.js";
 
 const continueSetup = async () => {
-  console.log("continue!!!!!");
-  // TODO: handle user running setup twice (check if logging stack already exists)
-  const loggingTableName = "LockitLogging"; // TODO: don't hardcode here
-  const loggingPolicyName = "LockitLogWritePolicy"; // ditto
-  const loggingGroupName = "LockitLogGroup"; // dittoditto
-
-  const lambdaName = "HavenSecretsFetchUserCredentials"; // dittodittoditto to all 6 of these lines
-  const groupName = "HavenSecretsTemporaryUsers";
-  const roleName = "HavenSecretsLambdaRole";
-  const lambdaPermisionsPolicyName = "HavenSecretsLambdaRolePolicy";
-  const invokePolicyName = "HavenSecretsInvokeFetchUserCredentialsPolicy";
-  const lambdaCodeFile = "aws/lambda/lambdaCode.js";
+  console.log("continuing setup using the new Haven admin user...");
 
   await createLoggingStack(
     loggingGroupName,
@@ -21,14 +23,16 @@ const continueSetup = async () => {
     loggingTableName
   );
 
-  await setupFetchUserCredentialsLambda({
-     //TODO: rename to e.g. createNewUserLambdaAndGroup(); 
+  // TODO: rename to e.g. createNewUserLambdaAndGroup();
+  await setupFetchUserCredentialsLambda({ 
     lambdaName,
-    groupName,
+    temporaryGroupName,
     roleName,
     lambdaPermisionsPolicyName,
     invokePolicyName,
     lambdaCodeFile,
+    newUserCreationStackName,
+    path
   });
 };
 

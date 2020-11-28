@@ -6,7 +6,7 @@
 //   const params = {
 //     MaxItems: "100",
 //     OnlyAttached: false, // temporary
-//     PathPrefix: "/Lockit/",
+//     PathPrefix: "/HavenSecrets/",
 //   };
 
 //   const list = await iam.listPolicies(params).promise();

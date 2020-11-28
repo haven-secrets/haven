@@ -3,7 +3,8 @@ const createHavenAdminPolicy = (
   region,
   accountNumber,
   policyName,
-  keyArn
+  keyArn,
+  path
 ) => {
   const iam = new AWS.IAM();
 
@@ -21,7 +22,7 @@ const createHavenAdminPolicy = (
           "dynamodb:DeleteTable",
           "dynamodb:UpdateItem",
         ],
-        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/Lockit*`,
+        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/${path}*`,
       },
       {
         Effect: "Allow",
@@ -66,12 +67,10 @@ const createHavenAdminPolicy = (
           "iam:ListAccessKeys",
         ],
         Resource: [
-          `arn:aws:iam::${accountNumber}:policy/Lockit*`,
-          `arn:aws:iam::${accountNumber}:group/Lockit*`,
-          `arn:aws:iam::${accountNumber}:user/Lockit*`,
-          `arn:aws:iam::${accountNumber}:role/Haven*`,
-          `arn:aws:iam::${accountNumber}:policy/Haven*`,
-          `arn:aws:iam::${accountNumber}:group/Haven*`,
+          `arn:aws:iam::${accountNumber}:user/${path}*`,
+          `arn:aws:iam::${accountNumber}:role/${path}*`,
+          `arn:aws:iam::${accountNumber}:policy/${path}*`,
+          `arn:aws:iam::${accountNumber}:group/${path}*`,
         ],
       },
       {
@@ -82,8 +81,7 @@ const createHavenAdminPolicy = (
           "cloudformation:DescribeStacks",
         ],
         Resource: [
-          `arn:aws:cloudformation:${region}:${accountNumber}:stack/Lockit*`,
-          `arn:aws:cloudformation:${region}:${accountNumber}:stack/Haven*`,
+          `arn:aws:cloudformation:${region}:${accountNumber}:stack/${path}*`,
         ],
       },
       {
@@ -98,7 +96,7 @@ const createHavenAdminPolicy = (
           "lambda:CreateFunction",
           "lambda:DeleteFunction",
         ],
-        Resource: [`arn:aws:lambda:${region}:${accountNumber}:function:Haven*`],
+        Resource: [`arn:aws:lambda:${region}:${accountNumber}:function:${path}*`],
       },
     ],
   };
@@ -107,7 +105,7 @@ const createHavenAdminPolicy = (
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,
     Description: `Policy for Haven Admin permissions`,
-    Path: "/LockitSecrets/",
+    Path: `/${path}/`,
   };
 
   return iam.createPolicy(params).promise();

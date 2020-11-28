@@ -2,10 +2,11 @@ import { iam } from "../../aws/services.js";
 import getUserAccessKey from "../../aws/iam/users/getUserAccessKey.js";
 import deleteUserAccessKey from "../../aws/iam/users/deleteUserAccessKey.js";
 import deleteUser from "../../aws/iam/users/deleteUser.js";
+import { adminUserName } from "../../utils/config.js";
 
 const teardownUser = async (username) => {
   try {
-    if (username === "LockitAdmin") {
+    if (username === adminUserName) {
       return Promise.resolve();
     }
     // The code below assumes a user will only have one access key, so our code

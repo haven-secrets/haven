@@ -1,7 +1,15 @@
-import createStack from "../aws/cloudformation/createStack.js";
+import createProjectStack from "../aws/cloudformation/createProjectStack.js";
+import capitalize from "../utils/capitalize.js";
+import { path } from "../utils/config.js";
 
 const createProjectCF = async (projectName) => {
-  await createStack(projectName);
+  try {
+    projectName = capitalize(projectName);
+    await createProjectStack(projectName, path);
+  } catch (error) {
+    console.log(`${error.code}: ${error.message}`);
+    return error;
+  }
 };
 
 export default createProjectCF;
