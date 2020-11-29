@@ -100,7 +100,7 @@ const createHavenAdminPolicy = (
       },
     ],
   };
-  //TODO HARDCODED PATH
+
   const params = {
     PolicyDocument: JSON.stringify(policy),
     PolicyName: policyName,

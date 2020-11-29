@@ -1,5 +1,3 @@
-// TODO: remove hardcoding of event type and success message?
-
 import getItem from "../aws/dynamodb/items/getItem.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";
@@ -29,7 +27,6 @@ const getSecret = async (project, environment, secretName, version = "") => {
 
     const decryptedSecret = base64ToAscii(decryptedSecretBlob);
 
-    // TODO: specify what the latest version is if a version wasn't passed in
     putLoggingItem(
       project,
       environment,

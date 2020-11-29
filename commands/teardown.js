@@ -7,7 +7,6 @@ import teardownUsers from "./teardown/teardownUsers.js";
 import { path, keyAlias } from "../utils/config.js"
 import deleteHavenAccountFile from "../utils/deleteHavenAccountFile.js";
 
-// TODO: teardown adminHaven user (after it's stackified)
 const teardown = async () => {
   const allUserData = await getAllUsers(path);
 

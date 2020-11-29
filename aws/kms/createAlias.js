@@ -1,13 +1,15 @@
-import { kms } from "../services.js";
+/* DEPRECATED */
 
-const createAlias =  async (aliasName, keyId) => {
-  const params = {
-    AliasName: `alias/${aliasName}`,
-    TargetKeyId: keyId,
-  };
+// import { kms } from "../services.js";
 
-  await kms.createAlias(params).promise();
-  console.log(`Your Haven master key is called ${aliasName}`); // TODO: return value?
-}
+// const createAlias =  async (aliasName, keyId) => {
+//   const params = {
+//     AliasName: `alias/${aliasName}`,
+//     TargetKeyId: keyId,
+//   };
 
-export default createAlias;
+//   await kms.createAlias(params).promise();
+//   console.log(`Your Haven master key is called ${aliasName}`);
+// }
+
+// export default createAlias;

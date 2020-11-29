@@ -10,7 +10,6 @@ const getFlaggedSecrets = async () => {
     );
     const items = await Promise.all(itemsPromises);
 
-    // TODO: determine what information exactly to return here, maybe table name too
     return items
       .flatMap(({ Items }) => Items)
       .map((item) => ({

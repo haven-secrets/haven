@@ -1,5 +1,3 @@
-// TODO: remove hardcoding of event type, filter, and success message?
-
 import getItemsByFilter from "../aws/dynamodb/items/getItemsByFilter.js";
 import decryptItem from "../aws/encryption/decryptItem.js";
 import base64ToAscii from "../utils/base64ToAscii.js";

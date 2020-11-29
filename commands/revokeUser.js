@@ -13,7 +13,7 @@ const revokeUser = async (username) => {
     const accessKeyId = await getUserAccessKey(username);
     if (accessKeyId) await deleteUserAccessKey(accessKeyId, username);
 
-    await deleteUser(username); // TODO: add a return value & confirm we need all these awaits
+    return await deleteUser(username);
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
     return error;

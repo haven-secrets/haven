@@ -1,13 +1,15 @@
-import { kms } from "../services.js";
-import createAlias from "./createAlias.js";
+/* DEPRECATED */
 
-const createKey = async (description, keyAlias) => {
-  const params = {
-    Description: description, // TODO: do we still want this? it's not required
-  };
+// import { kms } from "../services.js";
+// import createAlias from "./createAlias.js";
 
-  const key = await kms.createKey(params).promise();
-  createAlias(keyAlias, key.KeyMetadata.KeyId); // TODO: return value?
-}
+// const createKey = async (description, keyAlias) => {
+//   const params = {
+//     Description: description,
+//   };
 
-export default createKey;
+//   const key = await kms.createKey(params).promise();
+//   createAlias(keyAlias, key.KeyMetadata.KeyId);
+// }
+
+// export default createKey;

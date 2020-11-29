@@ -1,4 +1,3 @@
-// TODO: what if a secret is split between data events or exceeds a buffer?
 import { spawn } from "child_process";
 import getAllSecrets from "./getAllSecrets.js";
 import { existsSync } from "fs";
@@ -27,7 +26,7 @@ const runApp = async (filepath) => {
     process.stderr.write(dataString);
   }
 
-  const fetchedSecrets = await getAllSecrets("MoreSecrets"); // TODO: remove hardcoding
+  const fetchedSecrets = await getAllSecrets("MoreSecrets");
   const secretValues = Object.values(fetchedSecrets);
   const logRedaction = '<Haven found a secret here and redacted it>';
 
