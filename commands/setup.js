@@ -29,10 +29,6 @@ import {
   newUserCreationStackName
 } from "../utils/config.js";
 
-// TODO: HARDCODED KEY NAME
-// TODO: NOT CALL getMasterKeyArnFromAlias TWICE
-// TODO: POSSIBLY NOT USE LIST ALIASES FOR HAVEN ADMIN AND OTHERS
-// TODO: move this function to another file, possibly in a setup folder
 const setupKey = async () => {
   let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
   if (keyArn) {
@@ -61,7 +57,6 @@ const setup = async () => {
       AWS, path, adminUserName
     );
     
-    // TODO: HARDCODED REGION
     await createHavenAdminPolicy(
       AWS,
       "us-east-1",
@@ -71,7 +66,6 @@ const setup = async () => {
       path
     );
 
-    // TODO: HARDCODED REGION
     createHavenAccountFile(
       Number(accountNumber),
       "us-east-1",

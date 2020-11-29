@@ -23,7 +23,6 @@ const continueSetup = async () => {
     loggingTableName
   );
 
-  // TODO: rename to e.g. createNewUserLambdaAndGroup();
   await setupFetchUserCredentialsLambda({ 
     lambdaName,
     temporaryGroupName,

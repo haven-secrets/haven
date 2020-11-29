@@ -1,4 +1,5 @@
 import { iam, dynamodb } from "../../services.js";
+import { loggingTableName } from "../../../utils/config.js";
 import { v4 as uuidv4 } from 'uuid';
 
 const putLoggingItem = async (
@@ -44,7 +45,7 @@ const putLoggingItem = async (
         S: response,
       },
     },
-    TableName: "HavenSecretsLogs", // TODO: remove hardcoding,
+    TableName: loggingTableName
   };
 
   return dynamodb.putItem(params).promise();

@@ -1,6 +1,4 @@
 /node_modules
-.env
 .DS_Store
-/utils/createProjectCloudformation.yml
-/utils/setupLogging.yml
-/utils/createLambdaAndGroup.yml
+/utils/*.yml
+TODOS.txt

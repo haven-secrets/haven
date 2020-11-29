@@ -16,7 +16,6 @@ const createFetchUserCredentialsPolicy = (policyName, path) => {
           "iam:ListAccessKeys",
         ],
         Resource: [
-          // TODO: restrict resources (Haven path)
           `arn:aws:iam::${accountNumber}:group/*`,
           `arn:aws:iam::${accountNumber}:user/*`,
         ],
