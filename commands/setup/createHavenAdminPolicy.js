@@ -26,6 +26,11 @@ const createHavenAdminPolicy = (
       },
       {
         Effect: "Allow",
+        Action: "dynamodb:ListTables",
+        Resource: `arn:aws:dynamodb:${region}:${accountNumber}:table/*`,
+      },
+      {
+        Effect: "Allow",
         Action: [
           "kms:Decrypt",
           "kms:GenerateDataKey",
