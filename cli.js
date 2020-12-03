@@ -26,7 +26,8 @@ const possible_commands = [
   "revokeUser",
   "deleteHavenFile",
   "getFlaggedSecrets",
-  "userSetup"
+  "userSetup",
+  "listGroupsForUser"
 ];
 
 const filename = possible_commands.includes(command) ? command : "help";

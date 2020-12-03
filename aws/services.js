@@ -6,6 +6,7 @@ const {
   accessKeyId,
   secretAccessKey,
   accountNumber,
+  username,
 } = fetchHavenAccountInfo();
 
 AWS.config.update({
@@ -21,4 +22,13 @@ const dynamodb = new AWS.DynamoDB();
 const cloudformation = new AWS.CloudFormation();
 const lambda = new AWS.Lambda();
 
-export { iam, kms, dynamodb, cloudformation, lambda, accountNumber, region };
+export {
+  iam,
+  kms,
+  dynamodb,
+  cloudformation,
+  lambda,
+  accountNumber,
+  region,
+  username,
+};

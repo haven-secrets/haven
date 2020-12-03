@@ -14,3 +14,4 @@ export const adminUserName = "HavenSecretsAdmin";
 export const path = "HavenSecrets";
 export const newUserCreationStackName = "HavenSecretsNewUserCreationStack";
 export const temporaryUsername = "HavenSecretsTemporaryUser";
+export const listGroupsForUserPolicyName = "HavenSecretsListGroupsForUserPolicy";
