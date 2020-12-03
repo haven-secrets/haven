@@ -70,6 +70,8 @@ const createHavenAdminPolicy = (
           "iam:RemoveUserFromGroup",
           "iam:ListGroupsForUser",
           "iam:ListAccessKeys",
+          "iam:PutUserPolicy",
+          "iam:DeleteUserPolicy",
         ],
         Resource: [
           `arn:aws:iam::${accountNumber}:user/${path}*`,
@@ -101,7 +103,9 @@ const createHavenAdminPolicy = (
           "lambda:CreateFunction",
           "lambda:DeleteFunction",
         ],
-        Resource: [`arn:aws:lambda:${region}:${accountNumber}:function:${path}*`],
+        Resource: [
+          `arn:aws:lambda:${region}:${accountNumber}:function:${path}*`,
+        ],
       },
     ],
   };

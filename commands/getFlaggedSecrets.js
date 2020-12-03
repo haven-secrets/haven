@@ -10,12 +10,14 @@ const getFlaggedSecrets = async () => {
     );
     const items = await Promise.all(itemsPromises);
 
-    return items
+    const formattedItems = items
       .flatMap(({ Items }) => Items)
       .map((item) => ({
         SecretName: item.SecretName.S,
         Version: item.Version.S,
       }));
+    console.log(formattedItems);
+    return formattedItems;
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
     return error;
