@@ -6,7 +6,9 @@ const deleteStack = async (stackName) => {
   };
 
   await cloudformation.deleteStack(params).promise();
-  cloudformation.waitFor("stackDeleteComplete", { StackName: stackName }).promise();
+  return await cloudformation
+    .waitFor("stackDeleteComplete", { StackName: stackName })
+    .promise();
 };
 
 export default deleteStack;
