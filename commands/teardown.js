@@ -4,8 +4,10 @@ import detachUsersFromGroups from "./teardown/detachUsersFromGroups.js";
 import teardownStacks from "./teardown/teardownStacks.js";
 import teardownKey from "./teardown/teardownKey.js";
 import teardownUsers from "./teardown/teardownUsers.js";
-import { path, keyAlias } from "../utils/config.js"
+import { path, keyAlias } from "../utils/config.js";
 import deleteHavenAccountFile from "../utils/deleteHavenAccountFile.js";
+import teardownAdmin from "./teardown/teardownAdmin.js";
+import { accountNumber } from "../aws/services.js";
 
 const teardown = async () => {
   const allUserData = await getAllUsers(path);
@@ -24,6 +26,7 @@ const teardown = async () => {
 
   await teardownUsers(allUserData);
   deleteHavenAccountFile();
+  await teardownAdmin(accountNumber);
   console.log(
     "Teardown complete. All CloudFormation, IAM, DynamoDB, Lambda entities" +
       " deleted, and the Haven KMS key has been scheduled for deletion in 7 days."

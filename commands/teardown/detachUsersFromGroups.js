@@ -9,7 +9,11 @@ const detachUsersFromGroups = (allUserData, path, projectName) => {
   const usernames = allUserData.Users.map((user) => user.UserName);
   if (!projectName) {
     const deleteInlinePolicyPromises = usernames.flatMap((username) => {
-      if (username === adminUserName) return;
+      if (
+        username === adminUserName ||
+        /HavenSecretsTemporaryUser/.test(username)
+      )
+        return;
       deleteInlinePolicy(listGroupsForUserPolicyName, username);
     });
     Promise.all(deleteInlinePolicyPromises);
