@@ -20,12 +20,12 @@ const userSetup = async () => {
   };
 
   const data = await lambda.invoke(params).promise();
-  const { AccessKeyId, SecretAccessKey } = JSON.parse(data.Payload).body;
+  const { AccessKeyId, SecretAccessKey, permanentUsername } = JSON.parse(data.Payload).body;
 
   createHavenAccountFile(
     Number(accountNumber),
     region,
-    username,
+    permanentUsername,
     AccessKeyId,
     SecretAccessKey,
     "Dev"
