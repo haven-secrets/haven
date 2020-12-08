@@ -1,7 +1,7 @@
 import getAllUsers from "../aws/iam/users/getAllUsers.js";
 import { path } from "../utils/config.js";
 
-const getAllHavenUsers = async (path) => {
+const getAllHavenUsers = async () => {
   try {
     const havenUsers = await getAllUsers(path);
     console.log(havenUsers);
