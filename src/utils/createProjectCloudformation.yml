@@ -1,0 +1,164 @@
+---
+  Resources:
+    LockitTest1DevReadGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1DevReadGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1DevReadPolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:Scan
+                    - dynamodb:GetItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Dev
+                - Effect: Allow
+                  Action: kms:Decrypt
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1DevWriteGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1DevWriteGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1DevWritePolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:PutItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Dev
+                - Effect: Allow
+                  Action:
+                    - kms:Encrypt
+                    - kms:GenerateDataKey
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1StgReadGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1StgReadGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1StgReadPolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:Scan
+                    - dynamodb:GetItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Stg
+                - Effect: Allow
+                  Action: kms:Decrypt
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1StgWriteGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1StgWriteGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1StgWritePolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:PutItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Stg
+                - Effect: Allow
+                  Action:
+                    - kms:Encrypt
+                    - kms:GenerateDataKey
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1ProdReadGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1ProdReadGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1ProdReadPolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:Scan
+                    - dynamodb:GetItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Prod
+                - Effect: Allow
+                  Action: kms:Decrypt
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1ProdWriteGroup:
+      Type: AWS::IAM::Group
+      Properties:
+        GroupName: LockitTest1ProdWriteGroup
+        Path: /Lockit/
+        Policies:
+          - PolicyName: LockitTest1ProdWritePolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:PutItem
+                  Resource: arn:aws:dynamodb:undefined:undefined:table/LockitTest1Prod
+                - Effect: Allow
+                  Action:
+                    - kms:Encrypt
+                    - kms:GenerateDataKey
+                  Resource: arn:aws:kms:undefined:undefined:key/undefined
+    LockitTest1Dev:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: LockitTest1Dev
+        AttributeDefinitions:
+        - AttributeName: SecretName
+          AttributeType: S
+        - AttributeName: Version
+          AttributeType: S
+        KeySchema:
+        - AttributeName: SecretName
+          KeyType: HASH
+        - AttributeName: Version
+          KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    LockitTest1Stg:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: LockitTest1Stg
+        AttributeDefinitions:
+        - AttributeName: SecretName
+          AttributeType: S
+        - AttributeName: Version
+          AttributeType: S
+        KeySchema:
+        - AttributeName: SecretName
+          KeyType: HASH
+        - AttributeName: Version
+          KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    LockitTest1Prod:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: LockitTest1Prod
+        AttributeDefinitions:
+        - AttributeName: SecretName
+          AttributeType: S
+        - AttributeName: Version
+          AttributeType: S
+        KeySchema:
+        - AttributeName: SecretName
+          KeyType: HASH
+        - AttributeName: Version
+          KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

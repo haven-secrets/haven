@@ -1,16 +1,16 @@
 {
-  "name": "haven-secrets",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "name": "haven-secrets-core",
+  "version": "1.0.3",
+  "description": "Centralized secret manager",
+  "main": "src/havenCore.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "haven",
+  "license": "MIT",
   "bin": {
-    "haven": "cli.js"
+    "haven": "bin/haven.js"
   },
   "dependencies": {
     "@aws-crypto/client-node": "^2.0.0",
