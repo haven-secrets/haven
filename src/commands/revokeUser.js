@@ -3,7 +3,7 @@ import revokeUserFromGroups from "./revokeUserFromGroups.js";
 import getUserAccessKey from "../aws/iam/users/getUserAccessKey.js";
 import deleteUserAccessKey from "../aws/iam/users/deleteUserAccessKey.js";
 import deleteUser from "../aws/iam/users/deleteUser.js";
-import deleteInlinePolicy from "../aws/iam/policies/deleteInlinePolicy";
+import deleteInlinePolicy from "../aws/iam/policies/deleteInlinePolicy.js";
 import { listGroupsForUserPolicyName } from "../utils/config.js";
 
 const revokeUser = async (username) => {

@@ -2,3 +2,4 @@
 .DS_Store
 /utils/*.yml
 TODOS.txt
+havenAccountInfo.json
