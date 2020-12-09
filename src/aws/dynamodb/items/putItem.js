@@ -15,6 +15,9 @@ const putItem = (secretName, secretValue, version, tableName) => {
       Latest: {
         BOOL: true,
       },
+      Flagged: {
+        BOOL: false,
+      },
     },
     TableName: tableName,
   };
