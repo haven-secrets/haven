@@ -3,7 +3,7 @@ import createProjectStack from "../aws/cloudformation/createProjectStack.js";
 import capitalize from "../utils/capitalize.js";
 import { path } from "../utils/config.js";
 
-const createProjectCF = async (projectName) => {
+const createProject = async (projectName) => {
   try {
     projectName = capitalize(projectName);
     await createProjectStack(projectName, path);
@@ -14,4 +14,4 @@ const createProjectCF = async (projectName) => {
   }
 };
 
-export default createProjectCF;
+export default createProject;

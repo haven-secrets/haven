@@ -4,7 +4,7 @@ import detachUsersFromGroups from "./teardown/detachUsersFromGroups.js";
 import capitalize from "../utils/capitalize.js";
 import { path } from "../utils/config.js";
 
-const deleteProjectCF = async (projectName) => {
+const deleteProject = async (projectName) => {
   try {
     console.log("We are deleting your Haven files for this project.");
     console.log("This should take 30-60 seconds");
@@ -20,4 +20,4 @@ const deleteProjectCF = async (projectName) => {
   }
 };
 
-export default deleteProjectCF;
+export default deleteProject;

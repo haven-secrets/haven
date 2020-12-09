@@ -4,12 +4,13 @@ import fetchLogs from "./commands/fetchLogs.js";
 import putSecret from "./commands/putSecret.js";
 import getSecret from "./commands/getSecret.js";
 import getAllSecrets from "./commands/getAllSecrets.js";
-import createProjectCF from "./commands/createProjectCF.js";
-import deleteProjectCF from "./commands/deleteProjectCF.js";
+import createProject from "./commands/createProject.js";
+import deleteProject from "./commands/deleteProject.js";
 import addUser from "./commands/addUser.js";
 import addUserToGroups from "./commands/addUserToGroups.js";
 import revokeUser from "./commands/revokeUser.js";
 import revokeUserFromGroups from "./commands/revokeUserFromGroups.js";
+import getAllHavenUsersAndGroups from "./commands/getAllHavenUsersAndGroups.js";
 
 export {
   listGroupsForUser,
@@ -18,10 +19,11 @@ export {
   putSecret,
   getSecret,
   getAllSecrets,
-  createProjectCF,
-  deleteProjectCF,
+  createProject,
+  deleteProject,
   addUser,
   addUserToGroups,
   revokeUser,
   revokeUserFromGroups,
+  getAllHavenUsersAndGroups,
 };

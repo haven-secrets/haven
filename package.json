@@ -1,6 +1,6 @@
 {
   "name": "haven-secrets-core",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Centralized secret manager",
   "main": "src/havenCore.js",
   "scripts": {
