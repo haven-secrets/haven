@@ -1,6 +1,6 @@
 import addUserToGroup from "./addUserToGroup.js";
 import { path, adminUserName } from "../../../utils/config.js";
-import { iam } from "../../services.js";
+import { createHavenIam } from "../../services.js";
 
 const addAdminToProjectGroups = async (projectName) => {
   let groupNames = [];
