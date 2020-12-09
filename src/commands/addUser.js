@@ -39,6 +39,15 @@ const createTemporaryUser = async (permanentUsername) => {
     "TemporaryUser",
     process.cwd() /* current working directory (by default) */
   );
+
+  return {
+    accountNumber,
+    region,
+    username: temporaryUniqueUsername,
+    accessKeyId: temporaryAccessKeyId,
+    secretAccessKey: temporarySecretAccessKey,
+    role: "TemporaryUser",
+  };
 };
 
 const createPermanentUser = async (permanentUsername, groupNames) => {

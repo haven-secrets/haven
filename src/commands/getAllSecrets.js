@@ -31,7 +31,14 @@ const log = (project, environment, items) => {
   items.forEach((item) => {
     const secretName = item.SecretName.S;
     const version = item.Version.S;
-    putLoggingItem(project, environment, "getAll", secretName, version, "Succcessful");
+    putLoggingItem(
+      project,
+      environment,
+      "getAll",
+      secretName,
+      version,
+      "Succcessful"
+    );
   });
 };
 
@@ -40,12 +47,23 @@ const getAllSecrets = async (project, environment) => {
     const tableName = constructTableName(project, environment);
     const { Items: items } = await getItemsByFilter(tableName, "Latest");
     const decryptedSecrets = await decryptAllSecrets(items, tableName);
-    const decryptedSecretsObject = await getDecryptedSecretsObject(items, decryptedSecrets);
+    const decryptedSecretsObject = await getDecryptedSecretsObject(
+      items,
+      decryptedSecrets
+    );
 
     log(project, environment, items);
+    const latestSecretsObj = items.map((item) => {
+      return {
+        SecretName: item.SecretName.S,
+        SecretValue: decryptedSecretsObject[item.SecretName.S],
+        Version: item.Version.S,
+        Flagged: item.Flagged.BOOL,
+      };
+    });
 
-    console.log("Decrypted secrets: ", decryptedSecretsObject)
-    return decryptedSecretsObject;
+    console.log("Decrypted secrets: ", latestSecretsObj);
+    return latestSecretsObj;
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
     putLoggingItem(project, environment, "getAll", "", "", error.code);
