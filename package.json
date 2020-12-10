@@ -1,16 +1,35 @@
 {
   "name": "haven-secrets-core",
-  "version": "1.0.0",
-  "description": "Centralized secret manager",
+  "version": "1.0.1",
+  "description": "Core for Haven, the easy to use centralized secrets manager.",
   "main": "src/havenCore.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "centralized secrets",
+    "secrets management",
+    "aws",
+    "haven",
+    "haven-secrets"
+  ],
   "author": "haven",
   "license": "MIT",
   "bin": {
     "haven": "bin/haven.js"
+  },
+  "contributors": [
+    "Adam Isom <adamisom@hey.com>",
+    "arpodol <arpodol@gmail.com>",
+    "Dan Marino <danmarino1014@gmail.com>",
+    "Rebecca Nguyen <rebecca.nguyen@queensu.ca>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haven-secrets/haven.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haven-secrets/haven/issues"
   },
   "dependencies": {
     "@aws-crypto/client-node": "^2.0.0",
