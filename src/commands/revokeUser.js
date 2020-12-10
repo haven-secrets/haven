@@ -14,7 +14,7 @@ const revokeUser = async (username) => {
 
     const accessKeyId = await getUserAccessKey(username);
     if (accessKeyId) await deleteUserAccessKey(accessKeyId, username);
-    await deleteInlinePolicy(policyName, username);
+    await deleteInlinePolicy(listGroupsForUserPolicyName, username);
 
     return await deleteUser(username);
   } catch (error) {
