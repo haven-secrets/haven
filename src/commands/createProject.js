@@ -8,6 +8,7 @@ const createProject = async (projectName) => {
     projectName = capitalize(projectName);
     await createProjectStack(projectName, path);
     await addAdminToProjectGroups(projectName);
+    return { message: "project was successfully created" };
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
     return error;
