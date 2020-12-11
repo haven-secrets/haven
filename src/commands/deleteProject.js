@@ -14,6 +14,7 @@ const deleteProject = async (projectName) => {
 
     detachUsersFromGroups(allUsersInProject, path, projectName);
     await deleteStack(`${path}${projectName}Stack`);
+    return { message: "project was successfully delete" };
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
     return error;
