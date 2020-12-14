@@ -9,7 +9,6 @@ const listGroupsForUser = async () => {
 
   const groups = await createHavenIam().listGroupsForUser(params).promise();
   const groupNames = groups.Groups.map((group) => group.GroupName);
-  console.log(groupNames);
   return groupNames;
 };
 

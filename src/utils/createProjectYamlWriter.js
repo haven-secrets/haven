@@ -1,9 +1,9 @@
 import fs from "fs";
 import fetchHavenAccountInfo from "./fetchHavenAccountInfo.js";
 import getKeyId from "./getKeyIdFromAlias.js";
-const keyId = await getKeyId();
 
-const createProjectTemplate = (projectName) => {
+const createProjectTemplate = async (projectName) => {
+  const keyId = await getKeyId();
   const { region, accountNumber } = fetchHavenAccountInfo();
   const template = `---
   Resources:
