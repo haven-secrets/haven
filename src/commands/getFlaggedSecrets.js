@@ -16,7 +16,6 @@ const getFlaggedSecrets = async () => {
         SecretName: item.SecretName.S,
         Version: item.Version.S,
       }));
-    console.log(formattedItems);
     return formattedItems;
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
