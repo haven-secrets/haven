@@ -1,6 +1,6 @@
 {
   "name": "haven-secrets-core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Core for Haven, the easy to use centralized secrets manager.",
   "main": "src/havenCore.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "haven",
   "license": "MIT",
   "bin": {
-    "haven": "bin/haven.js"
+    "haven-core": "bin/haven.js"
   },
   "contributors": [
     "Adam Isom <adamisom@hey.com>",

@@ -1,7 +1,6 @@
 import createUser from "../aws/iam/users/createUser.js";
 import createAccessKey from "../aws/iam/users/createAccessKey.js";
 import addUserToGroups from "./addUserToGroups.js";
-import createHavenAccountFile from "../utils/createHavenAccountFile.js";
 import addInlinePolicyToUser from "../aws/iam/policies/addInlinePolicyToUser.js";
 import fetchHavenAccountInfo from "../utils/fetchHavenAccountInfo.js";
 import { v4 as uuidv4 } from "uuid";
@@ -29,16 +28,6 @@ const createTemporaryUser = async (permanentUsername) => {
   } = temporaryAccessKeyData.AccessKey;
 
   addUserToGroups(temporaryUniqueUsername, temporaryGroupName);
-
-  createHavenAccountFile(
-    accountNumber,
-    region,
-    temporaryUniqueUsername,
-    temporaryAccessKeyId,
-    temporarySecretAccessKey,
-    "TemporaryUser",
-    process.cwd() /* current working directory (by default) */
-  );
 
   return {
     accountNumber,
