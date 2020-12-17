@@ -62,7 +62,6 @@ const getAllSecrets = async (project, environment) => {
       };
     });
 
-    console.log("Decrypted secrets: ", latestSecretsObj);
     return latestSecretsObj;
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);

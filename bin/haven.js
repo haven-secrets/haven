@@ -9,27 +9,7 @@ const parsedArgs = parseArgs(process.argv.slice(2));
 
 const command = parsedArgs._[0];
 const command_args = parsedArgs._.slice(1);
-const possible_commands = [
-  "setup",
-  "teardown",
-  "getSecret",
-  "getAllSecrets",
-  "putSecret",
-  "addUser",
-  "getAllHavenUsers",
-  "createProject",
-  "deleteProject",
-  "run",
-  "fetchLogs",
-  "addUserToGroups",
-  "revokeUserFromGroups",
-  "revokeUser",
-  "deleteHavenFile",
-  "getFlaggedSecrets",
-  "userSetup",
-  "listGroupsForUser",
-  "getAllHavenUsersAndGroups",
-];
+const possible_commands = ["setup", "teardown"];
 
 const filename = possible_commands.includes(command) ? command : "help";
 
