@@ -10,11 +10,9 @@ const getVersion = async (secretName, tableName) => {
   const version = await getLatestVersion(secretName, tableName);
 
   if (version) {
-    console.log("Creating new version of secret");
     await updateItemAttribute(secretName, version, tableName, "Latest", false);
     return String(Number(version) + 1);
   } else {
-    console.log("Creating new secret");
     return "1";
   }
 };

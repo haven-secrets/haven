@@ -1,8 +1,8 @@
 import { createHavenIam } from "../aws/services.js";
 import fetchHavenAccountInfo from "../utils/fetchHavenAccountInfo.js";
 
-const listGroupsForUser = async () => {
-  const { username } = fetchHavenAccountInfo();
+const listGroupsForUser = async (username) => {
+  if (!username) username = fetchHavenAccountInfo()?.username;
   const params = {
     UserName: username,
   };
