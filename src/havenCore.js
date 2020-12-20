@@ -39,4 +39,5 @@ export {
   deleteHavenFile,
   run,
   userSetup,
+  getFlaggedSecrets
 };
