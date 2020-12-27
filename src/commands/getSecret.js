@@ -36,7 +36,6 @@ const getSecret = async (project, environment, secretName, version = "") => {
       "Succcessful"
     );
 
-    console.log("Decrypted secret: ", decryptedSecret);
     return decryptedSecret;
   } catch (error) {
     console.log(`${error.code}: ${error.message}`);
