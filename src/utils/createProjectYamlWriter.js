@@ -25,6 +25,9 @@ const createProjectTemplate = async (projectName) => {
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}DevWriteGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -66,6 +69,9 @@ const createProjectTemplate = async (projectName) => {
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}StgWriteGroup:
       Type: AWS::IAM::Group
       Properties:
@@ -107,6 +113,9 @@ const createProjectTemplate = async (projectName) => {
                 - Effect: Allow
                   Action: kms:Decrypt
                   Resource: arn:aws:kms:${region}:${accountNumber}:key/${keyId}
+                - Effect: Allow
+                  Action: kms:ListAliases
+                  Resource: "*"
     HavenSecrets${projectName}ProdWriteGroup:
       Type: AWS::IAM::Group
       Properties:
