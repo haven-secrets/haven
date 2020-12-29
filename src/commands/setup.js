@@ -10,6 +10,7 @@ import sleep from "../utils/sleep.js";
 import havenDir from "../utils/havenDir.js";
 import createHavenAdmin from "./setup/createHavenAdmin.js";
 import createHavenAdminPolicy from "./setup/createHavenAdminPolicy.js";
+import AWSRegions from "../utils/awsRegions.js";
 import AWS from "aws-sdk";
 
 import {
@@ -26,40 +27,48 @@ import {
   masterKeyDescription,
   adminUserName,
   path,
-  newUserCreationStackName
+  newUserCreationStackName,
 } from "../utils/config.js";
 
-const setupKey = async () => {
-  let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
+const setupKey = async (region) => {
+  let keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias, region);
   if (keyArn) {
-    const keyInfo = await describeKey(AWS, keyArn);
+    const keyInfo = await describeKey(AWS, keyArn, region);
     if (keyInfo.KeyMetadata.KeyState === "PendingDeletion") {
-      cancelKeyDeletion(AWS, keyArn);
+      cancelKeyDeletion(AWS, keyArn, region);
     }
   } else {
-    await createMasterKey(AWS, masterKeyDescription, keyAlias);
-    keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias);
+    await createMasterKey(AWS, masterKeyDescription, keyAlias, region);
+    keyArn = await getMasterKeyArnFromAlias(AWS, keyAlias, region);
   }
   return keyArn;
 };
 
-const setup = async () => {
+const setup = async (region) => {
+  if (!AWSRegions.includes(region)) {
+    console.log("Invalid region!");
+    console.log("Valid regions are:");
+    console.log(AWSRegions);
+    return undefined;
+  }
   process.env.AWS_SDK_LOAD_CONFIG = true;
+
   const hiddenAccountFilePath = `${havenDir}/havenAccountInfo.json`;
   if (fs.existsSync(hiddenAccountFilePath)) {
     console.log(
       "You already have an account setup, run teardown before running setup again!"
     );
   } else {
-    const keyArn = await setupKey();
+    const keyArn = await setupKey(region);
+    const {
+      AccessKeyId,
+      SecretAccessKey,
+      accountNumber,
+    } = await createHavenAdmin(AWS, path, adminUserName, region);
 
-    const { AccessKeyId, SecretAccessKey, accountNumber } = await createHavenAdmin(
-      AWS, path, adminUserName
-    );
-    
     await createHavenAdminPolicy(
       AWS,
-      "us-east-1",
+      region,
       accountNumber,
       adminUserName,
       keyArn,
@@ -68,7 +77,7 @@ const setup = async () => {
 
     createHavenAccountFile(
       Number(accountNumber),
-      "us-east-1",
+      region,
       adminUserName,
       AccessKeyId,
       SecretAccessKey,

@@ -1,5 +1,5 @@
-const createMasterKey = async (AWS, description, keyAlias) => {
-  const kms = new AWS.KMS();
+const createMasterKey = async (AWS, description, keyAlias, region) => {
+  const kms = new AWS.KMS({ region });
 
   const keyParams = {
     Description: description,

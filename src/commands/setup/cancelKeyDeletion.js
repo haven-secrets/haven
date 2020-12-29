@@ -1,5 +1,5 @@
-const cancelKeyDeletion = async (AWS, keyId) => {
-  const kms = new AWS.KMS();
+const cancelKeyDeletion = async (AWS, keyId, region) => {
+  const kms = new AWS.KMS({ region });
   const params = { KeyId: keyId };
 
   kms.cancelKeyDeletion(params, function (err, data) {

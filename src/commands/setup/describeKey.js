@@ -1,5 +1,5 @@
-const describeKey = async (AWS, keyId) => {
-  const kms = new AWS.KMS();
+const describeKey = async (AWS, keyId, region) => {
+  const kms = new AWS.KMS({ region });
   const params = {
     KeyId: keyId,
   };
