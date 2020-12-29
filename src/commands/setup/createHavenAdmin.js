@@ -1,7 +1,7 @@
 import getAccountNumber from "../../utils/getAccountId.js";
 
-const createHavenAdmin = async (AWS, path, adminUserName) => {
-  const iam = new AWS.IAM();
+const createHavenAdmin = async (AWS, path, adminUserName, region) => {
+  const iam = new AWS.IAM({ region });
 
   const adminParams = {
     UserName: adminUserName,

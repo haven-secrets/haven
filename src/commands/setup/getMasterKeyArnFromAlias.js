@@ -1,5 +1,5 @@
-const getMasterKeyArnFromAlias = async (AWS, keyAlias) => {
-  const kms = new AWS.KMS();
+const getMasterKeyArnFromAlias = async (AWS, keyAlias, region) => {
+  const kms = new AWS.KMS({ region });
   const list = await kms.listAliases({}).promise();
   const masterKey = list.Aliases.find((keyObj) =>
     keyObj.AliasName.startsWith(`alias/${keyAlias}`)
